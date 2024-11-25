@@ -18,6 +18,7 @@ public class Shooter extends ApplicationAdapter {
     private Texture image;
     private OrthographicCamera camera;
     private Viewport viewport;
+    Player player;
 
     private int VIRTUAL_WIDTH = 400;
     private int VIRTUAL_HEIGHT = 800;
@@ -28,13 +29,16 @@ public class Shooter extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
+        player = new Player();
     }
 
     @Override
     public void render() {
+        float delta = Gdx.graphics.getDeltaTime();
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+
         batch.begin();
-        batch.draw(image, 140, 210);
+        player.draw(batch,delta);
         batch.end();
     }
 
