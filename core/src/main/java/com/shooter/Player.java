@@ -1,13 +1,13 @@
 package com.shooter;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
 
 
 public class Player {
@@ -21,7 +21,6 @@ public class Player {
         pixmap.fill();
         Texture tex = new Texture(pixmap);
         sprite = new Sprite(tex);
-
         position = new Vector2( (Gdx.graphics.getWidth() - sprite.getWidth()) / 2, (Gdx.graphics.getHeight() - sprite.getHeight()) / 2 );
     }
 

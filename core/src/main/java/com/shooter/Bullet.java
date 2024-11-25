@@ -7,22 +7,26 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Bullet {
     public Vector2 position;
+    public Vector2 direction;
     public Sprite sprite;
     public float speed_bullet = 3;
 
-    public Bullet(Texture img_bullet, float startX, float startY, float speed) {
+    public Bullet(Texture img_bullet, float startX, float startY, Vector2 targetPosition, float speed) {
         sprite = new Sprite(img_bullet);
         sprite.setScale(2);
         position = new Vector2(startX, startY);
         speed_bullet = speed;
+
+        direction = new Vector2(targetPosition).sub(position).nor();
     }
 
     public void player_update(float deltaTime) {
-        position.y += deltaTime * speed_bullet;
+        position.add(direction.x * speed_bullet * deltaTime, direction.y * speed_bullet * deltaTime);
+        sprite.setPosition(position.x, position.y);
     }
 
+
     public void draw(SpriteBatch batch) {
-        sprite.setPosition(position.x, position.y);
         sprite.draw(batch);
     }
 }
