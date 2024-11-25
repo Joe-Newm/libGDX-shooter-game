@@ -18,6 +18,10 @@ public class Bullet {
         speed_bullet = speed;
 
         direction = new Vector2(targetPosition).sub(position).nor();
+
+        // calculate the angle in degrees
+        float angle = direction.angleDeg() - 90;
+        sprite.setRotation(angle);
     }
 
     public void player_update(float deltaTime) {

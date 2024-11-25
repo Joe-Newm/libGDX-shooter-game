@@ -17,7 +17,7 @@ public class Player {
 
     public Player () {
         Pixmap pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
-        pixmap.setColor(1, 1, 1, 1);
+        pixmap.setColor(0.5f, 0.5f, 0.5f, 1);
         pixmap.fill();
         Texture tex = new Texture(pixmap);
         sprite = new Sprite(tex);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -49,11 +50,11 @@ public class Shooter extends ApplicationAdapter {
 
         //check for click and create bullet
         if (Gdx.input.justTouched()) {
-            Vector2 clickPosition = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+            Vector3 clickPosition = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            Vector3 worldClickPos3d = camera.unproject(clickPosition);
+            Vector2 worldClickPosition = new Vector2(worldClickPos3d.x, worldClickPos3d.y);
 
-            Vector2 worldClickPosition = new Vector2(clickPosition.x, Gdx.graphics.getHeight() - clickPosition.y);
-
-            Bullet bullet = new Bullet(bulletTexture, player.position.x, player.position.y, worldClickPosition, 600);
+            Bullet bullet = new Bullet(bulletTexture, player.position.x, player.position.y, worldClickPosition, 1000);
             player_bullets.add(bullet);
         }
 
