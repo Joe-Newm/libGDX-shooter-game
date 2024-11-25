@@ -26,11 +26,17 @@ public class Player {
     }
 
     public void update(float delta) {
-        if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+        if (Gdx.input.isKeyPressed(Keys.A)) {
             position.x -= delta * speed;
         }
-        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+        if (Gdx.input.isKeyPressed(Keys.D)) {
             position.x += delta * speed;
+        }
+        if (Gdx.input.isKeyPressed(Keys.S)) {
+            position.y -= delta * speed;
+        }
+        if (Gdx.input.isKeyPressed(Keys.W)) {
+            position.y += delta * speed;
         }
     }
 
