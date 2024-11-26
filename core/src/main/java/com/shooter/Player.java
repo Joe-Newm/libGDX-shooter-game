@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Player {
     public Sprite sprite;
     public Vector2 position;
-    float speed = 500f;
+    float speed = 300f;
 
     public Player () {
         Pixmap pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);

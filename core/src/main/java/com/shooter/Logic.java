@@ -60,7 +60,7 @@ public class Logic {
             bullet.draw(batch);
         }
         for (Enemy enemy : enemies) {
-            enemy.draw(batch, delta);
+            enemy.draw(batch, delta, player.position);
         }
 
     }
@@ -71,6 +71,7 @@ public class Logic {
             for (Enemy enemy : enemies) {
                 if (bullet.boundingBox.overlaps(enemy.boundingBox)) {
                     bulletsToRemove.add(bullet);
+                    enemy.hit();
                 }
             }
         }
