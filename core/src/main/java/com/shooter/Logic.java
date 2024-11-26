@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 public class Logic {
 
     public SpriteBatch batch;
@@ -68,7 +70,6 @@ public class Logic {
         for (Enemy enemy : enemies) {
             enemy.draw(batch, delta, player.position);
         }
-
     }
 
     public void collision_enemy() {
@@ -97,7 +98,33 @@ public class Logic {
         spawnTime += delta;
         if (spawnTime > spawnDuration) {
             spawnTime = 0;
-            enemies.add(new Enemy(100, 100, 10));
+
+            float x = 0, y = 0;
+            int edge = random.nextInt(4);
+
+            switch (edge) {
+                case 0: // Top
+                    x = random.nextInt((int) viewport.getWorldWidth());
+                    y = viewport.getWorldHeight() + 50;
+                    break;
+
+                case 1: // bottom
+                    x = random.nextInt((int) viewport.getWorldWidth());
+                    y = -50;
+                    break;
+
+                case 2: // left
+                    x = -50;
+                    y = random.nextInt((int) viewport.getWorldHeight());
+                    break;
+
+                case 3: // right
+                    x = viewport.getWorldWidth() + 50;
+                    y = random.nextInt((int) viewport.getWorldHeight());
+                    break;
+            }
+
+            enemies.add(new Enemy(x, y, 10));
         }
     }
 
