@@ -24,8 +24,9 @@ public class Enemy {
     private float hitTime;
     private static final float FLASH_DURATION = 0.1f;
     private static final float SPEED = 100f;
+    public int hp;
 
-    public Enemy () {
+    public Enemy (float posX, float posY, int health) {
         pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
         pixmap.setColor(1, 1, 1, 1);
         pixmap.fill();
@@ -33,10 +34,11 @@ public class Enemy {
         sprite = new Sprite(tex);
         sprite.setColor(1,0,0,1);
         this.health = 100;
-        position = new Vector2( (Gdx.graphics.getWidth() - sprite.getWidth()) / 3, (Gdx.graphics.getHeight() - sprite.getHeight()) / 3 );
+        position = new Vector2( posX, posY);
         boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
         isHit = false;
         hitTime = 0;
+        hp = health;
     }
 
     public void hit() {

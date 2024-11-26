@@ -23,7 +23,8 @@ public class Logic {
     public ArrayList<Bullet> player_bullets;
     public static final int VIRTUAL_WIDTH = 1920;
     public static final int VIRTUAL_HEIGHT = 1080;
-
+    public float spawnTime;
+    public float spawnDuration;
 
     public void create() {
         batch = new SpriteBatch();
@@ -38,7 +39,11 @@ public class Logic {
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 
         // enemies for testing
-        enemies.add(new Enemy());
+        enemies.add(new Enemy(50,50, 10));
+
+        // enemies spawn time
+        spawnTime = 0;
+        spawnDuration = 5;
     }
 
     public void create_bullet() {
@@ -54,6 +59,7 @@ public class Logic {
     public void update(float delta) {
         //collision for bullets hitting enemies
         collision_enemy();
+        spawnEnemies(delta);
 
         for (Bullet bullet : player_bullets) {
             bullet.player_update(delta);
@@ -72,10 +78,27 @@ public class Logic {
                 if (bullet.boundingBox.overlaps(enemy.boundingBox)) {
                     bulletsToRemove.add(bullet);
                     enemy.hit();
+                    enemy.hp -= 1;
                 }
             }
         }
         player_bullets.removeAll(bulletsToRemove);
+        // enemy death
+        ArrayList<Enemy> enemiesToRemove = new ArrayList<>();
+        for (Enemy enemy : enemies) {
+            if (enemy.hp <= 0) {
+                enemiesToRemove.add(enemy);
+            }
+        }
+        enemies.removeAll(enemiesToRemove);
+    }
+
+    public void spawnEnemies(float delta) {
+        spawnTime += delta;
+        if (spawnTime > spawnDuration) {
+            spawnTime = 0;
+            enemies.add(new Enemy(100, 100, 10));
+        }
     }
 
     public void dispose() {
