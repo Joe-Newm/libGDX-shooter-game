@@ -19,9 +19,11 @@ public class Logic {
     public Viewport viewport;
     public OrthographicCamera camera;
     public Player player;
+    public ArrayList<Enemy> enemies;
     public ArrayList<Bullet> player_bullets;
     public static final int VIRTUAL_WIDTH = 1920;
     public static final int VIRTUAL_HEIGHT = 1080;
+
 
     public void create() {
         batch = new SpriteBatch();
@@ -29,10 +31,14 @@ public class Logic {
         bulletTexture = new Texture("bullet.png");
         player = new Player();
         player_bullets = new ArrayList<>();
+        enemies = new ArrayList<>();
 
         // init camera and viewport
         camera = new OrthographicCamera();
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
+
+        // enemies for testing
+        enemies.add(new Enemy());
     }
 
     public void create_bullet() {
@@ -46,10 +52,29 @@ public class Logic {
     }}
 
     public void update(float delta) {
+        //collision for bullets hitting enemies
+        collision_enemy();
+
         for (Bullet bullet : player_bullets) {
             bullet.player_update(delta);
             bullet.draw(batch);
         }
+        for (Enemy enemy : enemies) {
+            enemy.draw(batch, delta);
+        }
+
+    }
+
+    public void collision_enemy() {
+        ArrayList<Bullet> bulletsToRemove = new ArrayList<>();
+        for (Bullet bullet : player_bullets) {
+            for (Enemy enemy : enemies) {
+                if (bullet.boundingBox.overlaps(enemy.boundingBox)) {
+                    bulletsToRemove.add(bullet);
+                }
+            }
+        }
+        player_bullets.removeAll(bulletsToRemove);
     }
 
     public void dispose() {
