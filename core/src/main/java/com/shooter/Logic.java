@@ -51,4 +51,10 @@ public class Logic {
             bullet.draw(batch);
         }
     }
+
+    public void dispose() {
+        batch.dispose();
+        image.dispose();
+        bulletTexture.dispose();
+    }
 }

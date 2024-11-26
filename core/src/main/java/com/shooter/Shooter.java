@@ -41,8 +41,7 @@ public class Shooter extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        logic.batch.dispose();
-        logic.image.dispose();
+        logic.dispose();
     }
 
     @Override
