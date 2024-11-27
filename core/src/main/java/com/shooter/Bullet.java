@@ -31,7 +31,7 @@ public class Bullet {
 
     public void player_update(float deltaTime) {
         position.add(direction.x * speed_bullet * deltaTime, direction.y * speed_bullet * deltaTime);
-        sprite.setPosition(position.x, position.y);
+        sprite.setPosition(position.x, position.y)
 
         boundingBox.setPosition(position.x, position.y);
     }

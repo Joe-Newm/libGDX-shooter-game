@@ -46,6 +46,7 @@ public class Logic {
         // enemies spawn time
         spawnTime = 0;
         spawnDuration = 5;
+
     }
 
     public void create_bullet() {
@@ -62,6 +63,7 @@ public class Logic {
         //collision for bullets hitting enemies
         collision_enemy();
         spawnEnemies(delta);
+        collission_player_hit();
 
         for (Bullet bullet : player_bullets) {
             bullet.player_update(delta);
@@ -92,6 +94,23 @@ public class Logic {
             }
         }
         enemies.removeAll(enemiesToRemove);
+    }
+
+    // when player gets touched by enemies
+    public void collission_player_hit () {
+        boolean isTouching = false;
+        for (Enemy enemy : enemies) {
+            if (enemy.boundingBox.overlaps(player.boundingBox)) {
+                isTouching = true;
+                break;
+            }
+        }
+        if (isTouching) {
+            player.speed = 150f;
+            player.currentHealth -= 1;
+        } else {
+            player.speed = 300f;
+        }
     }
 
     public void spawnEnemies(float delta) {
