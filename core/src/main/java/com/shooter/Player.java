@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.ArrayList;
 
 
 public class Player {
@@ -30,6 +29,7 @@ public class Player {
     public int currentHealth = 1000;
     public int directionChange;
     public boolean facingLeft = false;
+    public Weapon weapon;
 
 
     public Player () {
@@ -60,6 +60,9 @@ public class Player {
         pixmapHealth1.dispose();
         pixmapHealth.dispose();
 //        pixmap.dispose();
+
+        // weapons
+        this.weapon = new Pistol("Pistol")
     }
 
     public void update(float delta, OrthographicCamera camera) {
@@ -75,6 +78,11 @@ public class Player {
         }
         if (Gdx.input.isKeyPressed(Keys.W)) {
             position.y += delta * speed;
+        }
+
+        //shoot
+        if (Gdx.input.justTouched()) {
+            weapon.attack(this,)
         }
 
         // update health bar position
