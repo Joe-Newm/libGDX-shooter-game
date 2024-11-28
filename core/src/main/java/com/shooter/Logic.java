@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shooter.weapons.Bullet;
+import com.shooter.objects.GameObject;
+import com.shooter.weapons.Pistol;
+import com.shooter.weapons.Shotgun;
 
 import java.util.ArrayList;
 
@@ -27,6 +30,8 @@ public class Logic {
     public static final int VIRTUAL_HEIGHT = 1080;
     public float spawnTime;
     public float spawnDuration;
+    public GameObject shotgunObject;
+    public GameObject pistolObject;
 
     public void create() {
         batch = new SpriteBatch();
@@ -46,6 +51,10 @@ public class Logic {
         // enemies spawn time
         spawnTime = 0;
         spawnDuration = 5;
+
+        // objects
+        shotgunObject = new GameObject(100,100, "blue");
+        pistolObject = new GameObject(100, 200, "white");
     }
 
     public void update(float delta) {
@@ -53,6 +62,15 @@ public class Logic {
         collision_enemy();
         spawnEnemies(delta);
         collission_player_hit();
+        shotgunObject.draw(batch);
+        pistolObject.draw(batch);
+
+        if (player.boundingBox.overlaps(shotgunObject.boundingBox)) {
+            player.weapon = new Shotgun();
+        }
+        if (player.boundingBox.overlaps(pistolObject.boundingBox)) {
+            player.weapon = new Pistol();
+        }
 
         for (Bullet bullet : player_bullets) {
             bullet.player_update(delta);

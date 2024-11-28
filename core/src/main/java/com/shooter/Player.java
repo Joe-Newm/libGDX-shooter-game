@@ -37,10 +37,6 @@ public class Player {
 
 
     public Player () {
-//        Pixmap pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
-//        pixmap.setColor(0.5f, 0.5f, 0.5f, 1);
-//        pixmap.fill();
-//        Texture tex = new Texture(pixmap);
         Texture playTex = new Texture(Gdx.files.internal("player/player1.png"));
         sprite = new Sprite(playTex);
         sprite.scale(3);
@@ -63,10 +59,9 @@ public class Player {
 
         pixmapHealth1.dispose();
         pixmapHealth.dispose();
-//        pixmap.dispose();
 
         // weapons
-        this.weapon = new Shotgun();
+        this.weapon = new Pistol();
     }
 
     public void update(float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
