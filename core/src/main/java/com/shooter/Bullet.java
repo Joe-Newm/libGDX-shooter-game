@@ -1,5 +1,6 @@
 package com.shooter;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ public class Bullet {
 
     public Bullet(Texture img_bullet, float startX, float startY, Vector2 targetPosition, float speed) {
         sprite = new Sprite(img_bullet);
+        sprite.setColor(Color.YELLOW);
         sprite.setScale(2);
         position = new Vector2(startX, startY);
         speed_bullet = speed;

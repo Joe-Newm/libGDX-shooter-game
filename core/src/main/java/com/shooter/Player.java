@@ -104,7 +104,6 @@ public class Player {
         boundingBox.setPosition(position.x, position.y);
     }
 
-
     public void draw(SpriteBatch batch, float delta, OrthographicCamera camera) {
         update(delta, camera);
         sprite.setPosition(position.x, position.y);
