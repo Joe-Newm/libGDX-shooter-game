@@ -46,7 +46,6 @@ public class Logic {
         // enemies spawn time
         spawnTime = 0;
         spawnDuration = 5;
-
     }
 
     public void create_bullet() {
@@ -55,7 +54,7 @@ public class Logic {
             Vector3 clickPosition = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             Vector3 worldClickPos3d = camera.unproject(clickPosition);
             Vector2 worldClickPosition = new Vector2(worldClickPos3d.x, worldClickPos3d.y);
-            Bullet bullet = new Bullet(bulletTexture, player.position.x +25, player.position.y + 25, worldClickPosition, 1000);
+            Bullet bullet = new Bullet(bulletTexture, player.position.x +25, player.position.y + player.sprite.getHeight(), worldClickPosition, 1000);
             player_bullets.add(bullet);
     }}
 
