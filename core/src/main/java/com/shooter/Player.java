@@ -24,8 +24,8 @@ public class Player {
     private Texture healthBarTexture1;
     private Sprite healthBarSprite;
     private Sprite healthBarSprite1;
-    private float healthBarWidth = 50;
-    private float healthBarHeight = 5;
+    private float healthBarWidth = 300;
+    private float healthBarHeight = 25;
     public int maxHealth = 1000;
     public int currentHealth = 1000;
     public int directionChange;
@@ -78,8 +78,8 @@ public class Player {
         }
 
         // update health bar position
-        healthBarSprite.setPosition(position.x - 7, position.y - 25);
-        healthBarSprite1.setPosition(position.x - 7, position.y - 25);
+        healthBarSprite.setPosition( 25, 1080 - 50);
+        healthBarSprite1.setPosition(25, 1080 - 50);
 
         // update health bar
         if (currentHealth > 0) {
