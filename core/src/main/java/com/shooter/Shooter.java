@@ -34,7 +34,7 @@ public class Shooter extends ApplicationAdapter {
         logic.create_bullet();
 
         logic.batch.begin();
-            logic.player.draw(logic.batch,delta, logic.camera);
+            logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
             logic.update(delta);
         logic.batch.end();
     }

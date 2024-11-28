@@ -1,22 +1,13 @@
-package com.shooter;
+package com.shooter.weapons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.shooter.Bullet;
+import com.shooter.Player;
 
-public abstract class Weapon {
-    public String name;
-    public int damage;
-
-    public Weapon(String name, int damage) {
-        this.name = name;
-        this.damage = damage;
-
-    }
-    public abstract void attack (Player player, OrthographicCamera camera, Texture bulletTexture);
-}
+import java.util.ArrayList;
 
 public class Pistol extends Weapon {
     public Pistol() {
@@ -24,7 +15,7 @@ public class Pistol extends Weapon {
     }
 
     @Override
-    public void attack(Player player, OrthographicCamera camera, Texture bulletTexture) {
+    public void attack(Player player, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
         // Get mouse position in world coordinates
         Vector3 clickPosition = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         Vector3 worldClickPos3d = camera.unproject(clickPosition);

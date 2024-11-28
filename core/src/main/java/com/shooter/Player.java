@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.shooter.weapons.Pistol;
+import com.shooter.weapons.Weapon;
 
+import java.util.ArrayList;
 
 
 public class Player {
@@ -62,10 +64,10 @@ public class Player {
 //        pixmap.dispose();
 
         // weapons
-        this.weapon = new Pistol("Pistol")
+        this.weapon = new Pistol();
     }
 
-    public void update(float delta, OrthographicCamera camera) {
+    public void update(float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
 
         if (Gdx.input.isKeyPressed(Keys.A)) {
             position.x -= delta * speed;
@@ -82,7 +84,7 @@ public class Player {
 
         //shoot
         if (Gdx.input.justTouched()) {
-            weapon.attack(this,)
+            weapon.attack(this, camera, player_bullets);
         }
 
         // update health bar position
@@ -112,8 +114,8 @@ public class Player {
         boundingBox.setPosition(position.x, position.y);
     }
 
-    public void draw(SpriteBatch batch, float delta, OrthographicCamera camera) {
-        update(delta, camera);
+    public void draw(SpriteBatch batch, float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
+        update(delta, camera, player_bullets);
         sprite.setPosition(position.x, position.y);
         sprite.draw(batch);
         healthBarSprite1.draw(batch);
