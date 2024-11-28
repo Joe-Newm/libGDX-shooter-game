@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.shooter.weapons.Bullet;
 import com.shooter.weapons.Pistol;
+import com.shooter.weapons.Shotgun;
 import com.shooter.weapons.Weapon;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class Player {
 //        pixmap.dispose();
 
         // weapons
-        this.weapon = new Pistol();
+        this.weapon = new Shotgun();
     }
 
     public void update(float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {

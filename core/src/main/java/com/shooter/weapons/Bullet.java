@@ -14,14 +14,18 @@ public class Bullet {
     public float speed_bullet = 3;
     public Rectangle boundingBox;
 
-    public Bullet(Texture img_bullet, float startX, float startY, Vector2 targetPosition, float speed) {
+    public Bullet(Texture img_bullet, float startX, float startY, Vector2 targetPosition, float speed, String weapon) {
         sprite = new Sprite(img_bullet);
         sprite.setColor(Color.YELLOW);
         sprite.setScale(2);
         position = new Vector2(startX, startY);
         speed_bullet = speed;
 
-        direction = new Vector2(targetPosition).sub(position).nor();
+        if (weapon == "shotgun") {
+            direction = new Vector2(targetPosition).nor();
+        } else {
+            direction = new Vector2(targetPosition).sub(position).nor();
+        }
 
         // calculate the angle in degrees
         float angle = direction.angleDeg() - 90;

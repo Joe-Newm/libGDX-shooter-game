@@ -8,9 +8,9 @@ import com.shooter.Player;
 
 import java.util.ArrayList;
 
-public class Pistol extends Weapon {
-    public Pistol() {
-        super("Pistol", 1);
+public class Shotgun extends Weapon {
+    public Shotgun() {
+        super("Shotgun", 2);
     }
 
     @Override
@@ -24,8 +24,8 @@ public class Pistol extends Weapon {
         float rotationRad = (float) Math.toRadians(player.sprite.getRotation());
 
         // Calculate the offset to the top center of the sprite
-        float offsetX = 0; // Top center has no X offset relative to the sprite's width
-        float offsetY = player.sprite.getHeight() * (2 / 3f) + 38; // From the custom origin to the top
+        float offsetX = 0;
+        float offsetY = player.sprite.getHeight() * (2 / 3f) + 38;
 
         // Rotate the offset around the sprite's rotation
         float rotatedOffsetX = (float) (offsetX * Math.cos(rotationRad) - offsetY * Math.sin(rotationRad));
@@ -35,8 +35,22 @@ public class Pistol extends Weapon {
         float tipX = player.position.x + player.sprite.getOriginX() + rotatedOffsetX;
         float tipY = player.position.y + player.sprite.getOriginY() + rotatedOffsetY;
 
-        // Create the bullet at the tip position
-        Bullet bullet = new Bullet(bulletTexture, tipX, tipY, worldClickPosition, 1000, "pistol");
-        player_bullets.add(bullet);
-    }
-}
+        // Define the spread angle and number of bullets
+        int numBullets = 5; // Number of bullets in the spread
+        float spreadAngle = 30f; // Total spread angle in degrees
+
+        for (int i = 0; i < numBullets; i++) {
+            // Calculate the angle offset for this bullet
+            float angleOffset = (i - (numBullets - 1) / 2f) * (spreadAngle / (numBullets - 1));
+
+            // Create a direction vector for this bullet
+            Vector2 spreadDirection = new Vector2(
+                worldClickPosition.x - tipX,
+                worldClickPosition.y - tipY
+            ).nor().rotateDeg(angleOffset);
+
+            // Create the bullet at the tip position
+            Bullet bullet = new Bullet(bulletTexture, tipX, tipY, spreadDirection, 1000, "shotgun");
+            player_bullets.add(bullet);
+        }
+    }}
