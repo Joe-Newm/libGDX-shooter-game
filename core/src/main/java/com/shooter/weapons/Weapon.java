@@ -2,7 +2,6 @@ package com.shooter.weapons;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.shooter.Bullet;
 import com.shooter.Player;
 
 import java.util.ArrayList;

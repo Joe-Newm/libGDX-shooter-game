@@ -1,4 +1,4 @@
-package com.shooter;
+package com.shooter.weapons;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

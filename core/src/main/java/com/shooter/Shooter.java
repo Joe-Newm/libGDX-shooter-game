@@ -30,9 +30,6 @@ public class Shooter extends ApplicationAdapter {
         logic.camera.update();
         logic.batch.setProjectionMatrix(logic.camera.combined);
 
-        //check for click and create bullet
-        logic.create_bullet();
-
         logic.batch.begin();
             logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
             logic.update(delta);
