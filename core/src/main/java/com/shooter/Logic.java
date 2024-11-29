@@ -2,6 +2,7 @@ package com.shooter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -32,11 +33,14 @@ public class Logic {
     public float spawnDuration;
     public GameObject shotgunObject;
     public GameObject pistolObject;
+    public Texture background;
+    public Sprite backgroundSprite;
 
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
         bulletTexture = new Texture("bullet.png");
+        background = new Texture("map/background1.png");
         player = new Player();
         player_bullets = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -55,15 +59,22 @@ public class Logic {
         // objects
         shotgunObject = new GameObject(100,100, "blue");
         pistolObject = new GameObject(100, 200, "white");
+
+        //background
+        backgroundSprite = new Sprite(background);
+        backgroundSprite.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     }
 
     public void update(float delta) {
         //collision for bullets hitting enemies
+        backgroundSprite.draw(batch);
         collision_enemy();
         spawnEnemies(delta);
         collission_player_hit();
         shotgunObject.draw(batch);
         pistolObject.draw(batch);
+        collision_enemy_to_enemy();
+
 
         if (player.boundingBox.overlaps(shotgunObject.boundingBox)) {
             player.weapon = new Shotgun();
@@ -103,6 +114,40 @@ public class Logic {
             }
         }
         enemies.removeAll(enemiesToRemove);
+    }
+
+    public void collision_enemy_to_enemy() {
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy enemy1 = enemies.get(i);
+
+            for (int j = i + 1; j < enemies.size(); j++) {
+                Enemy enemy2 = enemies.get(j);
+
+                if (enemy1.boundingBox.overlaps(enemy2.boundingBox)) {
+                    // Calculate the direction to push them apart
+                    Vector2 displacement = new Vector2(
+                        enemy1.position.x - enemy2.position.x,
+                        enemy1.position.y - enemy2.position.y
+                    ).nor();
+
+                    // Push each enemy away by half the overlap distance
+                    float overlapX = (enemy1.boundingBox.width + enemy2.boundingBox.width) / 2 -
+                        Math.abs(enemy1.position.x - enemy2.position.x);
+                    float overlapY = (enemy1.boundingBox.height + enemy2.boundingBox.height) / 2 -
+                        Math.abs(enemy1.position.y - enemy2.position.y);
+
+                    float overlap = Math.min(overlapX, overlapY);
+
+                    // Apply displacement
+                    enemy1.position.add(displacement.scl(overlap / 2));
+                    enemy2.position.sub(displacement.scl(overlap / 2));
+
+                    // Update bounding boxes
+                    enemy1.boundingBox.setPosition(enemy1.position.x, enemy1.position.y);
+                    enemy2.boundingBox.setPosition(enemy2.position.x, enemy2.position.y);
+                }
+            }
+        }
     }
 
     // when player gets touched by enemies

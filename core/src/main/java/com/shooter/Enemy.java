@@ -27,6 +27,7 @@ public class Enemy {
     private static final float SPEED = 100f;
     public int hp;
     public Texture tex;
+    public Vector2 direction;
 
     public Enemy (float posX, float posY, int health) {
         tex = new Texture("enemy/zombie.png");
@@ -48,7 +49,7 @@ public class Enemy {
 
     public void update(float delta, Vector2 playerPosition) {
         // Move towards the player
-        Vector2 direction = new Vector2(playerPosition).sub(position).nor();
+        direction = new Vector2(playerPosition).sub(position).nor();
         sprite.setRotation(direction.angleDeg() - 90);
         position.add(direction.scl(SPEED * delta));
 

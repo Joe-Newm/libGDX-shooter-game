@@ -31,8 +31,8 @@ public class Shooter extends ApplicationAdapter {
         logic.batch.setProjectionMatrix(logic.camera.combined);
 
         logic.batch.begin();
-            logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
             logic.update(delta);
+            logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
         logic.batch.end();
     }
 
