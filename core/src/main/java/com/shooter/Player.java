@@ -34,10 +34,11 @@ public class Player {
     public int directionChange;
     public boolean facingLeft = false;
     public Weapon weapon;
-
+    public Texture playTex1 = new Texture(Gdx.files.internal("player/shotgun_player.png"));
+    public Texture playTex;
 
     public Player () {
-        Texture playTex = new Texture(Gdx.files.internal("player/player1.png"));
+        playTex = new Texture(Gdx.files.internal("player/player1.png"));
         sprite = new Sprite(playTex);
         sprite.scale(3);
         position = new Vector2( (Gdx.graphics.getWidth() - sprite.getWidth()) / 2, (Gdx.graphics.getHeight() - sprite.getHeight()) / 2 );
@@ -66,6 +67,9 @@ public class Player {
 
     public void update(float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
 
+        boundingBox.setPosition(position.x, position.y);
+
+        // controls
         if (Gdx.input.isKeyPressed(Keys.A)) {
             position.x -= delta * speed;
         }
@@ -108,7 +112,13 @@ public class Player {
         // Rotate sprite to face the mouse
         sprite.setRotation(angle - 90);
 
-        boundingBox.setPosition(position.x, position.y);
+        // update player sprite
+        if (this.weapon.name == "Shotgun") {
+            sprite.setTexture(playTex1);
+        }
+        if (this.weapon.name == "Pistol") {
+            sprite.setTexture(playTex);
+        }
     }
 
     public void draw(SpriteBatch batch, float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {

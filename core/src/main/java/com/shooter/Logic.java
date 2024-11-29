@@ -81,6 +81,8 @@ public class Logic {
         }
     }
 
+
+    // when enemy gets hit
     public void collision_enemy() {
         ArrayList<Bullet> bulletsToRemove = new ArrayList<>();
         for (Bullet bullet : player_bullets) {

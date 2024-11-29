@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Color;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,17 +23,15 @@ public class Enemy {
     public Pixmap pixmap;
     private boolean isHit;
     private float hitTime;
-    private static final float FLASH_DURATION = 0.1f;
+    private static final float FLASH_DURATION = 0.05f;
     private static final float SPEED = 100f;
     public int hp;
+    public Texture tex;
 
     public Enemy (float posX, float posY, int health) {
-        pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
-        pixmap.setColor(1, 1, 1, 1);
-        pixmap.fill();
-        Texture tex = new Texture(pixmap);
+        tex = new Texture("enemy/zombie.png");
         sprite = new Sprite(tex);
-        sprite.setColor(1,0,0,1);
+        sprite.scale(1);
         this.health = 100;
         position = new Vector2( posX, posY);
         boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
@@ -43,12 +42,14 @@ public class Enemy {
 
     public void hit() {
         isHit = true;
-        sprite.setColor(1, 1, 1, 1);
+        Texture flashtex = new Texture("enemy/zombie-flash.png");
+        sprite.setTexture(flashtex);
     }
 
     public void update(float delta, Vector2 playerPosition) {
         // Move towards the player
         Vector2 direction = new Vector2(playerPosition).sub(position).nor();
+        sprite.setRotation(direction.angleDeg() - 90);
         position.add(direction.scl(SPEED * delta));
 
         // ends the flash after duration is up from being hit
@@ -57,7 +58,7 @@ public class Enemy {
             if (hitTime > FLASH_DURATION) {
                 isHit = false;
                 hitTime = 0;
-                sprite.setColor(1, 0, 0, 1f);
+                sprite.setTexture(tex);
             }
         }
 
