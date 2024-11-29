@@ -35,12 +35,16 @@ public class Logic {
     public GameObject pistolObject;
     public Texture background;
     public Sprite backgroundSprite;
+    public Texture shotgun;
+    public Texture pistol;
 
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
         bulletTexture = new Texture("bullet.png");
         background = new Texture("map/background1.png");
+        shotgun = new Texture("objects/shotgun.png");
+        pistol = new Texture("objects/pistol.png");
         player = new Player();
         player_bullets = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -57,8 +61,8 @@ public class Logic {
         spawnDuration = 5;
 
         // objects
-        shotgunObject = new GameObject(100,100, "blue");
-        pistolObject = new GameObject(100, 200, "white");
+        shotgunObject = new GameObject(100,100, shotgun);
+        pistolObject = new GameObject(100, 200, pistol );
 
         //background
         backgroundSprite = new Sprite(background);

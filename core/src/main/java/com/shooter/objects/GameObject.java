@@ -14,18 +14,18 @@ public class GameObject {
     public Sprite sprite;
     public Rectangle boundingBox;
 
-    public GameObject(int x, int y,String color) {
+    public GameObject(int x, int y,Texture img) {
         Pixmap pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
-        if (color == "blue"){
-
-            pixmap.setColor(Color.BLUE);
-        } else {
-
-            pixmap.setColor(Color.WHITE);
-        }
-        pixmap.fill();
-        Texture tex = new Texture(pixmap);
-        sprite = new Sprite(tex);
+//        if (color == "blue"){
+//
+//            pixmap.setColor(Color.BLUE);
+//        } else {
+//
+//            pixmap.setColor(Color.WHITE);
+//        }
+//        pixmap.fill();
+        sprite = new Sprite(img);
+        sprite.scale(1);
         position = new Vector2(x, y);
         boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
     }
