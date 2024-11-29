@@ -102,14 +102,15 @@ public class Logic {
             bullet.player_update(delta);
             bullet.draw(batch);
         }
-        //update enemies list
-        for (Enemy enemy : enemies) {
-            enemy.draw(batch, delta, player.position);
-        }
         //update coins list
         for (GameObject coin : coins) {
             coin.draw(batch);
         }
+        //update enemies list
+        for (Enemy enemy : enemies) {
+            enemy.draw(batch, delta, player.position);
+        }
+
 
         //change difficulty
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
