@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,6 +28,8 @@ public class Player {
     private Texture healthBarTexture1;
     private Sprite healthBarSprite;
     private Sprite healthBarSprite1;
+    private Texture coinTexture;
+    private Sprite coinSprite;
     private float healthBarWidth = 300;
     private float healthBarHeight = 25;
     public int maxHealth = 1000;
@@ -36,6 +39,8 @@ public class Player {
     public Weapon weapon;
     public Texture playTex1 = new Texture(Gdx.files.internal("player/shotgun_player.png"));
     public Texture playTex;
+    public BitmapFont font;
+    public int currentCoins = 0;
 
     public Player () {
         playTex = new Texture(Gdx.files.internal("player/player-pistol.png"));
@@ -50,6 +55,13 @@ public class Player {
         pixmapHealth.fill();
         healthBarTexture = new Texture(pixmapHealth);
         healthBarSprite = new Sprite(healthBarTexture);
+
+        // coin ui
+        coinTexture = new Texture(Gdx.files.internal("objects/coin.png"));
+        coinSprite = new Sprite(coinTexture);
+        coinSprite.scale(3);
+        font = new BitmapFont();
+        font.getData().setScale(3);
 
         // health bar background
         Pixmap pixmapHealth1 = new Pixmap((int) healthBarWidth, (int) healthBarHeight, Pixmap.Format.RGBA8888);
@@ -91,6 +103,8 @@ public class Player {
         // update health bar position
         healthBarSprite.setPosition( 25, 1080 - 50);
         healthBarSprite1.setPosition(25, 1080 - 50);
+        // update coin ui position
+        coinSprite.setPosition(25, 1080 - 120);
 
         // update health bar
         if (currentHealth > 0) {
@@ -127,5 +141,7 @@ public class Player {
         sprite.draw(batch);
         healthBarSprite1.draw(batch);
         healthBarSprite.draw(batch);
+        coinSprite.draw(batch);
+        font.draw(batch, "x"+currentCoins, 80, 1080 - 80);
     }
 }

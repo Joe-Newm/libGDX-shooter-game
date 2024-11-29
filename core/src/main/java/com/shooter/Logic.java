@@ -1,6 +1,8 @@
 package com.shooter;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,16 +29,20 @@ public class Logic {
     public Player player;
     public ArrayList<Enemy> enemies;
     public ArrayList<Bullet> player_bullets;
+    public ArrayList<GameObject> coins;
     public static final int VIRTUAL_WIDTH = 1920;
     public static final int VIRTUAL_HEIGHT = 1080;
     public float spawnTime;
     public float spawnDuration;
     public GameObject shotgunObject;
     public GameObject pistolObject;
+    public GameObject coinObject;
     public Texture background;
     public Sprite backgroundSprite;
     public Texture shotgun;
     public Texture pistol;
+    public Texture coin;
+    public int difficultyTest;
 
     public void create() {
         batch = new SpriteBatch();
@@ -45,9 +51,12 @@ public class Logic {
         background = new Texture("map/background1.png");
         shotgun = new Texture("objects/shotgun.png");
         pistol = new Texture("objects/pistol.png");
+        coin = new Texture("objects/coin.png");
         player = new Player();
         player_bullets = new ArrayList<>();
+        coins = new ArrayList<>();
         enemies = new ArrayList<>();
+        difficultyTest = 0;
 
         // init camera and viewport
         camera = new OrthographicCamera();
@@ -63,6 +72,7 @@ public class Logic {
         // objects
         shotgunObject = new GameObject(100,100, shotgun);
         pistolObject = new GameObject(100, 200, pistol );
+        coinObject = new GameObject(100, 300, coin);
 
         //background
         backgroundSprite = new Sprite(background);
@@ -70,7 +80,6 @@ public class Logic {
     }
 
     public void update(float delta) {
-        //collision for bullets hitting enemies
         backgroundSprite.draw(batch);
         collision_enemy();
         spawnEnemies(delta);
@@ -78,8 +87,9 @@ public class Logic {
         shotgunObject.draw(batch);
         pistolObject.draw(batch);
         collision_enemy_to_enemy();
+        collectCoin();
 
-
+        // game objects
         if (player.boundingBox.overlaps(shotgunObject.boundingBox)) {
             player.weapon = new Shotgun();
         }
@@ -87,13 +97,39 @@ public class Logic {
             player.weapon = new Pistol();
         }
 
+        //update bullets list
         for (Bullet bullet : player_bullets) {
             bullet.player_update(delta);
             bullet.draw(batch);
         }
+        //update enemies list
         for (Enemy enemy : enemies) {
             enemy.draw(batch, delta, player.position);
         }
+        //update coins list
+        for (GameObject coin : coins) {
+            coin.draw(batch);
+        }
+
+        //change difficulty
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+            difficultyTest = 0;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+            difficultyTest = 1;
+        }
+    }
+
+    //coin collision
+    public void collectCoin() {
+        ArrayList<GameObject> coinsToRemove = new ArrayList<>();
+        for (GameObject coin : coins) {
+            if (player.boundingBox.overlaps(coin.boundingBox)) {
+                player.currentCoins += 1;
+                coinsToRemove.add(coin);
+            }
+        }
+        coins.removeAll(coinsToRemove);
     }
 
 
@@ -115,6 +151,7 @@ public class Logic {
         for (Enemy enemy : enemies) {
             if (enemy.hp <= 0) {
                 enemiesToRemove.add(enemy);
+                coins.add(new GameObject((int)enemy.position.x, (int)enemy.position.y, coin));
             }
         }
         enemies.removeAll(enemiesToRemove);
@@ -173,37 +210,70 @@ public class Logic {
 
     public void spawnEnemies(float delta) {
         spawnTime += delta;
-        if (spawnTime > spawnDuration) {
-            spawnTime = 0;
+        if (difficultyTest == 0) {
+            if (spawnTime > spawnDuration) {
+                spawnTime = 0;
 
-            float x = 0, y = 0;
-            int edge = random.nextInt(4);
+                float x = 0, y = 0;
+                int edge = random.nextInt(4);
 
-            switch (edge) {
-                case 0: // Top
-                    x = random.nextInt((int) viewport.getWorldWidth());
-                    y = viewport.getWorldHeight() + 50;
-                    break;
+                switch (edge) {
+                    case 0: // Top
+                        x = random.nextInt((int) viewport.getWorldWidth());
+                        y = viewport.getWorldHeight() + 50;
+                        break;
 
-                case 1: // bottom
-                    x = random.nextInt((int) viewport.getWorldWidth());
-                    y = -50;
-                    break;
+                    case 1: // bottom
+                        x = random.nextInt((int) viewport.getWorldWidth());
+                        y = -50;
+                        break;
 
-                case 2: // left
-                    x = -50;
-                    y = random.nextInt((int) viewport.getWorldHeight());
-                    break;
+                    case 2: // left
+                        x = -50;
+                        y = random.nextInt((int) viewport.getWorldHeight());
+                        break;
 
-                case 3: // right
-                    x = viewport.getWorldWidth() + 50;
-                    y = random.nextInt((int) viewport.getWorldHeight());
-                    break;
+                    case 3: // right
+                        x = viewport.getWorldWidth() + 50;
+                        y = random.nextInt((int) viewport.getWorldHeight());
+                        break;
+                }
+                enemies.add(new Enemy(x, y, 10));
+            }
+        }
+        if (difficultyTest == 1) {
+            if (spawnTime > spawnDuration) {
+                spawnTime = 0;
+                for (int i= 0; i < 10; i++) {
+                float x = 0, y = 0;
+                int edge = random.nextInt(4);
+
+                switch (edge) {
+                    case 0: // Top
+                        x = random.nextInt((int) viewport.getWorldWidth());
+                        y = viewport.getWorldHeight() + 50;
+                        break;
+
+                    case 1: // bottom
+                        x = random.nextInt((int) viewport.getWorldWidth());
+                        y = -50;
+                        break;
+
+                    case 2: // left
+                        x = -50;
+                        y = random.nextInt((int) viewport.getWorldHeight());
+                        break;
+
+                    case 3: // right
+                        x = viewport.getWorldWidth() + 50;
+                        y = random.nextInt((int) viewport.getWorldHeight());
+                        break;
+                }
+                enemies.add(new Enemy(x, y, 10));
             }
 
-            enemies.add(new Enemy(x, y, 10));
         }
-    }
+    }}
 
     public void dispose() {
         batch.dispose();
