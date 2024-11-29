@@ -2,6 +2,7 @@ package com.shooter;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -119,6 +120,20 @@ public class Logic {
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
             difficultyTest = 1;
         }
+
+    }
+
+    public void full() {
+        // toggle fullscreen
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            if (Gdx.graphics.isFullscreen()) {
+                // Switch to windowed mode
+                Gdx.graphics.setWindowedMode(1280, 720); // Set your desired window size
+            } else {
+                // Switch to fullscreen mode
+                Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
+                Gdx.graphics.setFullscreenMode(displayMode);
+            }}
     }
 
     //coin collision

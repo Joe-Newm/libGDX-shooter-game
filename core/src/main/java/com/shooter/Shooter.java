@@ -30,6 +30,9 @@ public class Shooter extends ApplicationAdapter {
         logic.camera.update();
         logic.batch.setProjectionMatrix(logic.camera.combined);
 
+        // toggle fullscreen
+        logic.full();
+
         logic.batch.begin();
             logic.update(delta);
             logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
