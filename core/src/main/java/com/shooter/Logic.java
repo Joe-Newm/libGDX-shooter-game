@@ -47,8 +47,7 @@ public class Logic {
 
     public void create() {
         batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
-        bulletTexture = new Texture("bullet.png");
+        bulletTexture = new Texture("player/bullet.png");
         background = new Texture("map/background1.png");
         shotgun = new Texture("objects/shotgun.png");
         pistol = new Texture("objects/pistol.png");

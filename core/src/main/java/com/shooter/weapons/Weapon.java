@@ -14,7 +14,7 @@ public abstract class Weapon {
     public Weapon(String name, int damage) {
         this.name = name;
         this.damage = damage;
-        bulletTexture = new Texture("bullet.png");
+        bulletTexture = new Texture("player/bullet.png");
 
     }
     public abstract void attack (Player player, OrthographicCamera camera, ArrayList<Bullet> player_bullets);
