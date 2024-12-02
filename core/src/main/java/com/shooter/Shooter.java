@@ -1,6 +1,7 @@
 package com.shooter;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,40 +13,31 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Shooter extends ApplicationAdapter {
-    private Logic logic;
+public class Shooter extends Game {
+    Logic logic;
 
     @Override
     public void create() {
         logic = new Logic();
-        logic.create();
+        logic.createViewport();
+        setScreen(new MainMenuScreen(this, logic.viewport));
     }
 
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+        ScreenUtils.clear(0.0f, 0.0f, 0f, 1f);
 
-        // update camera
-        logic.camera.update();
-        logic.batch.setProjectionMatrix(logic.camera.combined);
 
-        // toggle fullscreen
-        logic.full();
-
-        logic.batch.begin();
-            logic.update(delta);
-            logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
-        logic.batch.end();
+        super.render();
     }
 
     @Override
     public void dispose() {
-        logic.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
-        logic.viewport.update(width, height, true);
+        logic.viewport.update(width,height,true);
     }
 }

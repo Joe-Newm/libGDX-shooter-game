@@ -47,8 +47,7 @@ public class Logic {
 
     public void create() {
         batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
-        bulletTexture = new Texture("bullet.png");
+        bulletTexture = new Texture("player/bullet.png");
         background = new Texture("map/background1.png");
         shotgun = new Texture("objects/shotgun.png");
         pistol = new Texture("objects/pistol.png");
@@ -59,9 +58,7 @@ public class Logic {
         enemies = new ArrayList<>();
         difficultyTest = 0;
 
-        // init camera and viewport
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
+        createViewport();
 
         // enemies for testing
         enemies.add(new Enemy(50,50, 10));
@@ -78,6 +75,12 @@ public class Logic {
         //background
         backgroundSprite = new Sprite(background);
         backgroundSprite.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+    }
+
+    // init camera and viewport
+    public void createViewport() {
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
     }
 
     public void update(float delta) {
