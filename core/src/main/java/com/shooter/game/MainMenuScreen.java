@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shooter.Logic;
 
@@ -40,7 +41,7 @@ public class MainMenuScreen implements Screen {
         batch = new SpriteBatch();
         Texture background = new Texture(Gdx.files.internal("map/mainmenu.png"));
         backgroundSprite = new Sprite(background);
-        backgroundSprite.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        backgroundSprite.setSize(viewport.getScreenWidth(), viewport.getScreenHeight());
 
         playButton = new TextButton("Coming Soon", skin);
         playButton.addListener(new ClickListener() {
@@ -81,10 +82,10 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         backgroundSprite.draw(batch);
-        font.draw(batch, "ZOMBIE SURVIVAL", VIRTUAL_WIDTH - 1530 , VIRTUAL_HEIGHT / 2);
+        font.draw(batch, "ZOMBIE SURVIVAL", VIRTUAL_WIDTH /2 - 250 , VIRTUAL_HEIGHT / 2 + 200);
+        stage.draw();
         batch.end();
         stage.act(delta);
-        stage.draw();
     }
 
     @Override
