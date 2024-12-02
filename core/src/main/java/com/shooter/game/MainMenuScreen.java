@@ -99,7 +99,10 @@ public class MainMenuScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {}
+    public void hide() {
+        Gdx.input.setInputProcessor(null);
+        stage.clear();
+    }
 
     @Override
     public void dispose() {
