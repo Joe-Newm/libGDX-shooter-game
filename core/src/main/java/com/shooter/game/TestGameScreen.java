@@ -1,8 +1,9 @@
-package com.shooter;
+package com.shooter.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.shooter.Logic;
 
 public class TestGameScreen implements Screen {
     private Shooter game;
@@ -20,7 +21,6 @@ public class TestGameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        System.out.println("TestGameScreen render() called");
 
         delta = Gdx.graphics.getDeltaTime();
         ScreenUtils.clear(0f, 0f, 0f, 1f);

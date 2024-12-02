@@ -1,4 +1,4 @@
-package com.shooter;
+package com.shooter.game;
 
 import com.badlogic.gdx.Screen;
 
