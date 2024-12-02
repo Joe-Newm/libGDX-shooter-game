@@ -1,8 +1,10 @@
 package com.shooter.game;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -29,6 +31,7 @@ public class MainMenuScreen implements Screen {
     public SpriteBatch batch;
     Sprite backgroundSprite;
     private Logic logic;
+    private BitmapFont font;
 
     public MainMenuScreen(Shooter game, Viewport viewport) {
         this.game = game;
@@ -53,15 +56,24 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        playButton.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
-        testButton.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2 - 40);
-        stage.addActor(playButton);
-        stage.addActor(testButton);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+
+        // text
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        font.getData().setScale(2f);
+
+        // buttons
+        playButton.setPosition(VIRTUAL_WIDTH / 2 - playButton.getWidth() * 2, VIRTUAL_HEIGHT / 2);
+        testButton.setPosition(VIRTUAL_WIDTH / 2 - testButton.getWidth() * 2, VIRTUAL_HEIGHT / 2 - 70);
+        playButton.setSize(200,50);
+        testButton.setSize(200, 50);
+        stage.addActor(playButton);
+        stage.addActor(testButton);
     }
 
     @Override
@@ -69,6 +81,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         backgroundSprite.draw(batch);
+        font.draw(batch, "ZOMBIE SURVIVAL", 1280 / 2 - 110, 720 - 200);
         batch.end();
         stage.act(delta);
         stage.draw();
