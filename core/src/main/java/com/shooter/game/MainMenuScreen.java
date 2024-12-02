@@ -56,16 +56,16 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        // text
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        font.getData().setScale(4f);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        // text
-        font = new BitmapFont();
-        font.setColor(Color.WHITE);
-        font.getData().setScale(4f);
 
         // buttons
         playButton.setPosition(VIRTUAL_WIDTH / 2 - 100, VIRTUAL_HEIGHT / 2);
@@ -81,7 +81,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         backgroundSprite.draw(batch);
-        font.draw(batch, "ZOMBIE SURVIVAL", 1280 / 2 - 250, 720 - 200);
+        font.draw(batch, "ZOMBIE SURVIVAL", VIRTUAL_WIDTH - 1530 , VIRTUAL_HEIGHT / 2);
         batch.end();
         stage.act(delta);
         stage.draw();
