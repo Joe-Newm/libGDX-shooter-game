@@ -29,8 +29,6 @@ public class TestGameScreen implements Screen {
         logic.camera.update();
         logic.batch.setProjectionMatrix(logic.camera.combined);
 
-        // toggle fullscreen
-        logic.full();
 
         logic.batch.begin();
         logic.update(delta);

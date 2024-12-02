@@ -42,14 +42,14 @@ public class MainMenuScreen implements Screen {
         backgroundSprite = new Sprite(background);
         backgroundSprite.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
-        playButton = new TextButton("Play", skin);
+        playButton = new TextButton("Coming Soon", skin);
         playButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainGameScreen(game));
+                //game.setScreen(new MainGameScreen(game));
             }
         });
 
-        testButton = new TextButton("Test", skin);
+        testButton = new TextButton("Testing Ground", skin);
         testButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new TestGameScreen(game));
@@ -65,11 +65,11 @@ public class MainMenuScreen implements Screen {
         // text
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        font.getData().setScale(2f);
+        font.getData().setScale(4f);
 
         // buttons
-        playButton.setPosition(VIRTUAL_WIDTH / 2 - playButton.getWidth() * 2, VIRTUAL_HEIGHT / 2);
-        testButton.setPosition(VIRTUAL_WIDTH / 2 - testButton.getWidth() * 2, VIRTUAL_HEIGHT / 2 - 70);
+        playButton.setPosition(VIRTUAL_WIDTH / 2 - 100, VIRTUAL_HEIGHT / 2);
+        testButton.setPosition(VIRTUAL_WIDTH / 2 - 100, VIRTUAL_HEIGHT / 2 - 70);
         playButton.setSize(200,50);
         testButton.setSize(200, 50);
         stage.addActor(playButton);
@@ -81,7 +81,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         backgroundSprite.draw(batch);
-        font.draw(batch, "ZOMBIE SURVIVAL", 1280 / 2 - 110, 720 - 200);
+        font.draw(batch, "ZOMBIE SURVIVAL", 1280 / 2 - 250, 720 - 200);
         batch.end();
         stage.act(delta);
         stage.draw();

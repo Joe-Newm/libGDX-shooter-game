@@ -1,5 +1,5 @@
 d:assets:assets:0:application/unknown:1
-t:assets.txt:assets-a648c6de0b41a258ea226cd0629221f2.txt:472:text/plain:1
+t:assets.txt:assets-5bffc4e27dad686bc6baf8861da5c0d1.txt:579:text/plain:1
 d:enemy:enemy:0:application/unknown:1
 d:enemy/map:enemy/map:0:application/unknown:1
 i:enemy/zombie-flash.png:enemy/zombie-flash-34b40ae65863640d5a6ea9c1272748b7.png:263:image/png:1
@@ -8,6 +8,8 @@ i:enemy/zombie.png:enemy/zombie-88bc48ce69c951eff87c5e1a8e857ca0.png:454:image/p
 d:map:map:0:application/unknown:1
 b:map/background1.aseprite:map/background1-cdac8db548279cf6169b40e3d75e656f.aseprite:61710:application/unknown:1
 i:map/background1.png:map/background1-0cbd5f9f4c56ac518460d0aef11e3042.png:106346:image/png:1
+b:map/mainmenu.aseprite:map/mainmenu-0eb61e6bc6cf0e01ab6f65a1397932ba.aseprite:29045:application/unknown:1
+i:map/mainmenu.png:map/mainmenu-f3a8560f689a8ffff2ddf22d594387d9.png:40150:image/png:1
 d:objects:objects:0:application/unknown:1
 b:objects/coin.aseprite:objects/coin-9ec9bee382c01653ce7b0b7950f30515.aseprite:360:application/unknown:1
 i:objects/coin.png:objects/coin-50b87c354b45c82c3c9a89775b66fa80.png:169:image/png:1
@@ -22,6 +24,11 @@ i:player/player-pistol.png:player/player-pistol-1de0c12c8e7ca0cdd8b207348ebdef57
 i:player/player.png:player/player-70dd8bbee455a966d98a937095939760.png:230:image/png:1
 i:player/player1.png:player/player1-60aec91a9f1a8f92ef9d0b3656874617.png:296:image/png:1
 i:player/shotgun_player.png:player/shotgun_player-b0b60c95e1cd308f055833587a9bee11.png:397:image/png:1
+d:skin:skin:0:application/unknown:1
+t:skin/default.fnt:skin/default-e1d33585b7132093ad20c66e3fb30be4.fnt:11528:application/unknown:1
+t:skin/uiskin.atlas:skin/uiskin-196b39599bd3da038ec41629e5d8ed03.atlas:2925:application/unknown:1
+t:skin/uiskin.json:skin/uiskin-3fee9ecd5d1104d94bba1de6d45b1bed.json:3331:application/json:1
+i:skin/uiskin.png:skin/uiskin-34b28ea01f92a90fa485f007870f9eff.png:28299:image/png:1
 d:working:working:0:application/unknown:1
 b:working/shotgun_player.aseprite:working/shotgun_player-d69410b3569f12500c642d3b8d61c3fc.aseprite:472:application/unknown:1
 b:working/Sprite-0001.aseprite:working/Sprite-0001-0d0b94f87c4a93b37c917da5985a05b8.aseprite:402:application/unknown:1
