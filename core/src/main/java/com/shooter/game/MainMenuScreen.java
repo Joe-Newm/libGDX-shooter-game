@@ -41,7 +41,7 @@ public class MainMenuScreen implements Screen {
         batch = new SpriteBatch();
         Texture background = new Texture(Gdx.files.internal("map/mainmenu.png"));
         backgroundSprite = new Sprite(background);
-        backgroundSprite.setSize(viewport.getScreenWidth(), viewport.getScreenHeight());
+        backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         playButton = new TextButton("Coming Soon", skin);
         playButton.addListener(new ClickListener() {
