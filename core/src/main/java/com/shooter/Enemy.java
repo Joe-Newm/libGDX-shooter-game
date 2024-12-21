@@ -26,6 +26,8 @@ public class Enemy {
     public int hp;
     public Texture tex;
     public Vector2 direction;
+    float knockBackForce = -1000f;
+    Vector2 knockbackVelocity;
 
     public Enemy (float posX, float posY, int health) {
         tex = new Texture("enemy/zombie.png");
@@ -45,19 +47,25 @@ public class Enemy {
         sprite.setTexture(flashtex);
     }
 
+
     public void update(float delta, Vector2 playerPosition) {
         // Move towards the player
         direction = new Vector2(playerPosition).sub(position).nor();
         sprite.setRotation(direction.angleDeg() - 90);
         position.add(direction.scl(SPEED * delta));
 
+        // kockback
+        knockbackVelocity = direction.scl(knockBackForce);
+
         // ends the flash after duration is up from being hit
         if (isHit) {
             hitTime += delta;
+            position.add(knockbackVelocity.cpy().scl(delta));
             if (hitTime > FLASH_DURATION) {
                 isHit = false;
                 hitTime = 0;
                 sprite.setTexture(tex);
+                knockbackVelocity.setZero();
             }
         }
 

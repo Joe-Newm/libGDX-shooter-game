@@ -38,16 +38,23 @@ public class Logic {
     public GameObject shotgunObject;
     public GameObject pistolObject;
     public GameObject coinObject;
+    public GameObject bloodObject;
     public Texture background;
     public Sprite backgroundSprite;
     public Texture shotgun;
     public Texture pistol;
     public Texture coin;
     public int difficultyTest;
+    public Texture[] bloodSplatter = new Texture[3];
+    public ArrayList<GameObject> bloodArrayList;
+    public int bloodChoice;
 
     public void create() {
         batch = new SpriteBatch();
         bulletTexture = new Texture("player/bullet.png");
+        bloodSplatter[0] = new Texture("enemy/blood.png");
+        bloodSplatter[1] = new Texture("enemy/blood1.png");
+        bloodSplatter[2] = new Texture("enemy/blood2.png");
         background = new Texture("map/background1.png");
         shotgun = new Texture("objects/shotgun.png");
         pistol = new Texture("objects/pistol.png");
@@ -56,6 +63,7 @@ public class Logic {
         player_bullets = new ArrayList<>();
         coins = new ArrayList<>();
         enemies = new ArrayList<>();
+        bloodArrayList = new ArrayList<>();
         difficultyTest = 0;
 
         createViewport();
@@ -100,6 +108,14 @@ public class Logic {
         if (player.boundingBox.overlaps(pistolObject.boundingBox)) {
             player.weapon = new Pistol();
         }
+
+        // bloodobject
+        if (bloodArrayList != null) {
+            for (GameObject blood : bloodArrayList) {
+                blood.draw(batch);
+            }
+        }
+
 
         //update bullets list
         for (Bullet bullet : player_bullets) {
@@ -161,6 +177,12 @@ public class Logic {
                     bulletsToRemove.add(bullet);
                     enemy.hit();
                     enemy.hp -= 1;
+
+                    int bloodchance = random(3);
+                    if (bloodchance == 0) {
+                        bloodChoice = random(bloodSplatter.length - 1);
+                        bloodArrayList.add(new GameObject((int) enemy.position.x, (int) enemy.position.y, bloodSplatter[bloodChoice]));
+                    }
                 }
             }
         }
@@ -176,6 +198,7 @@ public class Logic {
         enemies.removeAll(enemiesToRemove);
     }
 
+    // when enemy touches other enemies
     public void collision_enemy_to_enemy() {
         for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy1 = enemies.get(i);
