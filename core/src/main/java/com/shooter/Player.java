@@ -18,6 +18,9 @@ import com.shooter.weapons.Weapon;
 
 import java.util.ArrayList;
 
+import static com.badlogic.gdx.math.MathUtils.cos;
+import static com.badlogic.gdx.math.MathUtils.sin;
+
 
 public class Player {
     public Sprite sprite;

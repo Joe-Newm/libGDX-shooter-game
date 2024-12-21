@@ -2,6 +2,7 @@ package com.shooter.weapons;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.shooter.Player;
 
 import java.util.ArrayList;

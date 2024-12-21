@@ -8,6 +8,9 @@ import com.shooter.Player;
 
 import java.util.ArrayList;
 
+import static com.badlogic.gdx.math.MathUtils.cos;
+import static com.badlogic.gdx.math.MathUtils.sin;
+
 public class Pistol extends Weapon {
     public Pistol() {
         super("Pistol", 1);
@@ -15,13 +18,10 @@ public class Pistol extends Weapon {
 
     @Override
     public void attack(Player player, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
-        // Get mouse position in world coordinates
-        Vector3 clickPosition = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-        Vector3 worldClickPos3d = camera.unproject(clickPosition);
-        Vector2 worldClickPosition = new Vector2(worldClickPos3d.x, worldClickPos3d.y);
 
         // Get sprite rotation in radians
         float rotationRad = (float) Math.toRadians(player.sprite.getRotation());
+        Vector2 bulletDirection = new Vector2((float) Math.cos(rotationRad + 1.56), (float) Math.sin(rotationRad + 1.56));
 
         // Calculate the offset to the top center of the sprite
         float offsetX = 0; // Top center has no X offset relative to the sprite's width
@@ -36,7 +36,7 @@ public class Pistol extends Weapon {
         float tipY = player.position.y + player.sprite.getOriginY() + rotatedOffsetY;
 
         // Create the bullet at the tip position
-        Bullet bullet = new Bullet(bulletTexture, tipX, tipY, worldClickPosition, 1000, "pistol");
+        Bullet bullet = new Bullet(bulletTexture, tipX, tipY, bulletDirection, 1000, "pistol");
         player_bullets.add(bullet);
     }
 }

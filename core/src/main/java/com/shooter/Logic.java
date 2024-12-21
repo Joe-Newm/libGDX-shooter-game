@@ -180,7 +180,10 @@ public class Logic {
         for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy1 = enemies.get(i);
 
-            for (int j = i + 1; j < enemies.size(); j++) {
+            for (int j = 0; j < enemies.size(); j++) {
+                if (j == i) {
+                    continue;
+                }
                 Enemy enemy2 = enemies.get(j);
 
                 if (enemy1.boundingBox.overlaps(enemy2.boundingBox)) {

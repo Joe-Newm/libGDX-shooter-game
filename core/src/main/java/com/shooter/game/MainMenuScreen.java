@@ -37,7 +37,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(Shooter game, Viewport viewport) {
         this.game = game;
         stage = new Stage(viewport);
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"), new TextureAtlas(Gdx.files.internal("skin/uiskin.atlas")));
+        skin = new Skin(Gdx.files.internal("skins/skin/commodore/uiskin.json"), new TextureAtlas(Gdx.files.internal("skins/skin/commodore/uiskin.atlas")));
         batch = new SpriteBatch();
         Texture background = new Texture(Gdx.files.internal("map/mainmenu.png"));
         backgroundSprite = new Sprite(background);
@@ -60,7 +60,7 @@ public class MainMenuScreen implements Screen {
         // text
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        font.getData().setScale(4f);
+        font.getData().setScale(5f);
     }
 
     @Override
@@ -71,8 +71,8 @@ public class MainMenuScreen implements Screen {
         // buttons
         playButton.setPosition(VIRTUAL_WIDTH / 2 - 100, VIRTUAL_HEIGHT / 2);
         testButton.setPosition(VIRTUAL_WIDTH / 2 - 100, VIRTUAL_HEIGHT / 2 - 70);
-        playButton.setSize(200,50);
-        testButton.setSize(200, 50);
+        playButton.setSize(280,50);
+        testButton.setSize(280, 50);
         stage.addActor(playButton);
         stage.addActor(testButton);
     }
@@ -82,7 +82,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         backgroundSprite.draw(batch);
-        font.draw(batch, "ZOMBIE SURVIVAL", VIRTUAL_WIDTH /2 - 250 , VIRTUAL_HEIGHT / 2 + 200);
+        font.draw(batch, "ZOMBIE SURVIVAL", VIRTUAL_WIDTH /2 - 270 , VIRTUAL_HEIGHT / 2 + 200);
         stage.draw();
         batch.end();
         stage.act(delta);

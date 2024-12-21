@@ -24,7 +24,7 @@ public class Bullet {
         if (weapon == "shotgun") {
             direction = new Vector2(targetPosition).nor();
         } else {
-            direction = new Vector2(targetPosition).sub(position).nor();
+            direction = new Vector2(targetPosition).nor();
         }
 
         // calculate the angle in degrees
