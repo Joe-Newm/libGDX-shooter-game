@@ -1,6 +1,7 @@
 package com.shooter.game;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -33,6 +34,7 @@ public class MainMenuScreen implements Screen {
     Sprite backgroundSprite;
     private Logic logic;
     private BitmapFont font;
+    private Music menuMusic;
 
     public MainMenuScreen(Shooter game, Viewport viewport) {
         this.game = game;
@@ -42,6 +44,12 @@ public class MainMenuScreen implements Screen {
         Texture background = new Texture(Gdx.files.internal("map/mainmenu.png"));
         backgroundSprite = new Sprite(background);
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        //music
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/last-days.mp3"));
+        menuMusic.setLooping(true);
+        //menuMusic.setVolume(0.2f);
+        menuMusic.play();
 
         playButton = new TextButton("Coming Soon", skin);
         playButton.addListener(new ClickListener() {
@@ -53,7 +61,7 @@ public class MainMenuScreen implements Screen {
         testButton = new TextButton("Testing Ground", skin);
         testButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new TestGameScreen(game));
+                game.setScreen(new TestGameScreen(game, viewport));
             }
         });
 
@@ -103,12 +111,18 @@ public class MainMenuScreen implements Screen {
     public void hide() {
         Gdx.input.setInputProcessor(null);
         stage.clear();
+        if (menuMusic != null) {
+            menuMusic.stop();
+        }
     }
 
     @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
+        if (menuMusic != null) {
+            menuMusic.dispose();
+        }
     }
 }
 

@@ -15,6 +15,7 @@ import com.shooter.weapons.Bullet;
 import com.shooter.weapons.Pistol;
 import com.shooter.weapons.Shotgun;
 import com.shooter.weapons.Weapon;
+import com.badlogic.gdx.audio.Sound;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,9 @@ public class Player {
     public BitmapFont font;
     public int currentCoins = 0;
     public int assaultDelay = 10;
+    private Sound gunshot;
+    private Sound gunshot1;
+    private long soundID;
 
     public Player () {
         playTex = new Texture(Gdx.files.internal("player/player-pistol.png"));
@@ -80,6 +84,11 @@ public class Player {
 
         // weapons
         this.weapon = new Pistol();
+
+        // sound
+        gunshot = Gdx.audio.newSound(Gdx.files.internal("sounds/369528__johandeecke__short-gunshot.wav"));
+        gunshot1 = Gdx.audio.newSound(Gdx.files.internal("sounds/369528__johandeecke__short-gunshot.wav"));
+
     }
 
     public void update(float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
@@ -106,13 +115,14 @@ public class Player {
                 assaultDelay -= 1;
                 if (assaultDelay == 0) {
                     weapon.attack(this, camera, player_bullets);
-                    System.out.println("assault shooted");
                     assaultDelay = 10;
+                    gunshot.play(0.3f);
                 }
             }
         } else {
             if (Gdx.input.justTouched()) {
                 weapon.attack(this, camera, player_bullets);
+                gunshot.play(0.3f);
             }
         }
 

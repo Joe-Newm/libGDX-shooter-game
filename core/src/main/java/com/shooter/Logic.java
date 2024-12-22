@@ -7,6 +7,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -210,13 +212,11 @@ public class Logic {
 
     // when enemy touches other enemies
     public void collision_enemy_to_enemy() {
+        final float MAX_DISPLACEMENT = 10f;
         for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy1 = enemies.get(i);
 
-            for (int j = 0; j < enemies.size(); j++) {
-                if (j == i) {
-                    continue;
-                }
+            for (int j = i + 1; j < enemies.size(); j++) {
                 Enemy enemy2 = enemies.get(j);
 
                 if (enemy1.boundingBox.overlaps(enemy2.boundingBox)) {
@@ -234,6 +234,10 @@ public class Logic {
 
                     float overlap = Math.min(overlapX, overlapY);
 
+                    if (overlap > MAX_DISPLACEMENT) {
+                        overlap = MAX_DISPLACEMENT;
+                    }
+
                     // Apply displacement
                     enemy1.position.add(displacement.scl(overlap / 2));
                     enemy2.position.sub(displacement.scl(overlap / 2));
@@ -241,6 +245,36 @@ public class Logic {
                     // Update bounding boxes
                     enemy1.boundingBox.setPosition(enemy1.position.x, enemy1.position.y);
                     enemy2.boundingBox.setPosition(enemy2.position.x, enemy2.position.y);
+                }
+            }
+        }
+    }
+
+    public void collision_enemy_to_enemy_2 () {
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy enemy1 = enemies.get(i);
+            for (int j = i + 1; j < enemies.size(); j++) {
+                Enemy enemy2 = enemies.get(j);
+
+                Vector2 direction = new Vector2(enemy1.position).sub(enemy2.position);
+                float distance = direction.len();
+
+                // find radius
+                float radius1 = enemy1.boundingBox.width / 2;
+                float radius2 = enemy2.boundingBox.width / 2;
+
+                // check overlap
+                float overlap = (radius1 + radius2) - distance;
+
+                if (overlap > 0) {
+                    direction.nor();
+
+                    // smooth correction
+                    float corrctionFactor = 0.5f;
+                    Vector2 correction = direction.scl(overlap * corrctionFactor);
+
+                    enemy1.position.add(correction);
+                    enemy2.position.add(correction);
                 }
             }
         }

@@ -21,10 +21,8 @@ public class Shooter extends Game {
         float delta = Gdx.graphics.getDeltaTime();
         ScreenUtils.clear(0.0f, 0.0f, 0f, 1f);
 
-
         // toggle fullscreen
         logic.full();
-
 
         super.render();
     }

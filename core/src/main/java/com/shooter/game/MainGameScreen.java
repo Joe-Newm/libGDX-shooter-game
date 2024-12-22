@@ -1,5 +1,6 @@
 package com.shooter.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 public class MainGameScreen implements Screen {
