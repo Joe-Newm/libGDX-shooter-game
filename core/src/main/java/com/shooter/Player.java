@@ -41,6 +41,7 @@ public class Player {
     public boolean facingLeft = false;
     public Weapon weapon;
     public Texture playTex1 = new Texture(Gdx.files.internal("player/shotgun_player.png"));
+    public Texture playTex2 = new Texture(Gdx.files.internal("player/assault_player.png"));
     public Texture playTex;
     public BitmapFont font;
     public int currentCoins = 0;
@@ -147,6 +148,9 @@ public class Player {
         }
         if (this.weapon.name == "Pistol") {
             sprite.setTexture(playTex);
+        }
+        if (this.weapon.name == "Assault") {
+            sprite.setTexture(playTex2);
         }
     }
 

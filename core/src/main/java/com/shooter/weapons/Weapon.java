@@ -16,7 +16,6 @@ public abstract class Weapon {
         this.name = name;
         this.damage = damage;
         bulletTexture = new Texture("player/bullet.png");
-
     }
     public abstract void attack (Player player, OrthographicCamera camera, ArrayList<Bullet> player_bullets);
 }

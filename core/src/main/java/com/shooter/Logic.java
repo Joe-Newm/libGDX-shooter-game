@@ -186,7 +186,7 @@ public class Logic {
                 if (bullet.boundingBox.overlaps(enemy.boundingBox)) {
                     bulletsToRemove.add(bullet);
                     enemy.hit();
-                    enemy.hp -= 1;
+                    enemy.hp -= player.weapon.damage;
 
                     int bloodchance = random(3);
                     if (bloodchance == 0) {
