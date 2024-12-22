@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.shooter.game.HudRenderer;
 import com.shooter.weapons.Assault;
 import com.shooter.weapons.Bullet;
 import com.shooter.objects.GameObject;
@@ -53,6 +54,7 @@ public class Logic {
     public Texture[] bloodSplatter = new Texture[3];
     public ArrayList<GameObject> bloodArrayList;
     public int bloodChoice;
+    public HudRenderer hudRenderer;
 
     public void create() {
         batch = new SpriteBatch();
@@ -72,7 +74,11 @@ public class Logic {
         bloodArrayList = new ArrayList<>();
         difficultyTest = 0;
 
+
         createViewport();
+
+        // HUD
+        hudRenderer = new HudRenderer();
 
         // enemies for testing
         enemies.add(new Enemy(50,50, 10));
@@ -95,6 +101,7 @@ public class Logic {
     // init camera and viewport
     public void createViewport() {
         camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
     }
 
@@ -152,6 +159,15 @@ public class Logic {
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
             difficultyTest = 1;
         }
+
+        // Make the camera follow the player
+        camera.position.set(player.position.x, player.position.y, 0);
+        camera.update();
+
+        // Apply the camera's view matrix to the batch
+        batch.setProjectionMatrix(camera.combined);
+
+
     }
 
     public void full() {

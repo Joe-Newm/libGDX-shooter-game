@@ -28,14 +28,6 @@ public class Player {
     public Vector2 position;
     float speed = 300f;
     public Rectangle boundingBox;
-    private Texture healthBarTexture;
-    private Texture healthBarTexture1;
-    private Sprite healthBarSprite;
-    private Sprite healthBarSprite1;
-    private Texture coinTexture;
-    private Sprite coinSprite;
-    private float healthBarWidth = 300;
-    private float healthBarHeight = 25;
     public int maxHealth = 1000;
     public int currentHealth = 1000;
     public int directionChange;
@@ -58,29 +50,7 @@ public class Player {
         position = new Vector2( (Gdx.graphics.getWidth() - sprite.getWidth()) / 2, (Gdx.graphics.getHeight() - sprite.getHeight()) / 2 );
         boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
 
-        // health bar
-        Pixmap pixmapHealth = new Pixmap((int) healthBarWidth, (int) healthBarHeight, Pixmap.Format.RGBA8888);
-        pixmapHealth.setColor(0, 1, 0, 1);
-        pixmapHealth.fill();
-        healthBarTexture = new Texture(pixmapHealth);
-        healthBarSprite = new Sprite(healthBarTexture);
 
-        // coin ui
-        coinTexture = new Texture(Gdx.files.internal("objects/coin.png"));
-        coinSprite = new Sprite(coinTexture);
-        coinSprite.scale(3);
-        font = new BitmapFont();
-        font.getData().setScale(3);
-
-        // health bar background
-        Pixmap pixmapHealth1 = new Pixmap((int) healthBarWidth, (int) healthBarHeight, Pixmap.Format.RGBA8888);
-        pixmapHealth1.setColor(1, 0, 0, 1);
-        pixmapHealth1.fill();
-        healthBarTexture1 = new Texture(pixmapHealth1);
-        healthBarSprite1 = new Sprite(healthBarTexture1);
-
-        pixmapHealth1.dispose();
-        pixmapHealth.dispose();
 
         // weapons
         this.weapon = new Pistol();
@@ -126,18 +96,7 @@ public class Player {
             }
         }
 
-        // update health bar position
-        healthBarSprite.setPosition( 25, 1080 - 50);
-        healthBarSprite1.setPosition(25, 1080 - 50);
-        // update coin ui position
-        coinSprite.setPosition(25, 1080 - 120);
 
-        // update health bar
-        if (currentHealth > 0) {
-            healthBarSprite.setSize((currentHealth / (float) maxHealth) * healthBarWidth, healthBarHeight);
-        } else {
-            healthBarSprite.setSize(0, healthBarHeight);
-        }
 
         // player rotation
         Vector3 mousePosition3D = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -168,9 +127,6 @@ public class Player {
         update(delta, camera, player_bullets);
         sprite.setPosition(position.x, position.y);
         sprite.draw(batch);
-        healthBarSprite1.draw(batch);
-        healthBarSprite.draw(batch);
-        coinSprite.draw(batch);
-        font.draw(batch, "x"+currentCoins, 80, 1080 - 80);
+        //font.draw(batch, "x"+currentCoins, sprite.getX() - 895, sprite.getY() + 540 - 80);
     }
 }

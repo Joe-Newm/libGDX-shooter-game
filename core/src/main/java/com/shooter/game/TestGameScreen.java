@@ -24,13 +24,16 @@ public class TestGameScreen implements Screen {
     private Music music;
     private boolean isPaused;
     private Stage stage;
+    public Viewport viewport;
 
     public TestGameScreen(Shooter game, Viewport viewport) {
         this.game = game;
+        this.viewport = viewport;
         logic = new Logic();
         logic.create();
-        stage = new Stage(viewport);
+        stage = new Stage(this.viewport);
         isPaused = false;
+
 
         // background music
         music = Gdx.audio.newMusic(Gdx.files.internal("music/air-combat.mp3"));
@@ -51,10 +54,11 @@ public class TestGameScreen implements Screen {
             togglePause();
         }
         if (isPaused) {
-
+            Gdx.input.setInputProcessor(stage);
             showPauseMenu(delta);
             return;
         }
+
 
         // clear the screen when not paused
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -72,6 +76,8 @@ public class TestGameScreen implements Screen {
         logic.update(delta);
         logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
         logic.batch.end();
+
+        logic.hudRenderer.draw(logic.batch, logic.player);
 
 
     }
@@ -92,11 +98,21 @@ public class TestGameScreen implements Screen {
     }
 
     @Override
-    public void hide() {}
+    public void hide() {
+        Gdx.input.setInputProcessor(null);
+        stage.clear();
+        if (music != null) {
+            music.stop();
+        }
+    }
 
     @Override
     public void dispose() {
         logic.dispose();
+        stage.dispose();
+        if (music != null) {
+            music.dispose();
+        }
     }
 
     public void togglePause() {
@@ -123,7 +139,7 @@ public class TestGameScreen implements Screen {
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit(); // Quit the game when clicked
+                game.setScreen(new MainMenuScreen(game, viewport));
             }
         });
 
