@@ -44,6 +44,7 @@ public class Player {
     public Texture playTex;
     public BitmapFont font;
     public int currentCoins = 0;
+    public int assaultDelay = 10;
 
     public Player () {
         playTex = new Texture(Gdx.files.internal("player/player-pistol.png"));
@@ -99,8 +100,19 @@ public class Player {
         }
 
         //shoot
-        if (Gdx.input.justTouched()) {
-            weapon.attack(this, camera, player_bullets);
+        if (this.weapon.name == "Assault"){
+            if (Gdx.input.isTouched()) {
+                assaultDelay -= 1;
+                if (assaultDelay == 0) {
+                    weapon.attack(this, camera, player_bullets);
+                    System.out.println("assault shooted");
+                    assaultDelay = 10;
+                }
+            }
+        } else {
+            if (Gdx.input.justTouched()) {
+                weapon.attack(this, camera, player_bullets);
+            }
         }
 
         // update health bar position

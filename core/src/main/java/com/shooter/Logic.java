@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.shooter.weapons.Assault;
 import com.shooter.weapons.Bullet;
 import com.shooter.objects.GameObject;
 import com.shooter.weapons.Pistol;
@@ -37,6 +38,7 @@ public class Logic {
     public float spawnDuration;
     public GameObject shotgunObject;
     public GameObject pistolObject;
+    public GameObject assaultObject;
     public GameObject coinObject;
     public GameObject bloodObject;
     public Texture background;
@@ -44,6 +46,7 @@ public class Logic {
     public Texture shotgun;
     public Texture pistol;
     public Texture coin;
+    public Texture assaultRifle;
     public int difficultyTest;
     public Texture[] bloodSplatter = new Texture[3];
     public ArrayList<GameObject> bloodArrayList;
@@ -58,6 +61,7 @@ public class Logic {
         background = new Texture("map/background1.png");
         shotgun = new Texture("objects/shotgun.png");
         pistol = new Texture("objects/pistol.png");
+        assaultRifle = new Texture("objects/assault-rifle.png");
         coin = new Texture("objects/coin.png");
         player = new Player();
         player_bullets = new ArrayList<>();
@@ -78,6 +82,7 @@ public class Logic {
         // objects
         shotgunObject = new GameObject(100,100, shotgun);
         pistolObject = new GameObject(100, 200, pistol );
+        assaultObject = new GameObject(100,300, assaultRifle);
         coinObject = new GameObject(100, 300, coin);
 
         //background
@@ -107,6 +112,7 @@ public class Logic {
         collission_player_hit();
         shotgunObject.draw(batch);
         pistolObject.draw(batch);
+        assaultObject.draw(batch);
         collision_enemy_to_enemy();
         collectCoin();
 
@@ -117,23 +123,25 @@ public class Logic {
         if (player.boundingBox.overlaps(pistolObject.boundingBox)) {
             player.weapon = new Pistol();
         }
-
-
+        if (player.boundingBox.overlaps(assaultObject.boundingBox)) {
+            player.weapon = new Assault();
+        }
 
         //update bullets list
         for (Bullet bullet : player_bullets) {
             bullet.player_update(delta);
             bullet.draw(batch);
         }
+
         //update coins list
         for (GameObject coin : coins) {
             coin.draw(batch);
         }
+
         //update enemies list
         for (Enemy enemy : enemies) {
             enemy.draw(batch, delta, player.position);
         }
-
 
         //change difficulty
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
@@ -142,7 +150,6 @@ public class Logic {
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
             difficultyTest = 1;
         }
-
     }
 
     public void full() {
