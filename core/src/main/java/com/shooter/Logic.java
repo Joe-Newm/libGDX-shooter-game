@@ -92,7 +92,16 @@ public class Logic {
     }
 
     public void update(float delta) {
+
         backgroundSprite.draw(batch);
+
+        // bloodobject
+        if (bloodArrayList != null) {
+            for (GameObject blood : bloodArrayList) {
+                blood.draw(batch);
+            }
+        }
+
         collision_enemy();
         spawnEnemies(delta);
         collission_player_hit();
@@ -109,12 +118,6 @@ public class Logic {
             player.weapon = new Pistol();
         }
 
-        // bloodobject
-        if (bloodArrayList != null) {
-            for (GameObject blood : bloodArrayList) {
-                blood.draw(batch);
-            }
-        }
 
 
         //update bullets list

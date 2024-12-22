@@ -69,8 +69,8 @@ public class MainMenuScreen implements Screen {
 
 
         // buttons
-        playButton.setPosition(VIRTUAL_WIDTH / 2 - 100, VIRTUAL_HEIGHT / 2);
-        testButton.setPosition(VIRTUAL_WIDTH / 2 - 100, VIRTUAL_HEIGHT / 2 - 70);
+        playButton.setPosition(VIRTUAL_WIDTH / 2 - 150, VIRTUAL_HEIGHT / 2);
+        testButton.setPosition(VIRTUAL_WIDTH / 2 - 150, VIRTUAL_HEIGHT / 2 - 70);
         playButton.setSize(280,50);
         testButton.setSize(280, 50);
         stage.addActor(playButton);
@@ -82,7 +82,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         backgroundSprite.draw(batch);
-        font.draw(batch, "ZOMBIE SURVIVAL", VIRTUAL_WIDTH /2 - 270 , VIRTUAL_HEIGHT / 2 + 200);
+        font.draw(batch, "ZOMBIE SURVIVAL", VIRTUAL_WIDTH /2 - 325 , VIRTUAL_HEIGHT / 2 + 200);
         stage.draw();
         batch.end();
         stage.act(delta);
