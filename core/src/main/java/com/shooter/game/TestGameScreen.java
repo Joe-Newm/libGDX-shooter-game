@@ -52,6 +52,7 @@ public class TestGameScreen implements Screen {
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             togglePause();
+            stage.clear();
         }
         if (isPaused) {
             Gdx.input.setInputProcessor(stage);
