@@ -62,7 +62,7 @@ public class Logic {
         bloodSplatter[0] = new Texture("enemy/blood.png");
         bloodSplatter[1] = new Texture("enemy/blood1.png");
         bloodSplatter[2] = new Texture("enemy/blood2.png");
-        background = new Texture("map/background1.png");
+        background = new Texture("map/background1-big.png");
         shotgun = new Texture("objects/shotgun.png");
         pistol = new Texture("objects/pistol.png");
         assaultRifle = new Texture("objects/assault-rifle.png");
@@ -95,7 +95,7 @@ public class Logic {
 
         //background
         backgroundSprite = new Sprite(background);
-        backgroundSprite.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        backgroundSprite.setSize(1704 * 4, 960 * 4);
     }
 
     // init camera and viewport

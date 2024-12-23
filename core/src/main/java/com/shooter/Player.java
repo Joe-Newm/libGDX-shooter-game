@@ -47,7 +47,7 @@ public class Player {
         playTex = new Texture(Gdx.files.internal("player/player-pistol.png"));
         sprite = new Sprite(playTex);
         sprite.scale(1);
-        position = new Vector2( (Gdx.graphics.getWidth() - sprite.getWidth()) / 2, (Gdx.graphics.getHeight() - sprite.getHeight()) / 2 );
+        position = new Vector2( (1920 / 2)  , (Gdx.graphics.getHeight() - sprite.getHeight()) / 2 );
         boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
 
 
