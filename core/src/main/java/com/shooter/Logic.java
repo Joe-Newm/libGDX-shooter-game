@@ -159,6 +159,9 @@ public class Logic {
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
             difficultyTest = 1;
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+            difficultyTest = 2;
+        }
 
         // Make the camera follow the player
         camera.position.set(player.position.x, player.position.y, 0);
@@ -315,70 +318,46 @@ public class Logic {
 
     public void spawnEnemies(float delta) {
         spawnTime += delta;
+        int numEnemies = 1;
         if (difficultyTest == 0) {
-            if (spawnTime > spawnDuration) {
-                spawnTime = 0;
-
-                float x = 0, y = 0;
-                int edge = random.nextInt(4);
-
-                switch (edge) {
-                    case 0: // Top
-                        x = random.nextInt((int) viewport.getWorldWidth());
-                        y = viewport.getWorldHeight() + 50;
-                        break;
-
-                    case 1: // bottom
-                        x = random.nextInt((int) viewport.getWorldWidth());
-                        y = -50;
-                        break;
-
-                    case 2: // left
-                        x = -50;
-                        y = random.nextInt((int) viewport.getWorldHeight());
-                        break;
-
-                    case 3: // right
-                        x = viewport.getWorldWidth() + 50;
-                        y = random.nextInt((int) viewport.getWorldHeight());
-                        break;
-                }
-                enemies.add(new Enemy(x, y, 10));
-            }
+           numEnemies = 1;
         }
         if (difficultyTest == 1) {
-            if (spawnTime > spawnDuration) {
-                spawnTime = 0;
-                for (int i= 0; i < 10; i++) {
+           numEnemies = 10;
+        }
+        if (difficultyTest == 2) {numEnemies = 50;
+        }
+        if (spawnTime > spawnDuration) {
+            spawnTime = 0;
+            for (int i = 0; i < numEnemies; i++) {
                 float x = 0, y = 0;
                 int edge = random.nextInt(4);
 
                 switch (edge) {
                     case 0: // Top
-                        x = random.nextInt((int) viewport.getWorldWidth());
-                        y = viewport.getWorldHeight() + 50;
+                        x = random.nextInt((int) 1704 * 4);
+                        y = 960 * 4 + 50;
                         break;
 
                     case 1: // bottom
-                        x = random.nextInt((int) viewport.getWorldWidth());
+                        x = random.nextInt((int) 1704 * 4);
                         y = -50;
                         break;
 
                     case 2: // left
                         x = -50;
-                        y = random.nextInt((int) viewport.getWorldHeight());
+                        y = random.nextInt((int) 960 * 4);
                         break;
 
                     case 3: // right
-                        x = viewport.getWorldWidth() + 50;
-                        y = random.nextInt((int) viewport.getWorldHeight());
+                        x = 1704 * 4 + 50;
+                        y = random.nextInt((int) 960 * 4);
                         break;
                 }
                 enemies.add(new Enemy(x, y, 10));
             }
-
         }
-    }}
+    }
 
     public void dispose() {
         batch.dispose();

@@ -1,5 +1,5 @@
 d:assets:assets:0:application/unknown:1
-t:assets.txt:assets-a441a29fa637d0538bcdafc0c51972e0.txt:855:text/plain:1
+t:assets.txt:assets-e34c3b467328becbb05af010a602a05d.txt:1112:text/plain:1
 d:enemy:enemy:0:application/unknown:1
 b:enemy/blood.aseprite:enemy/blood-2ddb4febb0d092b800104b4306499810.aseprite:584:application/unknown:1
 i:enemy/blood.png:enemy/blood-18c0bb61c387c705cb832245c0afa137.png:668:image/png:1
@@ -12,11 +12,18 @@ i:enemy/zombie-flash.png:enemy/zombie-flash-34b40ae65863640d5a6ea9c1272748b7.png
 b:enemy/zombie.aseprite:enemy/zombie-882b14f28cede294d22edbcd6ff1b28d.aseprite:490:application/unknown:1
 i:enemy/zombie.png:enemy/zombie-88bc48ce69c951eff87c5e1a8e857ca0.png:454:image/png:1
 d:map:map:0:application/unknown:1
+i:map/background1-big-export.png:map/background1-big-export-57ea1582823dd2ec75e1cc50f77d6e04.png:1068979:image/png:1
+i:map/background1-big.png:map/background1-big-57ea1582823dd2ec75e1cc50f77d6e04.png:1068979:image/png:1
 b:map/background1.aseprite:map/background1-cdac8db548279cf6169b40e3d75e656f.aseprite:61710:application/unknown:1
 i:map/background1.png:map/background1-0cbd5f9f4c56ac518460d0aef11e3042.png:106346:image/png:1
 b:map/mainmenu.aseprite:map/mainmenu-0eb61e6bc6cf0e01ab6f65a1397932ba.aseprite:29045:application/unknown:1
 i:map/mainmenu.png:map/mainmenu-f3a8560f689a8ffff2ddf22d594387d9.png:40150:image/png:1
+d:music:music:0:application/unknown:1
+a:music/air-combat.mp3:music/air-combat-50cb4d533eeae3778d94bceafce28277.mp3:3997440:audio/mpeg:1
+a:music/last-days.mp3:music/last-days-1488bf216214886c41d41bbb6414e91d.mp3:1691898:audio/mpeg:1
 d:objects:objects:0:application/unknown:1
+b:objects/assault-rifle.aseprite:objects/assault-rifle-8a91520d02c273bd4537fad537ba6363.aseprite:396:application/unknown:1
+i:objects/assault-rifle.png:objects/assault-rifle-b75e13307f0e48360c4a618096cf36cd.png:235:image/png:1
 b:objects/coin.aseprite:objects/coin-9ec9bee382c01653ce7b0b7950f30515.aseprite:360:application/unknown:1
 i:objects/coin.png:objects/coin-50b87c354b45c82c3c9a89775b66fa80.png:169:image/png:1
 b:objects/pistol.aseprite:objects/pistol-06839b0882f3b0380b9c3fff37e19cc8.aseprite:368:application/unknown:1
@@ -24,6 +31,7 @@ i:objects/pistol.png:objects/pistol-09615ec8ae4c299ad6d512e6125aab13.png:206:ima
 b:objects/shotgun.aseprite:objects/shotgun-f7e927dc33ada31b6713b778fe19b0ca.aseprite:382:application/unknown:1
 i:objects/shotgun.png:objects/shotgun-2baa9a51b76eddaeaa5996968b1a9e11.png:210:image/png:1
 d:player:player:0:application/unknown:1
+i:player/assault_player.png:player/assault_player-4679394560085ac6e3d0f1c1d6f421a1.png:400:image/png:1
 i:player/bullet.png:player/bullet-51c4c44a17993c88c388810d324d7458.png:93:image/png:1
 i:player/libgdx.png:player/libgdx-3708f33d27b8977682d1bc8504e6a821.png:2458:image/png:1
 i:player/player-pistol.png:player/player-pistol-1de0c12c8e7ca0cdd8b207348ebdef57.png:389:image/png:1
@@ -41,7 +49,10 @@ t:skins/skin/default.fnt:skins/skin/default-e1d33585b7132093ad20c66e3fb30be4.fnt
 t:skins/skin/uiskin.atlas:skins/skin/uiskin-196b39599bd3da038ec41629e5d8ed03.atlas:2925:application/unknown:1
 t:skins/skin/uiskin.json:skins/skin/uiskin-3fee9ecd5d1104d94bba1de6d45b1bed.json:3331:application/json:1
 i:skins/skin/uiskin.png:skins/skin/uiskin-34b28ea01f92a90fa485f007870f9eff.png:28299:image/png:1
+d:sounds:sounds:0:application/unknown:1
+a:sounds/369528__johandeecke__short-gunshot.wav:sounds/369528__johandeecke__short-gunshot-77a79747354c10956bbb388caa3e10c2.wav:164972:audio/x-wav:1
 d:working:working:0:application/unknown:1
+b:working/assault_player.aseprite:working/assault_player-9266885cebf49a3e324958c3792fb852.aseprite:478:application/unknown:1
 b:working/shotgun_player.aseprite:working/shotgun_player-d69410b3569f12500c642d3b8d61c3fc.aseprite:472:application/unknown:1
 b:working/Sprite-0001.aseprite:working/Sprite-0001-0d0b94f87c4a93b37c917da5985a05b8.aseprite:402:application/unknown:1
 b:working/Sprite-0003.aseprite:working/Sprite-0003-a333e3b5cf66ec3b7a6eea8ce7fcddf4.aseprite:472:application/unknown:1

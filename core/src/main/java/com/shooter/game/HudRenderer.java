@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.shooter.Player;
 
+import static com.shooter.Logic.VIRTUAL_HEIGHT;
+import static com.shooter.Logic.VIRTUAL_WIDTH;
+
 public class HudRenderer {
     private BitmapFont font;
     private OrthographicCamera hudCamera;
@@ -26,7 +29,7 @@ public class HudRenderer {
         font.getData().setScale(3);
 
         hudCamera = new OrthographicCamera();
-        hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        hudCamera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
         // health bar
         Pixmap pixmapHealth = new Pixmap((int) healthBarWidth, (int) healthBarHeight, Pixmap.Format.RGBA8888);
@@ -56,10 +59,10 @@ public class HudRenderer {
         batch.setProjectionMatrix(hudCamera.combined);
 
         // update health bar position
-        healthBarSprite.setPosition( 50, 720 - 50);
-        healthBarSprite1.setPosition(50, 720 - 50);
+        healthBarSprite.setPosition( 50, 1080 - 50);
+        healthBarSprite1.setPosition(50, 1080 - 50);
         // update coin ui position
-        coinSprite.setPosition(50, 720 - 125);
+        coinSprite.setPosition(50, 1080 - 125);
 
         // update health bar
         if (player.currentHealth > 0) {
@@ -73,7 +76,7 @@ public class HudRenderer {
         batch.begin();
 
         // Draw coins
-        font.draw(batch, "x" + player.currentCoins, 100,  720 - 85);
+        font.draw(batch, "x" + player.currentCoins, 100,  1080 - 85);
         healthBarSprite1.draw(batch);
         healthBarSprite.draw(batch);
         coinSprite.draw(batch);
