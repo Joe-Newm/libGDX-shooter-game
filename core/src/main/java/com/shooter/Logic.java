@@ -195,7 +195,7 @@ public class Logic {
         for (GameObject coin : coins) {
             if (Utils.overlaps(player.coinBoundingBox,coin.boundingBox)) {
                 Vector2 direction = new Vector2(player.position).sub(coin.position).nor();
-                coin.position.add(direction.scl(200 * delta));
+                coin.position.add(direction.scl(300 * delta));
 
                 if (player.boundingBox.overlaps(coin.boundingBox)) {
                     player.currentCoins += 1;
