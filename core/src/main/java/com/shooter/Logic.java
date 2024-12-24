@@ -162,6 +162,9 @@ public class Logic {
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
             difficultyTest = 2;
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)) {
+            difficultyTest = 3;
+        }
 
         // Make the camera follow the player
         camera.position.set(player.position.x, player.position.y, 0);
@@ -206,7 +209,7 @@ public class Logic {
             for (Enemy enemy : enemies) {
                 if (bullet.boundingBox.overlaps(enemy.boundingBox)) {
                     bulletsToRemove.add(bullet);
-                    enemy.hit();
+                    enemy.hit(player.position);
                     enemy.hp -= player.weapon.damage;
 
                     int bloodchance = random(3);
@@ -290,14 +293,12 @@ public class Logic {
     public void spawnEnemies(float delta) {
         spawnTime += delta;
         int numEnemies = 1;
-        if (difficultyTest == 0) {
-           numEnemies = 1;
-        }
-        if (difficultyTest == 1) {
-           numEnemies = 10;
-        }
-        if (difficultyTest == 2) {numEnemies = 50;
-        }
+
+        if (difficultyTest == 0) {numEnemies = 1;}
+        if (difficultyTest == 1) {numEnemies = 10;}
+        if (difficultyTest == 2) {numEnemies = 50;}
+        if (difficultyTest == 3) {numEnemies = 300;}
+
         if (spawnTime > spawnDuration) {
             spawnTime = 0;
             for (int i = 0; i < numEnemies; i++) {
