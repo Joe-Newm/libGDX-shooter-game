@@ -269,35 +269,6 @@ public class Logic {
         }
     }
 
-    public void collision_enemy_to_enemy_2 () {
-        for (int i = 0; i < enemies.size(); i++) {
-            Enemy enemy1 = enemies.get(i);
-            for (int j = i + 1; j < enemies.size(); j++) {
-                Enemy enemy2 = enemies.get(j);
-
-                Vector2 direction = new Vector2(enemy1.position).sub(enemy2.position);
-                float distance = direction.len();
-
-                // find radius
-                float radius1 = enemy1.boundingBox.width / 2;
-                float radius2 = enemy2.boundingBox.width / 2;
-
-                // check overlap
-                float overlap = (radius1 + radius2) - distance;
-
-                if (overlap > 0) {
-                    direction.nor();
-
-                    // smooth correction
-                    float corrctionFactor = 0.5f;
-                    Vector2 correction = direction.scl(overlap * corrctionFactor);
-
-                    enemy1.position.add(correction);
-                    enemy2.position.add(correction);
-                }
-            }
-        }
-    }
 
     // when player gets touched by enemies
     public void collission_player_hit () {
@@ -363,5 +334,9 @@ public class Logic {
         batch.dispose();
         image.dispose();
         bulletTexture.dispose();
+        shotgun.dispose();
+        pistol.dispose();
+        coin.dispose();
+
     }
 }

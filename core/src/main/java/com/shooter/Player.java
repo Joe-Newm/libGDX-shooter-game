@@ -38,7 +38,7 @@ public class Player {
     public Texture playTex;
     public BitmapFont font;
     public int currentCoins = 0;
-    public int assaultDelay = 10;
+    public float assaultDelay = 0f;
     private Sound gunshot;
     private Sound gunshot1;
     private long soundID;
@@ -82,10 +82,10 @@ public class Player {
         //shoot
         if (this.weapon.name == "Assault"){
             if (Gdx.input.isTouched()) {
-                assaultDelay -= 1;
-                if (assaultDelay == 0) {
+                assaultDelay -= delta;
+                if (assaultDelay <= 0) {
                     weapon.attack(this, camera, player_bullets);
-                    assaultDelay = 10;
+                    assaultDelay = 0.1f;
                     gunshot.play(0.3f);
                 }
             }
