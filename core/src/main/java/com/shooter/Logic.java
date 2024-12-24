@@ -78,7 +78,7 @@ public class Logic {
         createViewport();
 
         // HUD
-        hudRenderer = new HudRenderer();
+        hudRenderer = new HudRenderer(player);
 
         // enemies for testing
         enemies.add(new Enemy(50,50, 10));
@@ -123,7 +123,7 @@ public class Logic {
         pistolObject.draw(batch);
         assaultObject.draw(batch);
         collision_enemy_to_enemy();
-        collectCoin();
+        collectCoin(delta);
 
         // game objects
         if (player.boundingBox.overlaps(shotgunObject.boundingBox)) {
@@ -190,12 +190,17 @@ public class Logic {
     }
 
     //coin collision
-    public void collectCoin() {
+    public void collectCoin(float delta) {
         ArrayList<GameObject> coinsToRemove = new ArrayList<>();
         for (GameObject coin : coins) {
-            if (player.boundingBox.overlaps(coin.boundingBox)) {
-                player.currentCoins += 1;
-                coinsToRemove.add(coin);
+            if (Utils.overlaps(player.coinBoundingBox,coin.boundingBox)) {
+                Vector2 direction = new Vector2(player.position).sub(coin.position).nor();
+                coin.position.add(direction.scl(200 * delta));
+
+                if (player.boundingBox.overlaps(coin.boundingBox)) {
+                    player.currentCoins += 1;
+                    coinsToRemove.add(coin);
+                }
             }
         }
         coins.removeAll(coinsToRemove);

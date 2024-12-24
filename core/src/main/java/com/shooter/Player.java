@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -28,6 +30,7 @@ public class Player {
     public Vector2 position;
     float speed = 300f;
     public Rectangle boundingBox;
+    public Circle coinBoundingBox;
     public int maxHealth = 1000;
     public int currentHealth = 1000;
     public int directionChange;
@@ -42,6 +45,8 @@ public class Player {
     private Sound gunshot;
     private Sound gunshot1;
     private long soundID;
+    public ShapeRenderer shapeRenderer;
+    public int coinRadius;
 
     public Player () {
         playTex = new Texture(Gdx.files.internal("player/player-pistol.png"));
@@ -49,8 +54,9 @@ public class Player {
         sprite.scale(1);
         position = new Vector2( (1920 / 2)  , (Gdx.graphics.getHeight() - sprite.getHeight()) / 2 );
         boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
-
-
+        coinRadius = 75;
+        coinBoundingBox = new Circle(getCenter(), coinRadius);
+        shapeRenderer = new ShapeRenderer();
 
         // weapons
         this.weapon = new Pistol();
@@ -64,6 +70,7 @@ public class Player {
     public void update(float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
 
         boundingBox.setPosition(position.x, position.y);
+        coinBoundingBox.setPosition(getCenter());
 
         // controls
         if (Gdx.input.isKeyPressed(Keys.A)) {
@@ -96,6 +103,16 @@ public class Player {
             }
         }
 
+//        // Set the ShapeRenderer's projection matrix to the camera's combined matrix
+//        shapeRenderer.setProjectionMatrix(camera.combined);
+//        // Begin the shape renderer in line mode
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        // Set the color for the outline
+//        shapeRenderer.setColor(0, 1, 0, 1); // Green color (RGBA)
+//        // Draw the rectangle outline
+//        shapeRenderer.circle(coinBoundingBox.x, coinBoundingBox.y, coinRadius);
+//        // End the shape renderer
+//        shapeRenderer.end();
 
 
         // player rotation
@@ -121,6 +138,10 @@ public class Player {
         if (this.weapon.name == "Assault") {
             sprite.setTexture(playTex2);
         }
+    }
+
+    private Vector2 getCenter() {
+        return new Vector2(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
     }
 
     public void draw(SpriteBatch batch, float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {

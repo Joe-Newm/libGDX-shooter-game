@@ -31,11 +31,12 @@ public class GameObject {
     }
 
     public void update() {
-
+        boundingBox.setPosition(position.x, position.y);
+        sprite.setPosition(position.x, position.y);
     }
 
     public void draw(Batch batch) {
-        sprite.setPosition(position.x, position.y);
+        update();
         sprite.draw(batch);
     }
 }

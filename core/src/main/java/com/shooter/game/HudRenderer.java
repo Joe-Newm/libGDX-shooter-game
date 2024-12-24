@@ -23,8 +23,9 @@ public class HudRenderer {
     private Sprite coinSprite;
     private float healthBarWidth = 300;
     private float healthBarHeight = 25;
+    public float currentDisplayedHealth;
 
-    public HudRenderer() {
+    public HudRenderer(Player player) {
         font = new BitmapFont();
         font.getData().setScale(3);
 
@@ -49,12 +50,14 @@ public class HudRenderer {
         pixmapHealth1.fill();
         healthBarTexture1 = new Texture(pixmapHealth1);
         healthBarSprite1 = new Sprite(healthBarTexture1);
+        currentDisplayedHealth = player.currentHealth;
 
         pixmapHealth1.dispose();
         pixmapHealth.dispose();
+
     }
 
-    public void draw(SpriteBatch batch, Player player) {
+    public void draw(SpriteBatch batch, Player player, float delta) {
         hudCamera.update();
         batch.setProjectionMatrix(hudCamera.combined);
 
@@ -66,7 +69,10 @@ public class HudRenderer {
 
         // update health bar
         if (player.currentHealth > 0) {
-            healthBarSprite.setSize((player.currentHealth / (float) player.maxHealth) * healthBarWidth, healthBarHeight);
+            float healthChangeSpeed = 5.0f;
+            currentDisplayedHealth += (player.currentHealth - currentDisplayedHealth) * healthChangeSpeed * delta;
+
+            healthBarSprite.setSize((currentDisplayedHealth / (float) player.maxHealth) * healthBarWidth , healthBarHeight);
         } else {
             healthBarSprite.setSize(0, healthBarHeight);
         }
