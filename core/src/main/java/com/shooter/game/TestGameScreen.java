@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -32,7 +34,8 @@ public class TestGameScreen implements Screen {
     public Viewport viewport;
     public SpriteBatch batch;
     public Texture backgroundPauseTex;
-    public Sprite backgroundPauseSprite;
+    public Sprite backgroundRedSprite;
+    public Sprite backgroundSprite;
     public boolean godMode = false;
     public boolean isDead = false;
 
@@ -44,10 +47,16 @@ public class TestGameScreen implements Screen {
         stage = new Stage(this.viewport);
         isPaused = false;
         batch = new SpriteBatch();
-        backgroundPauseTex = new Texture(Gdx.files.internal("map/pausemenu.png"));
-        backgroundPauseSprite = new Sprite(backgroundPauseTex);
-        backgroundPauseSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+        // red background
+        backgroundPauseTex = new Texture(Gdx.files.internal("map/pausemenu.png"));
+        backgroundRedSprite = new Sprite(backgroundPauseTex);
+        backgroundRedSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        // blue background
+        Texture background = new Texture(Gdx.files.internal("map/mainmenu.png"));
+        backgroundSprite = new Sprite(background);
+        backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // background music
         music = Gdx.audio.newMusic(Gdx.files.internal("music/air-combat.mp3"));
@@ -64,9 +73,8 @@ public class TestGameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if (!isDead && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (!isDead && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || !isDead && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             togglePause();
-            stage.clear();
         }
         if (isPaused) {
             Gdx.input.setInputProcessor(stage);
@@ -74,6 +82,7 @@ public class TestGameScreen implements Screen {
             return;
         } else {
             Gdx.input.setInputProcessor(null);
+            if (!isDead){stage.clear();}
         }
 
         if (logic.player.currentHealth <= 0) {
@@ -83,6 +92,7 @@ public class TestGameScreen implements Screen {
             return;
         } else {
             Gdx.input.setInputProcessor(null);
+            stage.clear();
         }
 
         // Godmode settings
@@ -156,8 +166,7 @@ public class TestGameScreen implements Screen {
 
         stage.act(delta);  // Update stage animations or logic
         batch.begin();
-        backgroundPauseSprite.draw(batch);
-        pauseFont.draw(batch, "PAUSED", VIRTUAL_WIDTH /2 - 450 , VIRTUAL_HEIGHT / 2 + 20);
+        backgroundSprite.draw(batch);
         batch.end();
 
         stage.draw();
@@ -191,6 +200,17 @@ public class TestGameScreen implements Screen {
             }
         });
 
+        //text
+        // Create a custom font
+        BitmapFont font = new BitmapFont(); // Default font
+        font.getData().setScale(5f); // Scale up the font size
+
+        // Create a LabelStyle with the custom font
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+
+        Label label = new Label("PAUSE", labelStyle);
+        table.add(label).pad(0,15,0,0).center();
+
         table.row().pad(10, 20, 10, 0);
         table.add(resumeButton).width(200).height(50).fillX().uniformX();
         table.row().pad(10, 20, 50, 0);
@@ -201,13 +221,10 @@ public class TestGameScreen implements Screen {
     }
 
     private void showDeathMenu(float delta) {
-        BitmapFont pauseFont = new BitmapFont();
-        pauseFont.getData().setScale(5f);
 
         stage.act(delta);  // Update stage animations or logic
         batch.begin();
-        backgroundPauseSprite.draw(batch);
-        pauseFont.draw(batch, "YOU ARE DEAD", VIRTUAL_WIDTH /2 - 580 , VIRTUAL_HEIGHT / 2 + 20);
+        backgroundRedSprite.draw(batch);
         batch.end();
 
         stage.draw();
@@ -232,6 +249,17 @@ public class TestGameScreen implements Screen {
                 game.setScreen(new MainMenuScreen(game, viewport));
             }
         });
+
+        //text
+        // Create a custom font
+        BitmapFont font = new BitmapFont(); // Default font
+        font.getData().setScale(5f); // Scale up the font size
+
+        // Create a LabelStyle with the custom font
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+
+        Label label = new Label("YOU ARE DEAD", labelStyle);
+        table.add(label).pad(0,15,0,0).center();
 
         table.row().pad(10, 20, 10, 0);
         table.add(restartButton).width(200).height(50).fillX().uniformX();

@@ -1,5 +1,5 @@
 d:assets:assets:0:application/unknown:1
-t:assets.txt:assets-e34c3b467328becbb05af010a602a05d.txt:1112:text/plain:1
+t:assets.txt:assets-d775f43adebc6d6345a8a2bdd08116ad.txt:1155:text/plain:1
 d:enemy:enemy:0:application/unknown:1
 b:enemy/blood.aseprite:enemy/blood-2ddb4febb0d092b800104b4306499810.aseprite:584:application/unknown:1
 i:enemy/blood.png:enemy/blood-18c0bb61c387c705cb832245c0afa137.png:668:image/png:1
@@ -18,6 +18,8 @@ b:map/background1.aseprite:map/background1-cdac8db548279cf6169b40e3d75e656f.asep
 i:map/background1.png:map/background1-0cbd5f9f4c56ac518460d0aef11e3042.png:106346:image/png:1
 b:map/mainmenu.aseprite:map/mainmenu-0eb61e6bc6cf0e01ab6f65a1397932ba.aseprite:29045:application/unknown:1
 i:map/mainmenu.png:map/mainmenu-f3a8560f689a8ffff2ddf22d594387d9.png:40150:image/png:1
+i:map/pausemenu-export.png:map/pausemenu-export-94bb055bf4493829cc72f05fbdd44cfe.png:41257:image/png:1
+i:map/pausemenu.png:map/pausemenu-94bb055bf4493829cc72f05fbdd44cfe.png:41257:image/png:1
 d:music:music:0:application/unknown:1
 a:music/air-combat.mp3:music/air-combat-50cb4d533eeae3778d94bceafce28277.mp3:3997440:audio/mpeg:1
 a:music/last-days.mp3:music/last-days-1488bf216214886c41d41bbb6414e91d.mp3:1691898:audio/mpeg:1
