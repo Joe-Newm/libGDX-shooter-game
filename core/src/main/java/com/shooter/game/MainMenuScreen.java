@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shooter.Logic;
 
@@ -51,10 +50,10 @@ public class MainMenuScreen implements Screen {
         //menuMusic.setVolume(0.2f);
         menuMusic.play();
 
-        playButton = new TextButton("Coming Soon", skin);
+        playButton = new TextButton("Arcade", skin);
         playButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                //game.setScreen(new MainGameScreen(game));
+                game.setScreen(new ArcadeGameScreen(game, viewport));
             }
         });
 
