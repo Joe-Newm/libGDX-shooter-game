@@ -55,6 +55,9 @@ public class ArcadeLogic {
     public ArrayList<GameObject> bloodArrayList;
     public int bloodChoice;
     public HudRenderer hudRenderer;
+    public boolean quitSpawn;
+    public int counter;
+    public boolean hasSpawned = false;
 
     public void create() {
         batch = new SpriteBatch();
@@ -73,6 +76,8 @@ public class ArcadeLogic {
         enemies = new ArrayList<>();
         bloodArrayList = new ArrayList<>();
         difficultyTest = 0;
+        quitSpawn = false;
+        counter = 5;
 
 
         createViewport();
@@ -80,12 +85,9 @@ public class ArcadeLogic {
         // HUD
         hudRenderer = new HudRenderer(player);
 
-        // enemies for testing
-        enemies.add(new Enemy(50,50, 10));
-
         // enemies spawn time
-        spawnTime = 0;
-        spawnDuration = 5;
+        spawnTime = 8;
+        spawnDuration = 10;
 
         // objects
         shotgunObject = new GameObject(100,100, shotgun);
@@ -106,7 +108,7 @@ public class ArcadeLogic {
     }
 
     public void update(float delta) {
-
+        System.out.println(spawnTime);
         backgroundSprite.draw(batch);
 
         // bloodobject
@@ -152,19 +154,19 @@ public class ArcadeLogic {
             enemy.draw(batch, delta, player.position);
         }
 
-        //change difficulty
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            difficultyTest = 0;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
-            difficultyTest = 1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
-            difficultyTest = 2;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)) {
-            difficultyTest = 3;
-        }
+//        //change difficulty
+//        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+//            difficultyTest = 0;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+//            difficultyTest = 1;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+//            difficultyTest = 2;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)) {
+//            difficultyTest = 3;
+//        }
 
         // Make the camera follow the player
         camera.position.set(player.position.x, player.position.y, 0);
@@ -298,41 +300,52 @@ public class ArcadeLogic {
     public void spawnEnemies(float delta) {
         spawnTime += delta;
         int numEnemies = 1;
+        difficultyTest = 1;
 
         if (difficultyTest == 0) {numEnemies = 1;}
         if (difficultyTest == 1) {numEnemies = 10;}
         if (difficultyTest == 2) {numEnemies = 50;}
         if (difficultyTest == 3) {numEnemies = 300;}
 
-        if (spawnTime > spawnDuration) {
-            spawnTime = 0;
-            for (int i = 0; i < numEnemies; i++) {
-                float x = 0, y = 0;
-                int edge = random.nextInt(4);
+        if (quitSpawn == false && spawnTime > spawnDuration) {
+            if (!hasSpawned) {
+                spawnTime = 0;
 
-                switch (edge) {
-                    case 0: // Top
-                        x = random.nextInt((int) 1704 * 4);
-                        y = 960 * 4 + 50;
-                        break;
-
-                    case 1: // bottom
-                        x = random.nextInt((int) 1704 * 4);
-                        y = -50;
-                        break;
-
-                    case 2: // left
-                        x = -50;
-                        y = random.nextInt((int) 960 * 4);
-                        break;
-
-                    case 3: // right
-                        x = 1704 * 4 + 50;
-                        y = random.nextInt((int) 960 * 4);
-                        break;
+                if (counter >= 5) {
+                    quitSpawn = true;
                 }
-                enemies.add(new Enemy(x, y, 10));
+                for (int i = 0; i < numEnemies; i++) {
+                    float x = 0, y = 0;
+                    int edge = random.nextInt(4);
+
+                    switch (edge) {
+                        case 0: // Top
+                            x = random.nextInt((int) 1704 * 4);
+                            y = 960 * 4 + 50;
+                            break;
+
+                        case 1: // bottom
+                            x = random.nextInt((int) 1704 * 4);
+                            y = -50;
+                            break;
+
+                        case 2: // left
+                            x = -50;
+                            y = random.nextInt((int) 960 * 4);
+                            break;
+
+                        case 3: // right
+                            x = 1704 * 4 + 50;
+                            y = random.nextInt((int) 960 * 4);
+                            break;
+                    }
+                    enemies.add(new Enemy(x, y, 10));
+                }
+                hasSpawned = true;
             }
+
+        } else {
+            hasSpawned = false;
         }
     }
 

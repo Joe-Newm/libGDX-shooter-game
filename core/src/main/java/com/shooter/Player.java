@@ -52,7 +52,7 @@ public class Player {
         playTex = new Texture(Gdx.files.internal("player/player-pistol.png"));
         sprite = new Sprite(playTex);
         sprite.scale(1);
-        position = new Vector2( (1920 / 2)  , (Gdx.graphics.getHeight() - sprite.getHeight()) / 2 );
+        position = new Vector2( (1704 * 4 / 2)  , 960 * 4 / 2 );
         boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
         coinRadius = 75;
         coinBoundingBox = new Circle(getCenter(), coinRadius);
