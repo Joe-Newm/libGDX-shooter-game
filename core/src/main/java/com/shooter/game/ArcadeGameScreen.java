@@ -88,7 +88,16 @@ public class ArcadeGameScreen implements Screen {
             return;
         } else {
             Gdx.input.setInputProcessor(null);
-            stage.clear();
+            if (!isDead){stage.clear();}
+        }
+
+        // check if won round. screen menu for next round
+        if (logic.quitSpawn == true && logic.enemies.isEmpty()) {
+            isDead = true;
+            Gdx.input.setInputProcessor(stage);
+            showNextRoundMenu(delta);
+            System.out.println("you win");
+            return;
         }
 
         // Godmode settings
@@ -255,6 +264,56 @@ public class ArcadeGameScreen implements Screen {
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
         Label label = new Label("YOU ARE DEAD", labelStyle);
+        table.add(label).pad(0,15,0,0).center();
+
+        table.row().pad(10, 20, 10, 0);
+        table.add(restartButton).width(200).height(50).fillX().uniformX();
+        table.row().pad(10, 20, 50, 0);
+        table.add(quitButton).width(200).height(50).fillX().uniformX();
+
+        stage.addActor(table); // Add the pause menu to the stage
+    }
+
+
+    private void showNextRoundMenu(float delta) {
+
+        stage.act(delta);  // Update stage animations or logic
+        batch.begin();
+        backgroundRedSprite.draw(batch);
+        batch.end();
+
+        stage.draw();
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.center();
+        Skin skin = new Skin(Gdx.files.internal("skins/skin/commodore/uiskin.json"));
+
+        TextButton restartButton = new TextButton("Restart", skin);
+        restartButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new ArcadeGameScreen(game, viewport));
+            }
+        });
+
+        TextButton quitButton = new TextButton("Quit", skin);
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new MainMenuScreen(game, viewport));
+            }
+        });
+
+        //text
+        // Create a custom font
+        BitmapFont font = new BitmapFont(); // Default font
+        font.getData().setScale(5f); // Scale up the font size
+
+        // Create a LabelStyle with the custom font
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+
+        Label label = new Label("YOU SURVIVED ROUND 1", labelStyle);
         table.add(label).pad(0,15,0,0).center();
 
         table.row().pad(10, 20, 10, 0);

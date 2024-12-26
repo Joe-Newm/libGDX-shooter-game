@@ -77,7 +77,7 @@ public class ArcadeLogic {
         bloodArrayList = new ArrayList<>();
         difficultyTest = 0;
         quitSpawn = false;
-        counter = 5;
+        counter = 0;
 
 
         createViewport();
@@ -108,7 +108,6 @@ public class ArcadeLogic {
     }
 
     public void update(float delta) {
-        System.out.println(spawnTime);
         backgroundSprite.draw(batch);
 
         // bloodobject
@@ -117,6 +116,11 @@ public class ArcadeLogic {
                 blood.draw(batch);
             }
         }
+
+        if (enemies.isEmpty()) {
+            System.out.println("enemies is empty");
+        }
+        System.out.println(quitSpawn);
 
         collision_enemy();
         spawnEnemies(delta);
@@ -310,7 +314,7 @@ public class ArcadeLogic {
         if (quitSpawn == false && spawnTime > spawnDuration) {
             if (!hasSpawned) {
                 spawnTime = 0;
-
+                counter += 1;
                 if (counter >= 5) {
                     quitSpawn = true;
                 }
