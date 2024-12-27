@@ -47,6 +47,11 @@ public class Player {
     private long soundID;
     public ShapeRenderer shapeRenderer;
     public int coinRadius;
+    public float reloadSpeed = 3f;
+    public float reloadDelay;
+    public BitmapFont reloadFont;
+    public boolean reloadTextFlag = false;
+
 
     public Player () {
         playTex = new Texture(Gdx.files.internal("player/player-pistol.png"));
@@ -57,6 +62,11 @@ public class Player {
         coinRadius = 75;
         coinBoundingBox = new Circle(getCenter(), coinRadius);
         shapeRenderer = new ShapeRenderer();
+        reloadDelay = reloadSpeed;
+
+        // reload text
+        reloadFont = new BitmapFont();
+        reloadFont.getData().scale(1);
 
         // weapons
         this.weapon = new Pistol();
@@ -87,19 +97,46 @@ public class Player {
         }
 
         //shoot
-        if (this.weapon.name == "Assault"){
-            if (Gdx.input.isTouched()) {
+        if (this.weapon.currentCapacity <= 0) {
+            reloadDelay -= delta;
+            System.out.println(reloadDelay);
+            reloadTextFlag = true;
+            if (reloadDelay <= 0f) {
+                this.weapon.currentCapacity = this.weapon.capacity;
+                reloadDelay = reloadSpeed;
+                System.out.println("reload complete");
+                reloadTextFlag = false;
+            }
+        }
+        if (this.weapon.name == "Assault") {
+            if (Gdx.input.isTouched() && reloadDelay == reloadSpeed) {
                 assaultDelay -= delta;
                 if (assaultDelay <= 0) {
+                    weapon.currentCapacity -= 1;
                     weapon.attack(this, camera, player_bullets);
                     assaultDelay = 0.1f;
                     gunshot.play(0.3f);
                 }
             }
         } else {
-            if (Gdx.input.justTouched()) {
-                weapon.attack(this, camera, player_bullets);
-                gunshot.play(0.3f);
+            if (this.weapon.currentCapacity <= 0) {
+                reloadDelay -= delta;
+                System.out.println(reloadDelay);
+                reloadTextFlag = true;
+                if (reloadDelay <= 0f) {
+                    this.weapon.currentCapacity = this.weapon.capacity;
+                    reloadDelay = reloadSpeed;
+                    reloadTextFlag = false;
+                    System.out.println("reload complete");
+                }
+            }
+            if (Gdx.input.justTouched() && reloadDelay == reloadSpeed) {
+                weapon.currentCapacity -= 1;
+                if(this.weapon.currentCapacity >= 0) {
+                    System.out.println("current cap: " + this.weapon.currentCapacity + " max cap: " + this.weapon.capacity);
+                    weapon.attack(this, camera, player_bullets);
+                    gunshot.play(0.3f);
+                }
             }
         }
 
@@ -149,5 +186,8 @@ public class Player {
         sprite.setPosition(position.x, position.y);
         sprite.draw(batch);
         //font.draw(batch, "x"+currentCoins, sprite.getX() - 895, sprite.getY() + 540 - 80);
+        if (reloadTextFlag) {
+            reloadFont.draw(batch, "reloading...", position.x - 40,position.y + 100);
+        }
     }
 }

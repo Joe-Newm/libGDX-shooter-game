@@ -14,6 +14,7 @@ import static com.shooter.Logic.VIRTUAL_WIDTH;
 
 public class HudRenderer {
     private BitmapFont font;
+    private BitmapFont ammoText;
     private OrthographicCamera hudCamera;
     private Texture healthBarTexture;
     private Texture healthBarTexture1;
@@ -38,6 +39,10 @@ public class HudRenderer {
         pixmapHealth.fill();
         healthBarTexture = new Texture(pixmapHealth);
         healthBarSprite = new Sprite(healthBarTexture);
+
+        // ammo ui
+        ammoText = new BitmapFont();
+        ammoText.getData().setScale(3);
 
         // coin ui
         coinTexture = new Texture(Gdx.files.internal("objects/coin.png"));
@@ -80,6 +85,7 @@ public class HudRenderer {
 
         // Draw coins
         font.draw(batch, "x" + player.currentCoins, 100,  1080 - 85);
+        ammoText.draw(batch, player.weapon.currentCapacity + " / " + player.weapon.capacity, 1720, 85);
         healthBarSprite1.draw(batch);
         healthBarSprite.draw(batch);
         coinSprite.draw(batch);

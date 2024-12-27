@@ -13,7 +13,7 @@ import static com.badlogic.gdx.math.MathUtils.sin;
 
 public class Pistol extends Weapon {
     public Pistol() {
-        super("Pistol", 1);
+        super("Pistol", 1, 9);
     }
 
     @Override

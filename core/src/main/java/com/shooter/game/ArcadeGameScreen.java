@@ -274,8 +274,8 @@ public class ArcadeGameScreen implements Screen {
         stage.addActor(table); // Add the pause menu to the stage
     }
 
-
     private void showNextRoundMenu(float delta) {
+        logic.round += 1;
 
         stage.act(delta);  // Update stage animations or logic
         batch.begin();

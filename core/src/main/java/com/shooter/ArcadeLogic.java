@@ -58,6 +58,7 @@ public class ArcadeLogic {
     public boolean quitSpawn;
     public int counter;
     public boolean hasSpawned = false;
+    public int round;
 
     public void create() {
         batch = new SpriteBatch();
@@ -98,6 +99,9 @@ public class ArcadeLogic {
         //background
         backgroundSprite = new Sprite(background);
         backgroundSprite.setSize(1704 * 4, 960 * 4);
+
+        // round
+        round = 1;
     }
 
     // init camera and viewport
@@ -120,7 +124,6 @@ public class ArcadeLogic {
         if (enemies.isEmpty()) {
             System.out.println("enemies is empty");
         }
-        System.out.println(quitSpawn);
 
         collision_enemy();
         spawnEnemies(delta);
@@ -315,7 +318,7 @@ public class ArcadeLogic {
             if (!hasSpawned) {
                 spawnTime = 0;
                 counter += 1;
-                if (counter >= 5) {
+                if (counter >= 2) {
                     quitSpawn = true;
                 }
                 for (int i = 0; i < numEnemies; i++) {

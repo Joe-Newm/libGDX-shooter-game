@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Assault extends Weapon{
     public Assault() {
-        super("Assault", 4);
+        super("Assault", 4, 60);
     }
 
     @Override

@@ -15,14 +15,13 @@ public class Enemy {
 
     public Sprite sprite;
     public Vector2 position;
-    float speed = 500f;
     int health;
     public Rectangle boundingBox;
     public Pixmap pixmap;
     private boolean isHit;
     private float hitTime;
     private static final float FLASH_DURATION = 0.05f;
-    private static final float SPEED = 100f;
+    private static final float speed = 150f;
     public int hp;
     public Texture tex;
     public Vector2 direction;
@@ -56,7 +55,7 @@ public class Enemy {
         // Move towards the player
         direction = new Vector2(playerPosition).sub(position).nor();
         sprite.setRotation(direction.angleDeg() - 90);
-        position.add(direction.scl(SPEED * delta));
+        position.add(direction.scl(speed * delta));
 
         // ends the flash after duration is up from being hit
         if (isHit) {
