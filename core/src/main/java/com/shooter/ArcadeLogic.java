@@ -124,7 +124,7 @@ public class ArcadeLogic {
 
         collision_enemy();
         spawnEnemies(delta);
-        collission_player_hit();
+        collission_player_hit(delta);
         shotgunObject.draw(batch);
         pistolObject.draw(batch);
         assaultObject.draw(batch);
@@ -285,7 +285,7 @@ public class ArcadeLogic {
 
 
     // when player gets touched by enemies
-    public void collission_player_hit () {
+    public void collission_player_hit (float delta) {
         boolean isTouching = false;
         for (Enemy enemy : enemies) {
             if (enemy.boundingBox.overlaps(player.boundingBox)) {
@@ -295,7 +295,7 @@ public class ArcadeLogic {
         }
         if (isTouching) {
             player.speed = 150f;
-            player.currentHealth -= 1;
+            player.currentHealth -= 500f * delta;
         } else {
             player.speed = 300f;
         }

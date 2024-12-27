@@ -69,10 +69,7 @@ public class HudRenderer {
 
         // update health bar
         if (player.currentHealth > 0) {
-            float healthChangeSpeed = 5.0f;
-            currentDisplayedHealth += (player.currentHealth - currentDisplayedHealth) * healthChangeSpeed * delta;
-
-            healthBarSprite.setSize((currentDisplayedHealth / (float) player.maxHealth) * healthBarWidth , healthBarHeight);
+            healthBarSprite.setSize((player.currentHealth / (float) player.maxHealth) * healthBarWidth , healthBarHeight);
         } else {
             healthBarSprite.setSize(0, healthBarHeight);
         }
