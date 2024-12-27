@@ -96,8 +96,10 @@ public class ArcadeGameScreen implements Screen {
             isDead = true;
             Gdx.input.setInputProcessor(stage);
             showNextRoundMenu(delta);
-            System.out.println("you win");
             return;
+        } else {
+            Gdx.input.setInputProcessor(null);
+            if (!isDead){stage.clear();}
         }
 
         // Godmode settings
@@ -275,7 +277,6 @@ public class ArcadeGameScreen implements Screen {
     }
 
     private void showNextRoundMenu(float delta) {
-        logic.round += 1;
 
         stage.act(delta);  // Update stage animations or logic
         batch.begin();
@@ -305,6 +306,20 @@ public class ArcadeGameScreen implements Screen {
             }
         });
 
+        TextButton nextRoundButton = new TextButton("Next Round", skin);
+        nextRoundButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("trying to go to next round!!!!!!");
+                isDead = false;
+                logic.round += 1;
+                logic.hasSpawned = false;
+                logic.counter = 0;
+                logic.quitSpawn = false;
+
+            }
+        });
+
         //text
         // Create a custom font
         BitmapFont font = new BitmapFont(); // Default font
@@ -313,13 +328,15 @@ public class ArcadeGameScreen implements Screen {
         // Create a LabelStyle with the custom font
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
-        Label label = new Label("YOU SURVIVED ROUND 1", labelStyle);
+        Label label = new Label("YOU SURVIVED ROUND " + logic.round, labelStyle);
         table.add(label).pad(0,15,0,0).center();
 
         table.row().pad(10, 20, 10, 0);
         table.add(restartButton).width(200).height(50).fillX().uniformX();
         table.row().pad(10, 20, 50, 0);
         table.add(quitButton).width(200).height(50).fillX().uniformX();
+        table.row().pad(10, 20, 50, 0);
+        table.add(nextRoundButton).width(200).height(50).fillX().uniformX();
 
         stage.addActor(table); // Add the pause menu to the stage
     }
