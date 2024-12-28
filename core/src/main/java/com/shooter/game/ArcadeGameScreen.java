@@ -41,6 +41,15 @@ public class ArcadeGameScreen implements Screen {
     public Sprite backgroundBlackSprite;
     public boolean godMode = false;
     public boolean isDead = false;
+    private Table table;
+    private Label coinsLabel;
+    private Label roundLabel;
+    private Skin skin;
+    private TextButton reloadButton;
+    private TextButton defenseButton;
+    private TextButton speedButton;
+    private TextButton damageButton;
+
 
     public ArcadeGameScreen(Shooter game, Viewport viewport) {
         this.game = game;
@@ -57,7 +66,7 @@ public class ArcadeGameScreen implements Screen {
         backgroundRedSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // black background
-        backgroundShopTex= new Texture(Gdx.files.internal("map/shopmenu.png"));
+        backgroundShopTex = new Texture(Gdx.files.internal("map/shopmenu.png"));
         backgroundBlackSprite = new Sprite(backgroundShopTex);
         backgroundBlackSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -90,7 +99,9 @@ public class ArcadeGameScreen implements Screen {
             return;
         } else {
             Gdx.input.setInputProcessor(null);
-            if (!isDead){stage.clear();}
+            if (!isDead) {
+                stage.clear();
+            }
         }
 
         if (logic.player.currentHealth <= 0) {
@@ -100,7 +111,7 @@ public class ArcadeGameScreen implements Screen {
             return;
         } else {
             Gdx.input.setInputProcessor(null);
-            if (!isDead){stage.clear();}
+
         }
 
         // check if won round. screen menu for next round
@@ -111,20 +122,21 @@ public class ArcadeGameScreen implements Screen {
             return;
         } else {
             Gdx.input.setInputProcessor(null);
-            if (!isDead){stage.clear();}
+            isDead = false;
+            table = null;
         }
 
         // test shop screen
         if (Gdx.input.isKeyPressed(Input.Keys.H)) {
-            System.out.println("hello");
             isDead = true;
             Gdx.input.setInputProcessor(stage);
             showNextRoundMenu(delta);
             return;
         } else {
             Gdx.input.setInputProcessor(null);
-            if (!isDead){stage.clear();}
             isDead = false;
+            table = null;
+
         }
 
         // Godmode settings
@@ -147,7 +159,7 @@ public class ArcadeGameScreen implements Screen {
 
         logic.batch.begin();
         logic.update(delta);
-        logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
+        logic.player.draw(logic.batch, delta, logic.camera, logic.player_bullets);
         logic.batch.end();
 
         logic.hudRenderer.draw(logic.batch, logic.player, delta, logic.round);
@@ -241,7 +253,7 @@ public class ArcadeGameScreen implements Screen {
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
         Label label = new Label("PAUSE", labelStyle);
-        table.add(label).pad(0,15,0,0).center();
+        table.add(label).pad(0, 15, 0, 0).center();
 
         table.row().pad(10, 20, 10, 0);
         table.add(resumeButton).width(200).height(50).fillX().uniformX();
@@ -290,7 +302,7 @@ public class ArcadeGameScreen implements Screen {
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
         Label label = new Label("YOU ARE DEAD", labelStyle);
-        table.add(label).pad(0,15,0,0).center();
+        table.add(label).pad(0, 15, 0, 0).center();
 
         table.row().pad(10, 20, 10, 0);
         table.add(restartButton).width(200).height(50).fillX().uniformX();
@@ -300,20 +312,21 @@ public class ArcadeGameScreen implements Screen {
         stage.addActor(table); // Add the pause menu to the stage
     }
 
-    private void showNextRoundMenu(float delta) {
+    private void initializeMenu() {
+        // Initialize only once
+        if (table != null) return;
 
-        stage.act(delta);  // Update stage animations or logic
         batch.begin();
         backgroundBlackSprite.draw(batch);
         batch.end();
 
-        stage.draw();
-
-        Table table = new Table();
+        table = new Table();
         table.setFillParent(true);
         table.center();
-        Skin skin = new Skin(Gdx.files.internal("skins/skin/commodore/uiskin.json"));
 
+        skin = new Skin(Gdx.files.internal("skins/skin/commodore/uiskin.json"));
+
+        // Create buttons and labels
         TextButton restartButton = new TextButton("Restart", skin);
         restartButton.addListener(new ClickListener() {
             @Override
@@ -330,29 +343,48 @@ public class ArcadeGameScreen implements Screen {
             }
         });
 
-        // shop
-
-        TextButton defenseButton = new TextButton("Buy", skin);
+        defenseButton = new TextButton("Buy (10 coins)", skin);
         defenseButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if (defenseButton.isDisabled()) return;
+
                 logic.healthLossSpeed -= 20f;
+                logic.player.currentCoins -= 10;
             }
         });
 
-        TextButton damageButton = new TextButton("Buy", skin);
+        damageButton = new TextButton("Buy (10 coins)", skin);
         damageButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if (damageButton.isDisabled()) return;
+
                 logic.player.weapon.damage += 1;
+                logic.player.currentCoins -= 10;
             }
         });
 
-        TextButton speedButton = new TextButton("Buy", skin);
+        speedButton = new TextButton("Buy (10 coins)", skin);
         speedButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if (speedButton.isDisabled()) return;
+
                 logic.player.currentSpeed += 10f;
+                logic.player.currentCoins -= 10;
+            }
+        });
+
+        reloadButton = new TextButton("Buy (10 coins)", skin);
+        reloadButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (reloadButton.isDisabled()) return;
+
+                logic.player.reloadSpeed -= .10f;
+                logic.player.reloadDelay = logic.player.reloadSpeed;
+                logic.player.currentCoins -= 10;
             }
         });
 
@@ -360,56 +392,109 @@ public class ArcadeGameScreen implements Screen {
         nextRoundButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // start next round
                 isDead = false;
                 logic.round += 1;
                 logic.hasSpawned = false;
                 logic.counter = 0;
                 logic.quitSpawn = false;
-                logic.player.position = new Vector2( (1704 * 4 / 2)  , 960 * 4 / 2 );
+                logic.player.position = new Vector2((1704 * 4 / 2), 960 * 4 / 2);
                 logic.player_bullets.clear();
 
-                // difficulty for next round
+                // Update difficulty for the next round
                 logic.waveAmount += 1;
                 logic.enemySpeed += 5f;
                 logic.spawnDuration -= 0.5f;
-                logic.numEnemies = random.nextInt(10,20);
+                logic.numEnemies = random.nextInt(10, 20);
             }
         });
 
-        // Custom font setup
-        BitmapFont font = new BitmapFont(); // Default font
-        font.getData().setScale(4f); // Scale up font size for the round label
-        BitmapFont font1 = new BitmapFont(); // Default font
-        font1.getData().setScale(2f); // Scale up font size for the round label
-// Create a LabelStyle with the custom font
+        // Font setup
+        BitmapFont font = new BitmapFont();
+        font.getData().setScale(4f);
+
+        BitmapFont font1 = new BitmapFont();
+        font1.getData().setScale(2f);
+
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         Label.LabelStyle labelStyle1 = new Label.LabelStyle(font1, Color.WHITE);
 
-// Top label for round information
-        Label roundLabel = new Label("YOU SURVIVED ROUND " + logic.round, labelStyle);
-        table.add(roundLabel).pad(0, 200, 500, 0).center();
-        table.row(); // Move to the next row
+        roundLabel = new Label("YOU SURVIVED ROUND " + logic.round, labelStyle);
+        coinsLabel = new Label("Coins: " + logic.player.currentCoins, labelStyle1);
 
-// Reduce font scale for other labels
-        Label defenseLabel = new Label("Upgrade Defense", labelStyle1);
-        Label damageLabel = new Label("Upgrade Damage", labelStyle1);
-        Label speedLabel = new Label("upgrade Speed", labelStyle1);
+        // Add components to the table
+        table.add(roundLabel).pad(0, 100, 300, -400);
+        table.row();
+        table.add(coinsLabel).pad(0, 100, 0, -400);
+        table.row();
 
-// Add the Upgrade Defense label and defenseButton in the same row
-        table.add(defenseLabel).pad(10);
-        table.add(defenseButton).width(200).height(50).pad(10);
+        table.add(new Label("Upgrade Defense", labelStyle1)).pad(10, 150, 0, 0).left();
+        table.add(defenseButton).width(250).height(50).pad(10);
         table.row();
-        table.add(damageLabel).pad(10);
-        table.add(damageButton).width(200).height(50).pad(10);
-        table.row();
-        table.add(speedLabel).pad(10);
-        table.add(speedButton).width(200).height(50).pad(10);
-        table.row();
-// Add quitButton and nextRoundButton in the next row
-        table.add(quitButton).width(200).height(50).pad(100).fillX().uniformX();
-        table.add(nextRoundButton).width(200).height(50).pad(100).fillX().uniformX();
 
-        stage.addActor(table); // Add the table to the stage
+        table.add(new Label("Upgrade Damage", labelStyle1)).pad(10, 150, 0, 0).left();
+        table.add(damageButton).width(250).height(50).pad(10);
+        table.row();
+
+        table.add(new Label("Upgrade Speed", labelStyle1)).pad(10, 150, 0, 0).left();
+        table.add(speedButton).width(250).height(50).pad(10);
+        table.row();
+
+        table.add(new Label("Upgrade Reload Speed", labelStyle1)).pad(10, 150, 200, 0).left();
+        table.add(reloadButton).width(250).height(50).pad(10,0,200,0);
+        table.row();
+
+        table.add(quitButton).width(250).height(50).pad(0, 10, 0, 0).fillX().uniformX().left();
+        table.add(nextRoundButton).width(200).height(50).pad(0, 0, 0, 10).fillX().uniformX().right();
+
+        stage.addActor(table);
+    }
+
+
+    private void showNextRoundMenu(float delta) {
+        initializeMenu();
+
+        // Update labels dynamically
+        roundLabel.setText("YOU SURVIVED ROUND " + logic.round);
+        coinsLabel.setText("Coins: " + logic.player.currentCoins);
+
+        // Update reloadButton state
+        if (logic.player.reloadSpeed <= 0.5f || logic.player.currentCoins < 10) {
+            reloadButton.setDisabled(true);
+            reloadButton.setColor(Color.GRAY);
+        } else {
+            reloadButton.setDisabled(false);
+            reloadButton.setColor(Color.WHITE);
+        }
+
+        // Update defenseButton state
+        if (logic.healthLossSpeed <= 100f || logic.player.currentCoins < 10) {
+            defenseButton.setDisabled(true);
+            defenseButton.setColor(Color.GRAY);
+        } else {
+            defenseButton.setDisabled(false);
+            defenseButton.setColor(Color.WHITE);
+        }
+
+        // Update defenseButton state
+        if (logic.player.speed >= 1000f || logic.player.currentCoins < 10) {
+            speedButton.setDisabled(true);
+            speedButton.setColor(Color.GRAY);
+        } else {
+            speedButton.setDisabled(false);
+            speedButton.setColor(Color.WHITE);
+        }
+
+
+        // Update defenseButton state
+        if (logic.player.weapon.damage >= 20 || logic.player.currentCoins < 10) {
+            damageButton.setDisabled(true);
+            damageButton.setColor(Color.GRAY);
+        } else {
+            damageButton.setDisabled(false);
+            damageButton.setColor(Color.WHITE);
+        }
+
+        stage.act(delta);
+        stage.draw();
     }
 }
