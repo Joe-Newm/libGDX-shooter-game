@@ -7,8 +7,8 @@ import com.shooter.Player;
 import java.util.ArrayList;
 
 public class Assault extends Weapon{
-    public Assault() {
-        super("Assault", 4, 60);
+    public Assault(float weaponDamage) {
+        super("Assault", weaponDamage, 60);
     }
 
     @Override

@@ -12,8 +12,8 @@ import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.sin;
 
 public class Pistol extends Weapon {
-    public Pistol() {
-        super("Pistol", 2, 15);
+    public Pistol(float weaponDamage) {
+        super("Pistol", weaponDamage, 15);
     }
 
     @Override

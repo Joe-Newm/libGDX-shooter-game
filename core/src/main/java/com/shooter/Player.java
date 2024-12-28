@@ -74,16 +74,13 @@ public class Player {
         reloadFont = new BitmapFont();
         reloadFont.getData().scale(.5f);
 
-        // weapons
-        this.weapon = new Pistol();
-
         // sound
         gunshot = Gdx.audio.newSound(Gdx.files.internal("sounds/369528__johandeecke__short-gunshot.wav"));
         gunshot1 = Gdx.audio.newSound(Gdx.files.internal("sounds/369528__johandeecke__short-gunshot.wav"));
 
     }
 
-    public void update(float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
+    public void update(float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets, float weaponDamage) {
         boundingBox.setPosition(position.x, position.y);
         coinBoundingBox.setPosition(getCenter());
         System.out.println(reloadDelay);
@@ -119,13 +116,16 @@ public class Player {
             }
 
         }
+        if (this.weapon == null) {
+            this.weapon = new Pistol(2 + weaponDamage);
+        }
 
         if (this.weapon.name == "Shotgun") {
             if (Gdx.input.justTouched() && !isReloading) {
                 weapon.currentCapacity -= 1;
                 shotgunAmmo -= 1;
                 if(shotgunAmmo <= 0) {
-                    this.weapon = new Pistol();
+                    this.weapon = new Pistol(2 + weaponDamage);
                 }
                 if(this.weapon.currentCapacity > 0) {
                     System.out.println("current cap: " + this.weapon.currentCapacity + " max cap: " + this.weapon.capacity);
@@ -144,7 +144,7 @@ public class Player {
             if (Gdx.input.isTouched() && !isReloading) {
                 assaultDelay -= delta;
                 if (assaultAmmo <= 0) {
-                    this.weapon = new Pistol();
+                    this.weapon = new Pistol(2 + weaponDamage);
                 }
                 if (assaultDelay <= 0) {
                     weapon.currentCapacity -= 1;
@@ -221,8 +221,8 @@ public class Player {
         return new Vector2(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
     }
 
-    public void draw(SpriteBatch batch, float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
-        update(delta, camera, player_bullets);
+    public void draw(SpriteBatch batch, float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets, float weaponDamage) {
+        update(delta, camera, player_bullets, weaponDamage);
         sprite.setPosition(position.x, position.y);
         sprite.draw(batch);
         //font.draw(batch, "x"+currentCoins, sprite.getX() - 895, sprite.getY() + 540 - 80);

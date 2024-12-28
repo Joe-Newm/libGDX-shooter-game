@@ -44,11 +44,20 @@ public class ArcadeGameScreen implements Screen {
     private Table table;
     private Label coinsLabel;
     private Label roundLabel;
+    private Label defenseLabel;
+    private Label damageLabel;
+    private Label reloadLabel;
+    private Label speedLabel;
     private Skin skin;
     private TextButton reloadButton;
     private TextButton defenseButton;
     private TextButton speedButton;
     private TextButton damageButton;
+
+    private int reloadButtonCounter = 0;
+    private int defenseButtonCounter = 0;
+    private int speedButtonCounter = 0;
+    private int damageButtonCounter = 0;
 
 
     public ArcadeGameScreen(Shooter game, Viewport viewport) {
@@ -158,7 +167,7 @@ public class ArcadeGameScreen implements Screen {
 
         logic.batch.begin();
         logic.update(delta);
-        logic.player.draw(logic.batch, delta, logic.camera, logic.player_bullets);
+        logic.player.draw(logic.batch, delta, logic.camera, logic.player_bullets, logic.weaponDamageModifier);
         logic.batch.end();
 
         logic.hudRenderer.draw(logic.batch, logic.player, delta, logic.round);
@@ -295,13 +304,19 @@ public class ArcadeGameScreen implements Screen {
         //text
         // Create a custom font
         BitmapFont font = new BitmapFont(); // Default font
+        BitmapFont font1 = new BitmapFont(); // Default font
         font.getData().setScale(5f); // Scale up the font size
+        font1.getData().setScale(2f);
 
         // Create a LabelStyle with the custom font
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+        Label.LabelStyle labelStyle1 = new Label.LabelStyle(font1, Color.WHITE);
 
         Label label = new Label("YOU ARE DEAD", labelStyle);
+        Label label1 = new Label("You Made it to Round " + logic.round, labelStyle1);
         table.add(label).pad(0, 15, 0, 0).center();
+        table.row();
+        table.add(label1).pad(0, 15, 0, 0).center();
 
         table.row().pad(10, 20, 10, 0);
         table.add(restartButton).width(200).height(50).fillX().uniformX();
@@ -350,6 +365,7 @@ public class ArcadeGameScreen implements Screen {
 
                 logic.healthLossSpeed -= 20f;
                 logic.player.currentCoins -= 10;
+                defenseButtonCounter += 1;
             }
         });
 
@@ -359,8 +375,9 @@ public class ArcadeGameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (damageButton.isDisabled()) return;
 
-                logic.player.weapon.damage += 1;
+                logic.weaponDamageModifier += .2f;
                 logic.player.currentCoins -= 10;
+                damageButtonCounter += 1;
             }
         });
 
@@ -372,6 +389,7 @@ public class ArcadeGameScreen implements Screen {
 
                 logic.player.currentSpeed += 10f;
                 logic.player.currentCoins -= 10;
+                speedButtonCounter += 1;
             }
         });
 
@@ -384,6 +402,7 @@ public class ArcadeGameScreen implements Screen {
                 logic.player.reloadSpeed -= .10f;
                 logic.player.reloadDelay = logic.player.reloadSpeed;
                 logic.player.currentCoins -= 10;
+                reloadButtonCounter += 1;
             }
         });
 
@@ -403,7 +422,7 @@ public class ArcadeGameScreen implements Screen {
                 logic.waveAmount += 1;
                 logic.enemySpeed += 5f;
                 logic.spawnDuration -= 0.5f;
-                logic.numEnemies = random.nextInt(10, 20);
+                logic.numEnemies = 10 + random.nextInt(20 - 10); //
             }
         });
 
@@ -420,25 +439,30 @@ public class ArcadeGameScreen implements Screen {
         roundLabel = new Label("YOU SURVIVED ROUND " + logic.round, labelStyle);
         coinsLabel = new Label("Coins: " + logic.player.currentCoins, labelStyle1);
 
+        defenseLabel = new Label("Upgrade Defense + " + defenseButtonCounter , labelStyle1);
+        damageLabel = new Label("Upgrade Damage + " + damageButtonCounter, labelStyle1);
+        speedLabel = new Label("Upgrade Speed + " + speedButtonCounter, labelStyle1);
+        reloadLabel = new Label("Upgrade Reload + " + reloadButtonCounter, labelStyle1);
+
         // Add components to the table
         table.add(roundLabel).pad(0, 100, 300, -400);
         table.row();
         table.add(coinsLabel).pad(0, 100, 0, -400);
         table.row();
 
-        table.add(new Label("Upgrade Defense", labelStyle1)).pad(10, 150, 0, 0).left();
+        table.add(defenseLabel).pad(10, 150, 0, 0).left();
         table.add(defenseButton).width(250).height(50).pad(10);
         table.row();
 
-        table.add(new Label("Upgrade Damage", labelStyle1)).pad(10, 150, 0, 0).left();
+        table.add(damageLabel).pad(10, 150, 0, 0).left();
         table.add(damageButton).width(250).height(50).pad(10);
         table.row();
 
-        table.add(new Label("Upgrade Speed", labelStyle1)).pad(10, 150, 0, 0).left();
+        table.add(speedLabel).pad(10, 150, 0, 0).left();
         table.add(speedButton).width(250).height(50).pad(10);
         table.row();
 
-        table.add(new Label("Upgrade Reload Speed", labelStyle1)).pad(10, 150, 200, 0).left();
+        table.add(reloadLabel).pad(10, 150, 200, 0).left();
         table.add(reloadButton).width(250).height(50).pad(10,0,200,0);
         table.row();
 
@@ -455,6 +479,12 @@ public class ArcadeGameScreen implements Screen {
         // Update labels dynamically
         roundLabel.setText("YOU SURVIVED ROUND " + logic.round);
         coinsLabel.setText("Coins: " + logic.player.currentCoins);
+
+        damageLabel.setText("Upgrade Damage + " + damageButtonCounter);
+        speedLabel.setText("Upgrade Speed + " + speedButtonCounter);
+        reloadLabel.setText("Upgrade Reload + " + reloadButtonCounter);
+        defenseLabel.setText("Upgrade Defense + " + defenseButtonCounter);
+
 
         // Update reloadButton state
         if (logic.player.reloadSpeed <= 0.5f || logic.player.currentCoins < 10) {
@@ -485,7 +515,7 @@ public class ArcadeGameScreen implements Screen {
 
 
         // Update defenseButton state
-        if (logic.player.weapon.damage >= 20 || logic.player.currentCoins < 10) {
+        if (logic.weaponDamageModifier >= 20f || logic.player.currentCoins < 10) {
             damageButton.setDisabled(true);
             damageButton.setColor(Color.GRAY);
         } else {

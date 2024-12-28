@@ -64,6 +64,7 @@ public class ArcadeLogic {
     public float enemySpeed = 150f;
     public int numEnemies = 10;
     public float healthLossSpeed = 500f;
+    public float weaponDamageModifier = 0f;
 
     public void create() {
         batch = new SpriteBatch();
@@ -206,12 +207,12 @@ public class ArcadeLogic {
         for (GameObject weapon : weapons) {
             if (player.boundingBox.overlaps(weapon.boundingBox)) {
                 if (weapon.name == "shotgun") {
-                    player.weapon = new Shotgun();
+                    player.weapon = new Shotgun(2 + weaponDamageModifier);
                     player.shotgunAmmo = 30;
                     weaponsToRemove.add(weapon);
                 }
                 if (weapon.name == "assault") {
-                    player.weapon = new Assault();
+                    player.weapon = new Assault(4 + weaponDamageModifier);
                     player.assaultAmmo = 119;
                     weaponsToRemove.add(weapon);
                 }

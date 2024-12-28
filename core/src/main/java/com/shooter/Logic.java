@@ -126,15 +126,15 @@ public class Logic {
         collectCoin(delta);
 
         // game objects
-        if (player.boundingBox.overlaps(shotgunObject.boundingBox)) {
-            player.weapon = new Shotgun();
-        }
-        if (player.boundingBox.overlaps(pistolObject.boundingBox)) {
-            player.weapon = new Pistol();
-        }
-        if (player.boundingBox.overlaps(assaultObject.boundingBox)) {
-            player.weapon = new Assault();
-        }
+//        if (player.boundingBox.overlaps(shotgunObject.boundingBox)) {
+//            player.weapon = new Shotgun();
+//        }
+//        if (player.boundingBox.overlaps(pistolObject.boundingBox)) {
+//            player.weapon = new Pistol();
+//        }
+//        if (player.boundingBox.overlaps(assaultObject.boundingBox)) {
+//            player.weapon = new Assault();
+//        }
 
         //update bullets list
         for (Bullet bullet : player_bullets) {
