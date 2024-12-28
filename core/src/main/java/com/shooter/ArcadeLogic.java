@@ -63,6 +63,7 @@ public class ArcadeLogic {
     public int waveAmount = 2;
     public float enemySpeed = 150f;
     public int numEnemies = 10;
+    public float healthLossSpeed = 500f;
 
     public void create() {
         batch = new SpriteBatch();
@@ -206,7 +207,7 @@ public class ArcadeLogic {
             if (player.boundingBox.overlaps(weapon.boundingBox)) {
                 if (weapon.name == "shotgun") {
                     player.weapon = new Shotgun();
-                    player.shotgunAmmo = 29;
+                    player.shotgunAmmo = 30;
                     weaponsToRemove.add(weapon);
                 }
                 if (weapon.name == "assault") {
@@ -347,9 +348,9 @@ public class ArcadeLogic {
         }
         if (isTouching) {
             player.speed = 150f;
-            player.currentHealth -= 500f * delta;
+            player.currentHealth -= healthLossSpeed * delta;
         } else {
-            player.speed = 300f;
+            player.speed = player.currentSpeed;
         }
     }
 

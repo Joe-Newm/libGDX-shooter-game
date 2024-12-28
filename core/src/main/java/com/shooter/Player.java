@@ -28,7 +28,8 @@ import static com.badlogic.gdx.math.MathUtils.sin;
 public class Player {
     public Sprite sprite;
     public Vector2 position;
-    float speed = 300f;
+    public float speed;
+    public float currentSpeed;
     public Rectangle boundingBox;
     public Circle coinBoundingBox;
     public int maxHealth = 1000;
@@ -66,6 +67,8 @@ public class Player {
         coinBoundingBox = new Circle(getCenter(), coinRadius);
         shapeRenderer = new ShapeRenderer();
         reloadDelay = reloadSpeed;
+        currentSpeed = 300f;
+        speed = currentSpeed;
 
         // reload text
         reloadFont = new BitmapFont();
@@ -224,7 +227,7 @@ public class Player {
         sprite.draw(batch);
         //font.draw(batch, "x"+currentCoins, sprite.getX() - 895, sprite.getY() + 540 - 80);
         if (reloadTextFlag) {
-            reloadFont.draw(batch, "reloading...", position.x - 30,position.y + 100);
+            reloadFont.draw(batch, "reloading...", position.x - 30,position.y + 120);
         }
     }
 }
