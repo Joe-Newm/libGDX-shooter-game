@@ -127,16 +127,16 @@ public class ArcadeGameScreen implements Screen {
         }
 
         // test shop screen
-        if (Gdx.input.isKeyPressed(Input.Keys.H)) {
-            isDead = true;
-            Gdx.input.setInputProcessor(stage);
-            showNextRoundMenu(delta);
-            return;
-        } else {
-            Gdx.input.setInputProcessor(null);
-            isDead = false;
-            table = null;
-        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.H)) {
+//            isDead = true;
+//            Gdx.input.setInputProcessor(stage);
+//            showNextRoundMenu(delta);
+//            return;
+//        } else {
+//            Gdx.input.setInputProcessor(null);
+//            isDead = false;
+//            table = null;
+//        }
 
         // Godmode settings
         if (godMode) {
