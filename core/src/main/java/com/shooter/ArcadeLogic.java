@@ -35,6 +35,7 @@ public class ArcadeLogic {
     public ArrayList<Enemy> enemies;
     public ArrayList<Bullet> player_bullets;
     public ArrayList<GameObject> coins;
+    public ArrayList<GameObject> weapons;
     public static final int VIRTUAL_WIDTH = 1920;
     public static final int VIRTUAL_HEIGHT = 1080;
     public float spawnTime;
@@ -61,6 +62,7 @@ public class ArcadeLogic {
     public int round;
     public int waveAmount = 2;
     public float enemySpeed = 150f;
+    public int numEnemies = 10;
 
     public void create() {
         batch = new SpriteBatch();
@@ -95,10 +97,11 @@ public class ArcadeLogic {
         spawnDuration = 10f;
 
         // objects
-        shotgunObject = new GameObject(100,100, shotgun);
-        pistolObject = new GameObject(100, 200, pistol );
-        assaultObject = new GameObject(100,300, assaultRifle);
-        coinObject = new GameObject(100, 300, coin);
+//        shotgunObject = new GameObject(100,100, shotgun);
+//        pistolObject = new GameObject(100, 200, pistol );
+//        assaultObject = new GameObject(100,300, assaultRifle);
+//        coinObject = new GameObject(100, 300, coin);
+        weapons = new ArrayList<>();
 
         //background
         backgroundSprite = new Sprite(background);
@@ -132,21 +135,28 @@ public class ArcadeLogic {
         collision_enemy();
         spawnEnemies(delta);
         collission_player_hit(delta);
-        shotgunObject.draw(batch);
-        pistolObject.draw(batch);
-        assaultObject.draw(batch);
+        weaponsObjectCollision();
+//        shotgunObject.draw(batch);
+//        pistolObject.draw(batch);
+//        assaultObject.draw(batch);
         collision_enemy_to_enemy();
         collectCoin(delta);
 
+
         // game objects
-        if (player.boundingBox.overlaps(shotgunObject.boundingBox)) {
-            player.weapon = new Shotgun();
-        }
-        if (player.boundingBox.overlaps(pistolObject.boundingBox)) {
-            player.weapon = new Pistol();
-        }
-        if (player.boundingBox.overlaps(assaultObject.boundingBox)) {
-            player.weapon = new Assault();
+//        if (player.boundingBox.overlaps(shotgunObject.boundingBox)) {
+//            player.weapon = new Shotgun();
+//        }
+//        if (player.boundingBox.overlaps(pistolObject.boundingBox)) {
+//            player.weapon = new Pistol();
+//        }
+//        if (player.boundingBox.overlaps(assaultObject.boundingBox)) {
+//            player.weapon = new Assault();
+//        }
+
+        // update weapons list
+        for (GameObject weapon : weapons) {
+            weapon.draw(batch);
         }
 
         //update bullets list
@@ -189,6 +199,26 @@ public class ArcadeLogic {
 
     }
 
+    //update weapons list
+    public void weaponsObjectCollision(){
+        ArrayList<GameObject> weaponsToRemove = new ArrayList<>();
+        for (GameObject weapon : weapons) {
+            if (player.boundingBox.overlaps(weapon.boundingBox)) {
+                if (weapon.name == "shotgun") {
+                    player.weapon = new Shotgun();
+                    player.shotgunAmmo = 29;
+                    weaponsToRemove.add(weapon);
+                }
+                if (weapon.name == "assault") {
+                    player.weapon = new Assault();
+                    player.assaultAmmo = 119;
+                    weaponsToRemove.add(weapon);
+                }
+            }
+        }
+        weapons.removeAll(weaponsToRemove);
+    }
+
     public void full() {
         // toggle fullscreen
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
@@ -219,7 +249,6 @@ public class ArcadeLogic {
         coins.removeAll(coinsToRemove);
     }
 
-
     // when enemy gets hit
     public void collision_enemy() {
         ArrayList<Bullet> bulletsToRemove = new ArrayList<>();
@@ -233,22 +262,38 @@ public class ArcadeLogic {
                     int bloodchance = random(3);
                     if (bloodchance == 0) {
                         bloodChoice = random(bloodSplatter.length - 1);
-                        bloodArrayList.add(new GameObject((int) enemy.position.x, (int) enemy.position.y, bloodSplatter[bloodChoice]));
+                        bloodArrayList.add(new GameObject((int) enemy.position.x, (int) enemy.position.y, bloodSplatter[bloodChoice], "blood"));
                     }
+
                 }
             }
         }
         player_bullets.removeAll(bulletsToRemove);
+
+        int weaponchance = random(6);
         // enemy death
         ArrayList<Enemy> enemiesToRemove = new ArrayList<>();
         for (Enemy enemy : enemies) {
             if (enemy.hp <= 0) {
                 enemiesToRemove.add(enemy);
-                coins.add(new GameObject((int)enemy.position.x, (int)enemy.position.y, coin));
+                coins.add(new GameObject((int)enemy.position.x, (int)enemy.position.y, coin, "coin"));
+
+                if (weaponchance == 0) {
+                    int weaponChoice = random(2);
+                    if (weaponChoice == 0) {
+                        weapons.add(new GameObject((int)enemy.position.x, (int)enemy.position.y, shotgun, "shotgun"));
+                    } else if (weaponChoice == 1) {
+                        weapons.add(new GameObject((int) enemy.position.x, (int) enemy.position.y, assaultRifle, "assault"));
+                    }
+
+                }
             }
         }
         enemies.removeAll(enemiesToRemove);
     }
+
+    //when player touches weapon
+
 
     // when enemy touches other enemies
     public void collision_enemy_to_enemy() {
@@ -310,13 +355,13 @@ public class ArcadeLogic {
 
     public void spawnEnemies(float delta) {
         spawnTime += delta;
-        int numEnemies = 1;
-        difficultyTest = 1;
-
-        if (difficultyTest == 0) {numEnemies = 1;}
-        if (difficultyTest == 1) {numEnemies = 10;}
-        if (difficultyTest == 2) {numEnemies = 50;}
-        if (difficultyTest == 3) {numEnemies = 300;}
+//        numEnemies = 1;
+//        difficultyTest = 1;
+//
+//        if (difficultyTest == 0) {numEnemies = 1;}
+//        if (difficultyTest == 1) {numEnemies = 10;}
+//        if (difficultyTest == 2) {numEnemies = 50;}
+//        if (difficultyTest == 3) {numEnemies = 300;}
 
         if (quitSpawn == false && spawnTime > spawnDuration) {
             if (!hasSpawned) {

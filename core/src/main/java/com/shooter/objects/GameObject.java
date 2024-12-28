@@ -13,17 +13,11 @@ public class GameObject {
     public Vector2 position;
     public Sprite sprite;
     public Rectangle boundingBox;
+    public String image;
+    public String name;
 
-    public GameObject(int x, int y,Texture img) {
-        Pixmap pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
-//        if (color == "blue"){
-//
-//            pixmap.setColor(Color.BLUE);
-//        } else {
-//
-//            pixmap.setColor(Color.WHITE);
-//        }
-//        pixmap.fill();
+    public GameObject(int x, int y,Texture img, String objectName) {
+        name = objectName;
         sprite = new Sprite(img);
         sprite.scale(1);
         position = new Vector2(x, y);

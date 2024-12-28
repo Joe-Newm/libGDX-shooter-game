@@ -88,10 +88,10 @@ public class Logic {
         spawnDuration = 5;
 
         // objects
-        shotgunObject = new GameObject(100,100, shotgun);
-        pistolObject = new GameObject(100, 200, pistol );
-        assaultObject = new GameObject(100,300, assaultRifle);
-        coinObject = new GameObject(100, 300, coin);
+        shotgunObject = new GameObject(100,100, shotgun, "shotgun");
+        pistolObject = new GameObject(100, 200, pistol , "pistol");
+        assaultObject = new GameObject(100,300, assaultRifle, "assault");
+        coinObject = new GameObject(100, 300, coin, "coin");
 
         //background
         backgroundSprite = new Sprite(background);
@@ -220,7 +220,7 @@ public class Logic {
                     int bloodchance = random(3);
                     if (bloodchance == 0) {
                         bloodChoice = random(bloodSplatter.length - 1);
-                        bloodArrayList.add(new GameObject((int) enemy.position.x, (int) enemy.position.y, bloodSplatter[bloodChoice]));
+                        bloodArrayList.add(new GameObject((int) enemy.position.x, (int) enemy.position.y, bloodSplatter[bloodChoice], "blood"));
                     }
                 }
             }
@@ -231,7 +231,7 @@ public class Logic {
         for (Enemy enemy : enemies) {
             if (enemy.hp <= 0) {
                 enemiesToRemove.add(enemy);
-                coins.add(new GameObject((int)enemy.position.x, (int)enemy.position.y, coin));
+                coins.add(new GameObject((int)enemy.position.x, (int)enemy.position.y, coin, "coin"));
             }
         }
         enemies.removeAll(enemiesToRemove);

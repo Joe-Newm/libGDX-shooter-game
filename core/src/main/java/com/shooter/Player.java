@@ -47,10 +47,13 @@ public class Player {
     private long soundID;
     public ShapeRenderer shapeRenderer;
     public int coinRadius;
-    public float reloadSpeed = 3f;
+    public float reloadSpeed = 2f;
     public float reloadDelay;
     public BitmapFont reloadFont;
     public boolean reloadTextFlag = false;
+    public boolean isReloading = false;
+    public int assaultAmmo = 119;
+    public int shotgunAmmo = 29;
 
 
     public Player () {
@@ -66,7 +69,7 @@ public class Player {
 
         // reload text
         reloadFont = new BitmapFont();
-        reloadFont.getData().scale(1);
+        reloadFont.getData().scale(.5f);
 
         // weapons
         this.weapon = new Pistol();
@@ -78,9 +81,9 @@ public class Player {
     }
 
     public void update(float delta, OrthographicCamera camera, ArrayList<Bullet> player_bullets) {
-
         boundingBox.setPosition(position.x, position.y);
         coinBoundingBox.setPosition(getCenter());
+        System.out.println(reloadDelay);
 
         // controls
         if (Gdx.input.isKeyPressed(Keys.A)) {
@@ -95,51 +98,81 @@ public class Player {
         if (Gdx.input.isKeyPressed(Keys.W)) {
             position.y += delta * speed;
         }
+        //reload button
+        if (Gdx.input.isKeyPressed(Keys.R)) {
+            isReloading = true;
+        }
 
-        //shoot
-        if (this.weapon.currentCapacity <= 0) {
+        // reload logic
+        if (isReloading) {
             reloadDelay -= delta;
             System.out.println(reloadDelay);
             reloadTextFlag = true;
             if (reloadDelay <= 0f) {
                 this.weapon.currentCapacity = this.weapon.capacity;
                 reloadDelay = reloadSpeed;
-                System.out.println("reload complete");
                 reloadTextFlag = false;
+                isReloading = false;
             }
+
         }
-        if (this.weapon.name == "Assault") {
-            if (Gdx.input.isTouched() && reloadDelay == reloadSpeed) {
-                assaultDelay -= delta;
-                if (assaultDelay <= 0) {
-                    weapon.currentCapacity -= 1;
-                    weapon.attack(this, camera, player_bullets);
-                    assaultDelay = 0.1f;
-                    gunshot.play(0.3f);
-                }
-            }
-        } else {
-            if (this.weapon.currentCapacity <= 0) {
-                reloadDelay -= delta;
-                System.out.println(reloadDelay);
-                reloadTextFlag = true;
-                if (reloadDelay <= 0f) {
-                    this.weapon.currentCapacity = this.weapon.capacity;
-                    reloadDelay = reloadSpeed;
-                    reloadTextFlag = false;
-                    System.out.println("reload complete");
-                }
-            }
-            if (Gdx.input.justTouched() && reloadDelay == reloadSpeed) {
+
+        if (this.weapon.name == "Shotgun") {
+            if (Gdx.input.justTouched() && !isReloading) {
                 weapon.currentCapacity -= 1;
-                if(this.weapon.currentCapacity >= 0) {
+                shotgunAmmo -= 1;
+                if(shotgunAmmo <= 0) {
+                    this.weapon = new Pistol();
+                }
+                if(this.weapon.currentCapacity > 0) {
                     System.out.println("current cap: " + this.weapon.currentCapacity + " max cap: " + this.weapon.capacity);
                     weapon.attack(this, camera, player_bullets);
                     gunshot.play(0.3f);
+                } else if(this.weapon.currentCapacity <= 0 && !isReloading) {
+                    weapon.attack(this, camera, player_bullets);
+                    gunshot.play(0.3f);
+                    isReloading = true;
                 }
             }
         }
 
+        //shoot
+        else if (this.weapon.name == "Assault") {
+            if (Gdx.input.isTouched() && !isReloading) {
+                assaultDelay -= delta;
+                if (assaultAmmo <= 0) {
+                    this.weapon = new Pistol();
+                }
+                if (assaultDelay <= 0) {
+                    weapon.currentCapacity -= 1;
+                    assaultAmmo -= 1;
+                    if(weapon.currentCapacity <= 0 && !isReloading) {
+                        weapon.attack(this,camera,player_bullets);
+                        gunshot.play(0.3f);
+                        isReloading = true;
+                    }else {
+                        weapon.attack(this, camera, player_bullets);
+                        assaultDelay = 0.1f;
+                        gunshot.play(0.3f);
+                    }
+                }
+            }
+        } else {
+            if (Gdx.input.justTouched() && !isReloading) {
+                weapon.currentCapacity -= 1;
+                if(this.weapon.currentCapacity > 0) {
+                    System.out.println("current cap: " + this.weapon.currentCapacity + " max cap: " + this.weapon.capacity);
+                    weapon.attack(this, camera, player_bullets);
+                    gunshot.play(0.3f);
+                } else if(this.weapon.currentCapacity <= 0 && !isReloading) {
+                    weapon.attack(this, camera, player_bullets);
+                    gunshot.play(0.3f);
+                    isReloading = true;
+                }
+            }
+        }
+
+        // debug
 //        // Set the ShapeRenderer's projection matrix to the camera's combined matrix
 //        shapeRenderer.setProjectionMatrix(camera.combined);
 //        // Begin the shape renderer in line mode
@@ -177,6 +210,10 @@ public class Player {
         }
     }
 
+    public void reload(float delta) {
+        reloadDelay -= delta;
+    }
+
     private Vector2 getCenter() {
         return new Vector2(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
     }
@@ -187,7 +224,7 @@ public class Player {
         sprite.draw(batch);
         //font.draw(batch, "x"+currentCoins, sprite.getX() - 895, sprite.getY() + 540 - 80);
         if (reloadTextFlag) {
-            reloadFont.draw(batch, "reloading...", position.x - 40,position.y + 100);
+            reloadFont.draw(batch, "reloading...", position.x - 30,position.y + 100);
         }
     }
 }

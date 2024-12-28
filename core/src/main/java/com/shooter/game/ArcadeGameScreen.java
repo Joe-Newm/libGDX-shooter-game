@@ -23,6 +23,8 @@ import com.shooter.ArcadeLogic;
 import com.shooter.Enemy;
 import com.shooter.Logic;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 public class ArcadeGameScreen implements Screen {
     private Shooter game;
     private ArcadeLogic logic;
@@ -139,7 +141,7 @@ public class ArcadeGameScreen implements Screen {
 
     @Override
     public void pause() {
-        isPaused = true;
+        //isPaused = true;
     }
 
     @Override
@@ -326,7 +328,7 @@ public class ArcadeGameScreen implements Screen {
                 logic.waveAmount += 1;
                 logic.enemySpeed += 10f;
                 logic.spawnDuration -= 0.5f;
-
+                logic.numEnemies = random.nextInt(10,20);
             }
         });
 
@@ -345,8 +347,6 @@ public class ArcadeGameScreen implements Screen {
         table.row().pad(10, 20, 50, 0);
         table.add(nextRoundButton).width(200).height(50).fillX().uniformX();
 
-        table.row().pad(10, 20, 10, 0);
-        table.add(restartButton).width(200).height(50).fillX().uniformX();
         table.row().pad(10, 20, 50, 0);
         table.add(quitButton).width(200).height(50).fillX().uniformX();
 
