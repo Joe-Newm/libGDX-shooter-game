@@ -59,6 +59,8 @@ public class ArcadeLogic {
     public int counter;
     public boolean hasSpawned = false;
     public int round;
+    public int waveAmount = 2;
+    public float enemySpeed = 150f;
 
     public void create() {
         batch = new SpriteBatch();
@@ -71,9 +73,11 @@ public class ArcadeLogic {
         pistol = new Texture("objects/pistol.png");
         assaultRifle = new Texture("objects/assault-rifle.png");
         coin = new Texture("objects/coin.png");
+
         player = new Player();
         player_bullets = new ArrayList<>();
         coins = new ArrayList<>();
+
         enemies = new ArrayList<>();
         bloodArrayList = new ArrayList<>();
         difficultyTest = 0;
@@ -88,7 +92,7 @@ public class ArcadeLogic {
 
         // enemies spawn time
         spawnTime = 8;
-        spawnDuration = 10;
+        spawnDuration = 10f;
 
         // objects
         shotgunObject = new GameObject(100,100, shotgun);
@@ -318,7 +322,7 @@ public class ArcadeLogic {
             if (!hasSpawned) {
                 spawnTime = 0;
                 counter += 1;
-                if (counter >= 2) {
+                if (counter >= waveAmount) {
                     quitSpawn = true;
                 }
                 for (int i = 0; i < numEnemies; i++) {
@@ -346,7 +350,7 @@ public class ArcadeLogic {
                             y = random.nextInt((int) 960 * 4);
                             break;
                     }
-                    enemies.add(new Enemy(x, y, 10));
+                    enemies.add(new Enemy(x, y, 10, enemySpeed));
                 }
                 hasSpawned = true;
             }

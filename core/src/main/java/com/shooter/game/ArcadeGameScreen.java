@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shooter.ArcadeLogic;
+import com.shooter.Enemy;
 import com.shooter.Logic;
 
 public class ArcadeGameScreen implements Screen {
@@ -125,7 +127,7 @@ public class ArcadeGameScreen implements Screen {
         logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
         logic.batch.end();
 
-        logic.hudRenderer.draw(logic.batch, logic.player, delta);
+        logic.hudRenderer.draw(logic.batch, logic.player, delta, logic.round);
 
 
     }
@@ -245,7 +247,7 @@ public class ArcadeGameScreen implements Screen {
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new TestGameScreen(game, viewport));
+                game.setScreen(new ArcadeGameScreen(game, viewport));
             }
         });
 
@@ -311,11 +313,19 @@ public class ArcadeGameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("trying to go to next round!!!!!!");
+                // start next round
                 isDead = false;
                 logic.round += 1;
                 logic.hasSpawned = false;
                 logic.counter = 0;
                 logic.quitSpawn = false;
+                logic.player.position = new Vector2( (1704 * 4 / 2)  , 960 * 4 / 2 );
+                logic.player_bullets.clear();
+
+                // difficulty for next round
+                logic.waveAmount += 1;
+                logic.enemySpeed += 10f;
+                logic.spawnDuration -= 0.5f;
 
             }
         });
@@ -331,12 +341,14 @@ public class ArcadeGameScreen implements Screen {
         Label label = new Label("YOU SURVIVED ROUND " + logic.round, labelStyle);
         table.add(label).pad(0,15,0,0).center();
 
+
+        table.row().pad(10, 20, 50, 0);
+        table.add(nextRoundButton).width(200).height(50).fillX().uniformX();
+
         table.row().pad(10, 20, 10, 0);
         table.add(restartButton).width(200).height(50).fillX().uniformX();
         table.row().pad(10, 20, 50, 0);
         table.add(quitButton).width(200).height(50).fillX().uniformX();
-        table.row().pad(10, 20, 50, 0);
-        table.add(nextRoundButton).width(200).height(50).fillX().uniformX();
 
         stage.addActor(table); // Add the pause menu to the stage
     }

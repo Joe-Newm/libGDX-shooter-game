@@ -1,6 +1,7 @@
 package com.shooter.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +16,7 @@ import static com.shooter.Logic.VIRTUAL_WIDTH;
 public class HudRenderer {
     private BitmapFont font;
     private BitmapFont ammoText;
+    private BitmapFont roundText;
     private OrthographicCamera hudCamera;
     private Texture healthBarTexture;
     private Texture healthBarTexture1;
@@ -44,6 +46,12 @@ public class HudRenderer {
         ammoText = new BitmapFont();
         ammoText.getData().setScale(3);
 
+
+        // current round ui
+        roundText = new BitmapFont();
+        roundText.getData().setScale(5);
+        roundText.setColor(Color.RED);
+
         // coin ui
         coinTexture = new Texture(Gdx.files.internal("objects/coin.png"));
         coinSprite = new Sprite(coinTexture);
@@ -62,7 +70,7 @@ public class HudRenderer {
 
     }
 
-    public void draw(SpriteBatch batch, Player player, float delta) {
+    public void draw(SpriteBatch batch, Player player, float delta , int round) {
         hudCamera.update();
         batch.setProjectionMatrix(hudCamera.combined);
 
@@ -86,6 +94,7 @@ public class HudRenderer {
         // Draw coins
         font.draw(batch, "x" + player.currentCoins, 100,  1080 - 85);
         ammoText.draw(batch, player.weapon.currentCapacity + " / " + player.weapon.capacity, 1720, 85);
+        roundText.draw(batch, "" + round, 1720, 1080 - 85);
         healthBarSprite1.draw(batch);
         healthBarSprite.draw(batch);
         coinSprite.draw(batch);

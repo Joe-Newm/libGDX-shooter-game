@@ -118,7 +118,7 @@ public class TestGameScreen implements Screen {
         logic.player.draw(logic.batch,delta, logic.camera, logic.player_bullets);
         logic.batch.end();
 
-        logic.hudRenderer.draw(logic.batch, logic.player, delta);
+        logic.hudRenderer.draw(logic.batch, logic.player, delta, 1);
 
 
     }

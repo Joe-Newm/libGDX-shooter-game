@@ -21,14 +21,14 @@ public class Enemy {
     private boolean isHit;
     private float hitTime;
     private static final float FLASH_DURATION = 0.05f;
-    private static final float speed = 150f;
+    public float enemySpeed;
     public int hp;
     public Texture tex;
     public Vector2 direction;
     float knockBackForce = -1000f;
     Vector2 knockbackVelocity;
 
-    public Enemy (float posX, float posY, int health) {
+    public Enemy (float posX, float posY, int health, float speed) {
         tex = new Texture("enemy/zombie.png");
         sprite = new Sprite(tex);
         sprite.scale(1);
@@ -38,7 +38,7 @@ public class Enemy {
         isHit = false;
         hitTime = 0;
         hp = health;
-
+        enemySpeed = speed;
     }
 
     public void hit(Vector2 playerPosition) {
@@ -55,7 +55,7 @@ public class Enemy {
         // Move towards the player
         direction = new Vector2(playerPosition).sub(position).nor();
         sprite.setRotation(direction.angleDeg() - 90);
-        position.add(direction.scl(speed * delta));
+        position.add(direction.scl(enemySpeed * delta));
 
         // ends the flash after duration is up from being hit
         if (isHit) {
