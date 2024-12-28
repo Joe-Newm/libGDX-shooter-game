@@ -136,7 +136,6 @@ public class ArcadeGameScreen implements Screen {
             Gdx.input.setInputProcessor(null);
             isDead = false;
             table = null;
-
         }
 
         // Godmode settings
@@ -260,7 +259,7 @@ public class ArcadeGameScreen implements Screen {
         table.row().pad(10, 20, 50, 0);
         table.add(quitButton).width(200).height(50).fillX().uniformX();
         table.row().pad(10, 20, 50, 0);
-        table.add(godButton).width(300).height(50).fillX().uniformX();
+//        table.add(godButton).width(300).height(50).fillX().uniformX();
         stage.addActor(table); // Add the pause menu to the stage
     }
 
