@@ -139,9 +139,9 @@ public class ArcadeGameScreen implements Screen {
 //        }
 
         // Godmode settings
-        if (godMode) {
-            logic.player.currentHealth = 1000;
-        }
+//        if (godMode) {
+//            logic.player.currentHealth = 1000;
+//        }
 
 
         // clear the screen when not paused
