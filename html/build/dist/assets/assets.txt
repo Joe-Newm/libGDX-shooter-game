@@ -1,5 +1,5 @@
 d:assets:assets:0:application/unknown:1
-t:assets.txt:assets-d01cf19bb893e25eaf96ad3bff8138f5.txt:1172:text/plain:1
+t:assets.txt:assets-af5179ad59245b2c81649b6234078945.txt:1559:text/plain:1
 d:enemy:enemy:0:application/unknown:1
 b:enemy/blood.aseprite:enemy/blood-2ddb4febb0d092b800104b4306499810.aseprite:584:application/unknown:1
 i:enemy/blood.png:enemy/blood-18c0bb61c387c705cb832245c0afa137.png:668:image/png:1
@@ -8,11 +8,16 @@ i:enemy/blood1.png:enemy/blood1-97692b8f63c6e128fb9b7a13dcee2fdb.png:613:image/p
 b:enemy/blood2.aseprite:enemy/blood2-5640ad829c05d06467054a537093a72b.aseprite:429:application/unknown:1
 i:enemy/blood2.png:enemy/blood2-63c7741e1123ee078fd8933bf405ed97.png:309:image/png:1
 d:enemy/map:enemy/map:0:application/unknown:1
+b:enemy/zombie-2.aseprite:enemy/zombie-2-6fc9d8f91970195bf0e37e8fd4f0670b.aseprite:549:application/unknown:1
+i:enemy/zombie-2.png:enemy/zombie-2-ec43d3756dc2edbf37954951edfd8dad.png:575:image/png:1
+b:enemy/zombie-3.aseprite:enemy/zombie-3-ebf44c7f99f3042a894182a619676a93.aseprite:493:application/unknown:1
+i:enemy/zombie-3.png:enemy/zombie-3-f2727957dbd9d595b71cd00f33b8c462.png:478:image/png:1
 i:enemy/zombie-flash.png:enemy/zombie-flash-34b40ae65863640d5a6ea9c1272748b7.png:263:image/png:1
 b:enemy/zombie.aseprite:enemy/zombie-882b14f28cede294d22edbcd6ff1b28d.aseprite:490:application/unknown:1
 i:enemy/zombie.png:enemy/zombie-88bc48ce69c951eff87c5e1a8e857ca0.png:454:image/png:1
 d:map:map:0:application/unknown:1
 i:map/background1-big-export.png:map/background1-big-export-57ea1582823dd2ec75e1cc50f77d6e04.png:1068979:image/png:1
+i:map/background1-big-wall.png:map/background1-big-wall-39c4cb533606da9c84572946da63bc7d.png:1022739:image/png:1
 i:map/background1-big.png:map/background1-big-57ea1582823dd2ec75e1cc50f77d6e04.png:1068979:image/png:1
 b:map/background1.aseprite:map/background1-cdac8db548279cf6169b40e3d75e656f.aseprite:61710:application/unknown:1
 i:map/background1.png:map/background1-0cbd5f9f4c56ac518460d0aef11e3042.png:106346:image/png:1
@@ -23,7 +28,11 @@ i:map/pausemenu.png:map/pausemenu-94bb055bf4493829cc72f05fbdd44cfe.png:41257:ima
 i:map/shopmenu.png:map/shopmenu-28eb53ca803cabbbb46416af0881ec2c.png:39265:image/png:1
 d:music:music:0:application/unknown:1
 a:music/air-combat.mp3:music/air-combat-50cb4d533eeae3778d94bceafce28277.mp3:3997440:audio/mpeg:1
+a:music/archangel-tactical-team-thrash-metal-power-262794.mp3:music/archangel-tactical-team-thrash-metal-power-262794-dfb23cb85ebb9bc47666b1a5d13fb492.mp3:3930624:audio/mpeg:1
+a:music/epic-thrash-metal-instrumental-panek-part-1-amp-2-252508.mp3:music/epic-thrash-metal-instrumental-panek-part-1-amp-2-252508-c379fc77fdb0713da800ece72733060b.mp3:5251584:audio/mpeg:1
+a:music/generic-prednisone-epic-metal-instrumental-273972.mp3:music/generic-prednisone-epic-metal-instrumental-273972-582a370dc141cf73da9865534907f393.mp3:4272384:audio/mpeg:1
 a:music/last-days.mp3:music/last-days-1488bf216214886c41d41bbb6414e91d.mp3:1691898:audio/mpeg:1
+a:music/thrash-metal-gabber-nu-metal-instrumental-not-a-penny-to-brag-about-274641.mp3:music/thrash-metal-gabber-nu-metal-instrumental-not-a-penny-to-brag-about-274641-a56975db98c88e661a698e6890a30459.mp3:4542720:audio/mpeg:1
 d:objects:objects:0:application/unknown:1
 b:objects/assault-rifle.aseprite:objects/assault-rifle-8a91520d02c273bd4537fad537ba6363.aseprite:396:application/unknown:1
 i:objects/assault-rifle.png:objects/assault-rifle-b75e13307f0e48360c4a618096cf36cd.png:235:image/png:1

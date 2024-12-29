@@ -105,8 +105,7 @@ public class ArcadeGameScreen implements Screen {
         // Get the chosen song
         currentMusic = musics[chosenSong];
 
-        // Set up the listener to play the next random song after this one ends
-        currentMusic.setOnCompletionListener(music -> playRandomSong());
+
 
         // Play the song
         currentMusic.setLooping(false); // Set to false so it doesn't loop
@@ -124,6 +123,12 @@ public class ArcadeGameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        //check if song finished to play next song
+        if (currentMusic != null && !currentMusic.isPlaying()) {
+            playRandomSong();
+        }
+
+
         if (!isDead && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || !isDead && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             togglePause();
         }
