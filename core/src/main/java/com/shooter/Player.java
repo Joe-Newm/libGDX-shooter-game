@@ -55,6 +55,7 @@ public class Player {
     public boolean isReloading = false;
     public int assaultAmmo = 119;
     public int shotgunAmmo = 29;
+    public float speedModifier;
 
 
     public Player () {
@@ -69,6 +70,7 @@ public class Player {
         reloadDelay = reloadSpeed;
         currentSpeed = 300f;
         speed = currentSpeed;
+        speedModifier = 0f;
 
         // reload text
         reloadFont = new BitmapFont();
@@ -87,16 +89,16 @@ public class Player {
 
         // controls
         if (Gdx.input.isKeyPressed(Keys.A)) {
-            position.x -= delta * speed;
+            position.x -= delta * (speed + speedModifier);
         }
         if (Gdx.input.isKeyPressed(Keys.D)) {
-            position.x += delta * speed;
+            position.x += delta * (speed + speedModifier);
         }
         if (Gdx.input.isKeyPressed(Keys.S)) {
-            position.y -= delta * speed;
+            position.y -= delta * (speed + speedModifier);
         }
         if (Gdx.input.isKeyPressed(Keys.W)) {
-            position.y += delta * speed;
+            position.y += delta * (speed + speedModifier);
         }
         //reload button
         if (Gdx.input.isKeyPressed(Keys.R)) {

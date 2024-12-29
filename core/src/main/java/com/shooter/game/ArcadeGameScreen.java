@@ -392,6 +392,7 @@ public class ArcadeGameScreen implements Screen {
                 if (defenseButton.isDisabled()) return;
 
                 logic.healthLossSpeed -= 20f;
+                logic.bulletDamage -= 5;
                 logic.player.currentCoins -= 10;
                 defenseButtonCounter += 1;
             }
@@ -415,7 +416,7 @@ public class ArcadeGameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (speedButton.isDisabled()) return;
 
-                logic.player.currentSpeed += 10f;
+                logic.player.speedModifier += 10f;
                 logic.player.currentCoins -= 10;
                 speedButtonCounter += 1;
             }

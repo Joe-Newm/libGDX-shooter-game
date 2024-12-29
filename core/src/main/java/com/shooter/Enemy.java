@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Color;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 
 public class Enemy {
 
@@ -29,11 +31,13 @@ public class Enemy {
     float knockBackForce = -1000f;
     Vector2 knockbackVelocity;
     public int thisType;
+    public float shootDelay;
 
     public Enemy (float posX, float posY, float speed, int type) {
         // fat zombie
         if (type == 1) {
             tex = new Texture("enemy/zombie-2.png");
+            thisType = 1;
             sprite = new Sprite(tex);
             sprite.scale(1);
             health = 100;
@@ -47,6 +51,7 @@ public class Enemy {
         // fast zombie
         else if (type == 2) {
             tex = new Texture("enemy/zombie-3.png");
+            thisType = 2;
             sprite = new Sprite(tex);
             sprite.scale(1);
             health = 10;
@@ -57,9 +62,25 @@ public class Enemy {
             hp = health;
             enemySpeed = speed + 200;
         }
+        // shooting zombie
+        else if( type == 3) {
+            tex = new Texture("enemy/zombie-4.png");
+            thisType = 3;
+            sprite = new Sprite(tex);
+            sprite.scale(1);
+            health = 10;
+            position = new Vector2(posX, posY);
+            boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
+            isHit = false;
+            hitTime = 0;
+            hp = health;
+            enemySpeed = speed - 50;
+            shootDelay = random(2f, 6f);
+        }
         // normal zombie
         else {
             tex = new Texture("enemy/zombie.png");
+            thisType =4;
             sprite = new Sprite(tex);
             sprite.scale(1);
             health1 = 10;
@@ -84,6 +105,9 @@ public class Enemy {
 
 
     public void update(float delta, Vector2 playerPosition) {
+
+
+
         // Move towards the player
         direction = new Vector2(playerPosition).sub(position).nor();
         sprite.setRotation(direction.angleDeg() - 90);

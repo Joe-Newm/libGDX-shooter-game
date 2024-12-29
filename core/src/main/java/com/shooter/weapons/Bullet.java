@@ -16,7 +16,9 @@ public class Bullet {
 
     public Bullet(Texture img_bullet, float startX, float startY, Vector2 targetPosition, float speed, String weapon) {
         sprite = new Sprite(img_bullet);
-        sprite.setColor(Color.YELLOW);
+        if (weapon != "enemy") {
+            sprite.setColor(Color.YELLOW);
+        }
         sprite.setScale(2);
         position = new Vector2(startX, startY);
         speed_bullet = speed;

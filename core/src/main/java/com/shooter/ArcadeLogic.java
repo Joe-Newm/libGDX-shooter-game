@@ -21,6 +21,7 @@ import com.shooter.weapons.Pistol;
 import com.shooter.weapons.Shotgun;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
@@ -29,11 +30,13 @@ public class ArcadeLogic {
     public SpriteBatch batch;
     public Texture image;
     public Texture bulletTexture;
+    public Texture enemyBulletTexture;
     public Viewport viewport;
     public OrthographicCamera camera;
     public Player player;
     public ArrayList<Enemy> enemies;
     public ArrayList<Bullet> player_bullets;
+    public ArrayList<Bullet> enemy_bullets;
     public ArrayList<GameObject> coins;
     public ArrayList<GameObject> weapons;
     public static final int VIRTUAL_WIDTH = 1920;
@@ -65,10 +68,12 @@ public class ArcadeLogic {
     public int numEnemies = 10;
     public float healthLossSpeed = 500f;
     public float weaponDamageModifier = 0f;
+    public float bulletDamage = 100;
 
     public void create() {
         batch = new SpriteBatch();
         bulletTexture = new Texture("player/bullet.png");
+        enemyBulletTexture = new Texture("player/enemy-bullet.png");
         bloodSplatter[0] = new Texture("enemy/blood.png");
         bloodSplatter[1] = new Texture("enemy/blood1.png");
         bloodSplatter[2] = new Texture("enemy/blood2.png");
@@ -80,6 +85,7 @@ public class ArcadeLogic {
 
         player = new Player();
         player_bullets = new ArrayList<>();
+        enemy_bullets = new ArrayList<>();
         coins = new ArrayList<>();
 
         enemies = new ArrayList<>();
@@ -123,6 +129,8 @@ public class ArcadeLogic {
     public void update(float delta) {
         backgroundSprite.draw(batch);
 
+
+
         // bloodobject
         if (bloodArrayList != null) {
             for (GameObject blood : bloodArrayList) {
@@ -143,6 +151,8 @@ public class ArcadeLogic {
 //        assaultObject.draw(batch);
         collision_enemy_to_enemy();
         collectCoin(delta);
+        zombieBulletsCollision();
+        bulletDeletionCollision();
 
 
         // game objects
@@ -155,6 +165,7 @@ public class ArcadeLogic {
 //        if (player.boundingBox.overlaps(assaultObject.boundingBox)) {
 //            player.weapon = new Assault();
 //        }
+
         System.out.println(player.position.x);
         // collision around map
         if (player.position.x < 10) {
@@ -180,6 +191,14 @@ public class ArcadeLogic {
             bullet.player_update(delta);
             bullet.draw(batch);
         }
+
+        //update enemy bullets list
+        for (Bullet bullet : enemy_bullets) {
+            bullet.player_update(delta);
+            bullet.draw(batch);
+        }
+
+        zombieShoot(delta);
 
         //update coins list
         for (GameObject coin : coins) {
@@ -354,7 +373,6 @@ public class ArcadeLogic {
         }
     }
 
-
     // when player gets touched by enemies
     public void collission_player_hit (float delta) {
         boolean isTouching = false;
@@ -365,10 +383,10 @@ public class ArcadeLogic {
             }
         }
         if (isTouching) {
-            player.speed = 150f;
+            player.speed = 150f + player.speedModifier;
             player.currentHealth -= healthLossSpeed * delta;
         } else {
-            player.speed = player.currentSpeed;
+            player.speed = 300f + player.speedModifier;
         }
     }
 
@@ -424,6 +442,71 @@ public class ArcadeLogic {
         }
     }
 
+    // shooting for type 3 zombies
+    public void zombieShoot(float delta) {
+        // shoot bullets if enemy type 3
+        for (Enemy enemy : enemies) {
+            enemy.shootDelay -= delta;
+            if (enemy.thisType == 3) {
+                if (enemy.shootDelay <= 0) {
+                    // Get sprite rotation in radians
+                    float rotationRad = (float) Math.toRadians(enemy.sprite.getRotation());
+
+                    // Calculate the offset to the top center of the sprite
+                    float offsetX = 0; // Top center has no X offset relative to the sprite's width
+                    float offsetY = enemy.sprite.getHeight() * (2 / 3f) + 38; // From the custom origin to the top
+
+                    // Rotate the offset around the sprite's rotation
+                    float rotatedOffsetX = (float) (offsetX * Math.cos(rotationRad) - offsetY * Math.sin(rotationRad));
+                    float rotatedOffsetY = (float) (offsetX * Math.sin(rotationRad) + offsetY * Math.cos(rotationRad));
+
+                    // Calculate the tip position in world coordinates
+                    float tipX = enemy.position.x + enemy.sprite.getOriginX() + rotatedOffsetX;
+                    float tipY = enemy.position.y + enemy.sprite.getOriginY() + rotatedOffsetY;
+
+
+                    Vector2 direction = new Vector2(player.position).sub(enemy.position).nor();
+                    enemy_bullets.add(new Bullet(enemyBulletTexture,tipX, tipY, direction, 700f, "enemy"));
+                    enemy.shootDelay = random(2f,6f);
+                }
+            }
+        }
+    }
+
+    public void zombieBulletsCollision() {
+        ArrayList<Bullet> bulletsToRemove = new ArrayList<>();
+        for (Bullet bullet : enemy_bullets) {
+            if (bullet.boundingBox.overlaps(player.boundingBox)) {
+                player.currentHealth -= bulletDamage;
+                bulletsToRemove.add(bullet);
+            }
+        }
+        enemy_bullets.removeAll(bulletsToRemove);
+    }
+
+    public void bulletDeletionCollision() {
+        // Remove player bullets
+        Iterator<Bullet> playerBulletIterator = player_bullets.iterator();
+        while (playerBulletIterator.hasNext()) {
+            Bullet bullet = playerBulletIterator.next();
+            if (bullet.position.x < 10 || bullet.position.x > 1704 * 4 - 60 ||
+                bullet.position.y < 10 || bullet.position.y > 960 * 4 - 60) {
+                playerBulletIterator.remove();
+            }
+        }
+
+        // Remove enemy bullets
+        Iterator<Bullet> enemyBulletIterator = enemy_bullets.iterator();
+        while (enemyBulletIterator.hasNext()) {
+            Bullet bullet = enemyBulletIterator.next();
+            if (bullet.position.x < 10 || bullet.position.x > 1704 * 4 - 60 ||
+                bullet.position.y < 10 || bullet.position.y > 960 * 4 - 60) {
+                enemyBulletIterator.remove();
+            }
+        }
+    }
+
+
     public void dispose() {
         batch.dispose();
         image.dispose();
@@ -431,7 +514,5 @@ public class ArcadeLogic {
         shotgun.dispose();
         pistol.dispose();
         coin.dispose();
-
     }
 }
-
