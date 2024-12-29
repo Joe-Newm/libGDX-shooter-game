@@ -81,7 +81,7 @@ public class Logic {
         hudRenderer = new HudRenderer(player);
 
         // enemies for testing
-        enemies.add(new Enemy(50,50, 10, 150f));
+        enemies.add(new Enemy(50,50, 10, 1));
 
         // enemies spawn time
         spawnTime = 0;
@@ -331,7 +331,7 @@ public class Logic {
                         y = random.nextInt((int) 960 * 4);
                         break;
                 }
-                enemies.add(new Enemy(x, y, 10, 150));
+                enemies.add(new Enemy(x, y, 1,2));
             }
         }
     }

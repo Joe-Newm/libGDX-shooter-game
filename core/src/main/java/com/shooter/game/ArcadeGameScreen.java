@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,7 +30,7 @@ import static com.badlogic.gdx.math.MathUtils.random;
 public class ArcadeGameScreen implements Screen {
     private Shooter game;
     private ArcadeLogic logic;
-    private Music music;
+    public Music currentMusic;
     private boolean isPaused;
     private Stage stage;
     public Viewport viewport;
@@ -59,6 +60,8 @@ public class ArcadeGameScreen implements Screen {
     private int speedButtonCounter = 0;
     private int damageButtonCounter = 0;
 
+    public Music[] musics;
+
 
     public ArcadeGameScreen(Shooter game, Viewport viewport) {
         this.game = game;
@@ -85,12 +88,34 @@ public class ArcadeGameScreen implements Screen {
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // background music
-        music = Gdx.audio.newMusic(Gdx.files.internal("music/air-combat.mp3"));
+        musics = new Music[5];
+        musics[0] = Gdx.audio.newMusic(Gdx.files.internal("music/air-combat.mp3"));
+        musics[1] = Gdx.audio.newMusic(Gdx.files.internal("music/thrash-metal-gabber-nu-metal-instrumental-not-a-penny-to-brag-about-274641.mp3"));
+        musics[2] = Gdx.audio.newMusic(Gdx.files.internal("music/generic-prednisone-epic-metal-instrumental-273972.mp3"));
+        musics[3] = Gdx.audio.newMusic(Gdx.files.internal("music/epic-thrash-metal-instrumental-panek-part-1-amp-2-252508.mp3"));
+        musics[4] = Gdx.audio.newMusic(Gdx.files.internal("music/archangel-tactical-team-thrash-metal-power-262794.mp3"));
 
-        music.setLooping(true);
-        music.setVolume(0.2f);
+        playRandomSong();
+    }
 
-        music.play();
+    private void playRandomSong() {
+        // Select a random song
+        int chosenSong = MathUtils.random(4); // Random number between 0 and 4
+
+        // Get the chosen song
+        currentMusic = musics[chosenSong];
+
+        // Set up the listener to play the next random song after this one ends
+        currentMusic.setOnCompletionListener(music -> playRandomSong());
+
+        // Play the song
+        currentMusic.setLooping(false); // Set to false so it doesn't loop
+        if (chosenSong == 0) {
+            currentMusic.setVolume(0.2f);
+        } else {
+            currentMusic.setVolume(0.5f);
+        }
+        currentMusic.play();
     }
 
     @Override
@@ -171,8 +196,6 @@ public class ArcadeGameScreen implements Screen {
         logic.batch.end();
 
         logic.hudRenderer.draw(logic.batch, logic.player, delta, logic.round);
-
-
     }
 
     @Override
@@ -194,8 +217,8 @@ public class ArcadeGameScreen implements Screen {
     public void hide() {
         Gdx.input.setInputProcessor(null);
         stage.clear();
-        if (music != null) {
-            music.stop();
+        if (currentMusic != null) {
+            currentMusic.stop();
         }
     }
 
@@ -203,8 +226,8 @@ public class ArcadeGameScreen implements Screen {
     public void dispose() {
         logic.dispose();
         stage.dispose();
-        if (music != null) {
-            music.dispose();
+        if (currentMusic != null) {
+            currentMusic.dispose();
         }
     }
 

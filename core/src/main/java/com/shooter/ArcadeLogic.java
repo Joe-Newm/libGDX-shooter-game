@@ -72,7 +72,7 @@ public class ArcadeLogic {
         bloodSplatter[0] = new Texture("enemy/blood.png");
         bloodSplatter[1] = new Texture("enemy/blood1.png");
         bloodSplatter[2] = new Texture("enemy/blood2.png");
-        background = new Texture("map/background1-big.png");
+        background = new Texture("map/background1-big-wall.png");
         shotgun = new Texture("objects/shotgun.png");
         pistol = new Texture("objects/pistol.png");
         assaultRifle = new Texture("objects/assault-rifle.png");
@@ -155,6 +155,20 @@ public class ArcadeLogic {
 //        if (player.boundingBox.overlaps(assaultObject.boundingBox)) {
 //            player.weapon = new Assault();
 //        }
+        System.out.println(player.position.x);
+        // collision around map
+        if (player.position.x < 10) {
+            player.position.x = 10;
+        }
+        if (player.position.x > 1704 * 4 - 60) {
+            player.position.x = 1704 * 4 - 60;
+        }
+        if (player.position.y < 10) {
+            player.position.y = 10;
+        }
+        if (player.position.y > 960 * 4 - 60) {
+            player.position.y = 960 * 4 - 60;
+        }
 
         // update weapons list
         for (GameObject weapon : weapons) {
@@ -278,7 +292,10 @@ public class ArcadeLogic {
         for (Enemy enemy : enemies) {
             if (enemy.hp <= 0) {
                 enemiesToRemove.add(enemy);
-                coins.add(new GameObject((int)enemy.position.x, (int)enemy.position.y, coin, "coin"));
+                int coinChance = random(1);
+                if (coinChance == 0) {
+                    coins.add(new GameObject((int)enemy.position.x, (int)enemy.position.y, coin, "coin"));
+                }
 
                 if (weaponchance == 0) {
                     int weaponChoice = random(2);
@@ -397,7 +414,7 @@ public class ArcadeLogic {
                             y = random.nextInt((int) 960 * 4);
                             break;
                     }
-                    enemies.add(new Enemy(x, y, 10, enemySpeed));
+                    enemies.add(new Enemy(x, y, enemySpeed, random(20)));
                 }
                 hasSpawned = true;
             }

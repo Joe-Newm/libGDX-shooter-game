@@ -15,7 +15,8 @@ public class Enemy {
 
     public Sprite sprite;
     public Vector2 position;
-    int health;
+    public int health;
+    public int health1;
     public Rectangle boundingBox;
     public Pixmap pixmap;
     private boolean isHit;
@@ -27,18 +28,49 @@ public class Enemy {
     public Vector2 direction;
     float knockBackForce = -1000f;
     Vector2 knockbackVelocity;
+    public int thisType;
 
-    public Enemy (float posX, float posY, int health, float speed) {
-        tex = new Texture("enemy/zombie.png");
-        sprite = new Sprite(tex);
-        sprite.scale(1);
-        this.health = 100;
-        position = new Vector2( posX, posY);
-        boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
-        isHit = false;
-        hitTime = 0;
-        hp = health;
-        enemySpeed = speed;
+    public Enemy (float posX, float posY, float speed, int type) {
+        // fat zombie
+        if (type == 1) {
+            tex = new Texture("enemy/zombie-2.png");
+            sprite = new Sprite(tex);
+            sprite.scale(1);
+            health = 100;
+            position = new Vector2( posX, posY);
+            boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
+            isHit = false;
+            hitTime = 0;
+            hp = health;
+            enemySpeed = speed;
+        }
+        // fast zombie
+        else if (type == 2) {
+            tex = new Texture("enemy/zombie-3.png");
+            sprite = new Sprite(tex);
+            sprite.scale(1);
+            health = 10;
+            position = new Vector2(posX, posY);
+            boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
+            isHit = false;
+            hitTime = 0;
+            hp = health;
+            enemySpeed = speed + 200;
+        }
+        // normal zombie
+        else {
+            tex = new Texture("enemy/zombie.png");
+            sprite = new Sprite(tex);
+            sprite.scale(1);
+            health1 = 10;
+            position = new Vector2( posX, posY);
+            boundingBox = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
+            isHit = false;
+            hitTime = 0;
+            hp = health1;
+            enemySpeed = speed;
+
+        }
     }
 
     public void hit(Vector2 playerPosition) {
@@ -56,7 +88,6 @@ public class Enemy {
         direction = new Vector2(playerPosition).sub(position).nor();
         sprite.setRotation(direction.angleDeg() - 90);
         position.add(direction.scl(enemySpeed * delta));
-
         // ends the flash after duration is up from being hit
         if (isHit) {
             hitTime += delta;
